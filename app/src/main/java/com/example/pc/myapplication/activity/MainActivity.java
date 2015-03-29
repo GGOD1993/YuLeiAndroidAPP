@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +21,14 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.activity.child.ChildMainActivity;
 import com.example.pc.myapplication.activity.parent.ParentMainActivity;
+import com.example.pc.myapplication.utils.HttpApi;
+import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
 import com.example.pc.myapplication.utils.StringPostRequestPlus;
 
@@ -38,7 +42,8 @@ import java.util.Map;
 /**
  * 初始Activity
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements
+        HttpService.OnRequestResponseListener {
 
     //家长或孩子的模式参数
     private int mode;
@@ -262,73 +267,36 @@ public class MainActivity extends ActionBarActivity {
      * 并发送给服务器
      */
     private void dealWithUserInfo() {
-
         if (signin_edittext_username.getText().length() != 0) {
             if (signin_edittext_password.getText().length() != 0) {
 
-                final String username = signin_edittext_username.getText().toString();
-                final String password = signin_edittext_password.getText().toString();
-
                 from_userid = signin_edittext_username.getText().toString();
-
                 preferences.edit().putString(AppConstant.FROM_USERID,from_userid).apply();
 
-                Response.Listener<String> listener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try{
-                            JSONArray jsonArray = new JSONArray(response);
-                            JSONObject codeObject = jsonArray.getJSONObject(0);
-                            JSONObject msgObject = jsonArray.getJSONObject(1);
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put("username", signin_edittext_username.getText().toString());
+                hashMap.put("password", signin_edittext_password.getText().toString());
 
-                            int code = Integer.valueOf(codeObject.getString("code"));
-                            String msg = msgObject.getString("msg");
-                            showToast(msg);
-
-                            switch (code) {
-                                case AppConstant.LOGIN_SUCCESS:
-                                    chooseMode();
-                                    break;
-                            }
-                        } catch(JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-
-                Response.ErrorListener errorListener = new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        showToast(volleyError.getMessage());
-                    }
-                };
-
-                try{
-                    StringPostRequestPlus stringRequest = new StringPostRequestPlus(
-                            Request.Method.POST,
-                            AppConstant.LOGIN_IN_URL,
-                            listener, errorListener){
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-
-                            Map<String, String> map = new HashMap<>();
-                            map.put("username", username);
-                            map.put("password", password);
-                            return map;
-                        }
-                    };
-
-                    RequestQueueController.get().getRequestQueue().add(stringRequest);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                HttpService.DoRequest(hashMap, MainActivity.this, AppConstant.LOGIN_IN_URL, Request.Method.POST);
             } else {
                 showToast("请输入正确的密码");
             }
         } else {
             showToast("请输入正确的用户名");
         }
+    }
+
+    /**
+     * 登录请求的信息处理
+     */
+    public void OnRequestSuccessResponse(String successResult){
+
+        showToast(successResult);
+        chooseMode();
+    }
+
+    public void OnRequestErrorResponse(String errorResult) {
+        showToast(errorResult);
     }
 
     private void showToast(String string) {

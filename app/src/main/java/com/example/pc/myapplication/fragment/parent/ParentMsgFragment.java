@@ -15,9 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
@@ -26,7 +25,7 @@ import com.example.pc.myapplication.activity.parent.ParentAddSystemTaskActivity;
 import com.example.pc.myapplication.activity.TaskInfoActivity;
 import com.example.pc.myapplication.adapter.ParentRecyclerViewAdapter;
 import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
-import com.example.pc.myapplication.utils.JsonArrayRequestPlus;
+import com.example.pc.myapplication.utils.HttpService;
 import com.shamanland.fab.FloatingActionButton;
 import com.shamanland.fab.ShowHideOnScroll;
 
@@ -34,7 +33,9 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-public class ParentMsgFragment extends Fragment implements RecyclerViewItemClickListener{
+public class ParentMsgFragment extends Fragment implements
+        RecyclerViewItemClickListener,
+        HttpService.OnRequestResponseListener{
 
     //从activity中获得的volley请求队列
     private RequestQueue requestQueue;
@@ -59,9 +60,7 @@ public class ParentMsgFragment extends Fragment implements RecyclerViewItemClick
 
     public static ParentMsgFragment newInstance(RequestQueue requestQueue) {
         ParentMsgFragment fragment = new ParentMsgFragment();
-
         fragment.requestQueue = requestQueue;
-
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -86,11 +85,6 @@ public class ParentMsgFragment extends Fragment implements RecyclerViewItemClick
 
         initView(w);
         return w;
-
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed() {
 
     }
 
@@ -217,29 +211,24 @@ public class ParentMsgFragment extends Fragment implements RecyclerViewItemClick
                 getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0)
                         .getString(AppConstant.FROM_USERID, "");
 
-        Response.Listener<JSONArray> listener = new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray jsonArray) {
+        HttpService.DoRequest(null, ParentMsgFragment.this, url, Request.Method.GET);
+    }
 
-                mListener.onMsgFragmentInteraction(jsonArray);
-                parent_msgfragment_swipefreshlayout.setRefreshing(false);
-            }
-        };
+    @Override
+    public void OnRequestSuccessResponse(String successResult) {
 
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                showToast(volleyError.toString());
-            }
-        };
+        try{
+            JSONArray jsonArray = new JSONArray(successResult);
+            mListener.onMsgFragmentInteraction(jsonArray);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        parent_msgfragment_swipefreshlayout.setRefreshing(false);
+    }
 
-        JsonArrayRequestPlus getDiyTaskRequest = new JsonArrayRequestPlus(
-                url,
-                listener,
-                errorListener
-        );
-
-        requestQueue.add(getDiyTaskRequest);
+    @Override
+    public void OnRequestErrorResponse(String errorResult) {
+        showToast(errorResult);
     }
 
     private void showToast(String string) {

@@ -11,9 +11,6 @@ import com.example.pc.myapplication.AppConstant;
 
 import java.util.Map;
 
-/**
- * Created by dada on 15-3-25.
- */
 public class RequestQueueController extends Application{
     private static final String SET_COOKIE_KEY = "Set-Cookie";
     private static final String COOKIE_KEY = "Cookie";

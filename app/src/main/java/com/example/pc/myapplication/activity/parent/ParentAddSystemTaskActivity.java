@@ -11,14 +11,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.SystemTaskInfo;
 import com.example.pc.myapplication.adapter.AddSystemTaskListViewAdapter;
-import com.example.pc.myapplication.utils.JsonArrayRequestPlus;
+import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
 
 import org.json.JSONArray;
@@ -27,7 +26,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ParentAddSystemTaskActivity extends ActionBarActivity {
+public class ParentAddSystemTaskActivity extends ActionBarActivity
+        implements HttpService.OnRequestResponseListener {
 
     //Volley请求队列
     private RequestQueue requestQueue;
@@ -49,7 +49,7 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_add_system_task);
 
-        systemTaskList = new ArrayList<SystemTaskInfo>();
+        systemTaskList = new ArrayList<>();
         requestQueue = RequestQueueController.get().getRequestQueue();
 
         initViews();
@@ -102,8 +102,6 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity {
             }
         });
 
-
-
         /**
          * 给下拉刷新加监听器
          */
@@ -113,63 +111,61 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-
-                        postRequest();
+                        HttpService.DoRequest(
+                                null,
+                                ParentAddSystemTaskActivity.this,
+                                AppConstant.GET_SYS_TASK_URL,
+                                Request.Method.GET);
                     }
                 }
         );
     }
 
-    private void postRequest() {
+    /**
+     * 网络请求处理
+     * @param successResult
+     */
+    @Override
+    public void OnRequestSuccessResponse(String successResult) {
 
-        Response.Listener<JSONArray> jsonArrayListener = new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
+        JSONArray response = null;
+        try {
+            response = new JSONArray(successResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-                parent_addsystemtaskactivity_swiperefreshlayout.setRefreshing(false);
+        if (response != null) {
+            if (response.toString().contains("1409")) {
+                showToast("Not login please login");
+            } else {
 
-                if (response != null) {
-                    if (response.toString().contains("1409")) {
-                        showToast("Not login please login");
-                    } else {
+                JSONObject object = null;
+                systemTaskList.clear();
+                for (int i = 0 ; i < response.length() ; i ++) {
 
-                        JSONObject object = null;
-                        systemTaskList.clear();
-                        for (int i = 0 ; i < response.length() ; i ++) {
-
-                            try{
-                                object = (JSONObject) response.get(i);
-                                systemTaskList.add(new SystemTaskInfo(
-                                        object.getString("taskId"),
-                                        object.getString("taskContent")
-                                ));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        addSystemTaskListViewAdapter.notifyDataSetChanged();
+                    try{
+                        object = (JSONObject) response.get(i);
+                        systemTaskList.add(new SystemTaskInfo(
+                                object.getString("taskId"),
+                                object.getString("taskContent")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } else {
-                    showToast("There something error~~~~");
                 }
+                addSystemTaskListViewAdapter.notifyDataSetChanged();
             }
-        };
+        } else {
+            showToast("There something error~~~~");
+        }
 
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        parent_addsystemtaskactivity_swiperefreshlayout.setRefreshing(false);
+    }
 
-                parent_addsystemtaskactivity_swiperefreshlayout.setRefreshing(false);
-
-                showToast(error.getMessage());
-            }
-        };
-
-        JsonArrayRequestPlus jsonArrayRequest = new JsonArrayRequestPlus(
-                AppConstant.GET_SYS_TASK_URL,
-                jsonArrayListener,
-                errorListener);
-
-        requestQueue.add(jsonArrayRequest);
+    @Override
+    public void OnRequestErrorResponse(String errorResult) {
+        parent_addsystemtaskactivity_swiperefreshlayout.setRefreshing(false);
+        showToast(errorResult);
     }
 }

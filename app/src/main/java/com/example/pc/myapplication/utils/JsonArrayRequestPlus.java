@@ -1,6 +1,7 @@
 package com.example.pc.myapplication.utils;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 
@@ -34,4 +35,9 @@ public class JsonArrayRequestPlus extends JsonArrayRequest {
         return headers;
     }
 
+    @Override
+    protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
+
+        return super.parseNetworkResponse(response);
+    }
 }

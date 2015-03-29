@@ -32,6 +32,7 @@ import com.example.pc.myapplication.adapter.ParentViewPagerAdapter;
 import com.example.pc.myapplication.fragment.parent.ParentBabyFragment;
 import com.example.pc.myapplication.fragment.parent.ParentDynamicFragment;
 import com.example.pc.myapplication.fragment.parent.ParentMsgFragment;
+import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
 import com.example.pc.myapplication.utils.StringPostRequestPlus;
 import com.nineoldandroids.view.ViewHelper;
@@ -46,7 +47,9 @@ import java.util.Map;
 
 public class ParentMainActivity extends FragmentActivity implements
         ParentBabyFragment.OnBabyFragmentInteractionListener,
-ParentMsgFragment.OnMsgFragmentInteractionListener,ParentDynamicFragment.OnDynamicFragmentInteractionListener{
+        ParentMsgFragment.OnMsgFragmentInteractionListener,
+        ParentDynamicFragment.OnDynamicFragmentInteractionListener,
+        HttpService.OnRequestResponseListener{
 
     //记录连续按两次退出
     private long exitTime;
@@ -79,6 +82,9 @@ ParentMsgFragment.OnMsgFragmentInteractionListener,ParentDynamicFragment.OnDynam
     private RequestQueue mQueue;
 
     private String from_userid;
+
+    //用来暂存当前的自定义任务
+    private DiyTaskInfo diyTaskInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +193,7 @@ ParentMsgFragment.OnMsgFragmentInteractionListener,ParentDynamicFragment.OnDynam
 
                 if (data != null) {
 
-                    DiyTaskInfo diyTaskInfo = (DiyTaskInfo) data.getSerializableExtra("newTask");
+                    diyTaskInfo = (DiyTaskInfo) data.getSerializableExtra("newTask");
                     addNewTask(diyTaskInfo);
                 }
                 break;
@@ -352,55 +358,31 @@ ParentMsgFragment.OnMsgFragmentInteractionListener,ParentDynamicFragment.OnDynam
      */
     private void addNewTask(DiyTaskInfo newTask) {
 
-        final DiyTaskInfo addedTask = newTask;
-        final String content = newTask.getTaskContent();
-        final String to_userid = newTask.getChildId();
-        final String award = newTask.getAward();
+        HashMap<String, String> map = new HashMap<>();
+        map.put(AppConstant.FROM_USERID, from_userid);
+        map.put("content", newTask.getTaskContent());
+        map.put("to_userid", newTask.getChildId());
+        map.put("award", newTask.getAward());
 
-        Response.Listener<String> addTaskListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        HttpService.DoRequest(map, ParentMainActivity.this, AppConstant.SET_DIY_TASK_URL, Request.Method.POST);
 
-                showToast(response);
+    }
 
-                if (response.contains("success")) {
+    @Override
+    public void OnRequestSuccessResponse(String successResult) {
 
-                    ParentMsgFragment parentMsgFragment = (ParentMsgFragment) fragmentList.get(0);
-                    parentMsgFragment.taskList.add(addedTask);
-                    parentMsgFragment.parentRecyclerViewAdapter.notifyDataSetChanged();
-                }
-            }
-        };
+        showToast(successResult);
+        if (successResult.contains("success")) {
 
-        Response.ErrorListener addTaskErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                showToast(volleyError.getMessage());
-            }
-        };
-
-        try{
-            StringPostRequestPlus stringPostRequestPlus = new StringPostRequestPlus(
-                    Request.Method.POST,
-                    AppConstant.SET_DIY_TASK_URL,
-                    addTaskListener,
-                    addTaskErrorListener) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> map = new HashMap<>();
-                    map.put(AppConstant.FROM_USERID, from_userid);
-                    map.put("content", content);
-                    map.put("to_userid", to_userid);
-                    map.put("award", award);
-                    return map;
-                }
-            };
-
-            mQueue.add(stringPostRequestPlus);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            ParentMsgFragment parentMsgFragment = (ParentMsgFragment) fragmentList.get(0);
+            parentMsgFragment.taskList.add(diyTaskInfo);
+            parentMsgFragment.parentRecyclerViewAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void OnRequestErrorResponse(String errorResult) {
+        showToast(errorResult);
     }
 
     private void showToast(String string) {

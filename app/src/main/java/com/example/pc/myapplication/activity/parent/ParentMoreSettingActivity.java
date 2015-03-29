@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.activity.MainActivity;
+import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
 import com.example.pc.myapplication.utils.StringPostRequestPlus;
 
@@ -26,7 +27,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ParentMoreSettingActivity extends Activity {
+public class ParentMoreSettingActivity extends Activity
+        implements HttpService.OnRequestResponseListener{
 
     private RequestQueue requestQueue;
     private SharedPreferences preferences;
@@ -47,31 +49,12 @@ public class ParentMoreSettingActivity extends Activity {
         nowuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Response.Listener<String> jsonArrayListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (response != null) {
-                           showToast(response);
-                        } else {
-                            showToast("There something error~~~~");
-                        }
-                    }
-                };
 
-                Response.ErrorListener errorListener = new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        showToast(error.getMessage());
-                    }
-                };
-
-                StringPostRequestPlus getCurrentUserRequest = new StringPostRequestPlus(
-                        Request.Method.GET,
+                HttpService.DoRequest(
+                        null,
+                        ParentMoreSettingActivity.this,
                         AppConstant.GET_CURRENT_USER_URL,
-                        jsonArrayListener,
-                        errorListener);
-
-                requestQueue.add(getCurrentUserRequest);
+                        Request.Method.GET);
             }
         });
 
@@ -80,53 +63,14 @@ public class ParentMoreSettingActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Response.Listener<String> listener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try{
-                            JSONArray jsonArray = new JSONArray(response);
-                            JSONObject codeObject = jsonArray.getJSONObject(0);
-                            JSONObject msgObject = jsonArray.getJSONObject(1);
-
-                            int code = Integer.valueOf(codeObject.getString("code"));
-                            String msg = msgObject.getString("msg");
-
-                            switch (code) {
-                                case AppConstant.LOGOUT_SUCCESS:
-                                    showToast(msg);
-
-                                    startActivity(new Intent(ParentMoreSettingActivity.this, MainActivity.class));
-                                    finish();
-
-                                    break;
-                            }
-                        } catch(JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-
-                Response.ErrorListener errorListener = new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        showToast(volleyError.getMessage());
-                    }
-                };
-
-                try{
-                    StringRequest logOutRequest = new StringRequest(
-                            Request.Method.GET,
-                            AppConstant.LOGIN_OUT_URL,
-                            listener,
-                            errorListener);
-                    requestQueue.add(logOutRequest);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                HttpService.DoRequest(
+                        null,
+                        ParentMoreSettingActivity.this,
+                        AppConstant.LOGIN_OUT_URL,
+                        Request.Method.GET);
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,6 +92,28 @@ public class ParentMoreSettingActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 网络请求结果处理
+     * @param successResult
+     */
+    @Override
+    public void OnRequestSuccessResponse(String successResult) {
+        if (successResult != null) {
+            showToast(successResult);
+            if (successResult.contains(String.valueOf(AppConstant.LOGOUT_SUCCESS))) {
+                startActivity(new Intent(ParentMoreSettingActivity.this, MainActivity.class));
+                finish();
+            }
+        } else {
+            showToast("There something error~~~~");
+        }
+    }
+
+    @Override
+    public void OnRequestErrorResponse(String errorResult) {
+        showToast(errorResult);
     }
 
     private void showToast(String string) {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/wheat">
+
+
+
+    <ImageButton
+        android:id="@+id/imagebutton_child_access"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:background="@mipmap/bg_imagebutton_child_access"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dip"
+        android:contentDescription="@null"
+        />
+
+    <ImageButton
+        android:id="@+id/imagebutton_parent_access"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@mipmap/bg_imagebutton_parent_access"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imagebutton_child_access"
+        android:layout_marginTop="100dip"
+        android:contentDescription="@null"
+        />
+</RelativeLayout>

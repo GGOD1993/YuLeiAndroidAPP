@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/parent_msgfragment_choosetasktype_systemtask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/systemtask"
+        android:textSize="10pt"
+        android:gravity="center"
+        android:layout_margin="10dip"
+        android:background="@drawable/signup_textview_style"/>
+
+    <TextView
+        android:id="@+id/parent_msgfragment_choosetasktype_diytask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/diytask"
+        android:textSize="10pt"
+        android:gravity="center"
+        android:layout_margin="10dip"
+        android:background="@drawable/signup_textview_style"/>
+</LinearLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/signin_relativelayout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/signin_edittext_password"
+        android:layout_width="250dip"
+        android:layout_height="40dip"
+        android:layout_margin="10dip"
+        android:layout_centerInParent="true"
+        android:inputType="textPassword"
+        android:background="@drawable/signin_edittext_style"
+        android:hint="@string/password"
+        android:textColorHint="@color/login_hint_color"/>
+
+    <EditText
+        android:id="@+id/signin_edittext_username"
+        android:layout_width="250dip"
+        android:layout_height="40dip"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/signin_edittext_password"
+        android:layout_margin="10dip"
+        android:textSize="10pt"
+        android:background="@drawable/signin_edittext_style"
+        android:hint="@string/username"
+        android:textColorHint="@color/login_hint_color"/>
+
+    <ImageView
+        android:id="@+id/signin_imageview_userimage"
+        android:layout_width="80dip"
+        android:layout_height="80dip"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/signin_edittext_username"
+        android:layout_marginBottom="60dip"
+        android:src="@drawable/circle_mask_style"
+        />
+
+    <com.example.pc.myapplication.ViewStyle.CircularImage
+        android:id="@+id/signin_circularimage_userimage"
+        android:layout_width="70dip"
+        android:layout_height="70dip"
+        android:layout_above="@id/signin_edittext_username"
+        android:layout_marginBottom="60dip"
+        android:layout_centerHorizontal="true"
+        />
+
+    <RelativeLayout
+        android:id="@+id/signin_linearlayout_checkboxs"
+        android:layout_width="250dip"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/signin_edittext_password"
+        android:layout_marginTop="10dip">
+
+        <CheckBox
+            android:id="@+id/signin_checkbox_memorypassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/memorypassword"
+            android:textColor="@color/login_hint_color"
+            />
+
+        <CheckBox
+            android:id="@+id/signin_checkbox_autosignin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/autosignin"
+            android:textColor="@color/login_hint_color"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dip"/>
+
+        </RelativeLayout>
+
+    <Button
+        android:id="@+id/signin_button_signin"
+        android:layout_width="100dip"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:textColor="@color/login_hint_color"
+        android:background="@drawable/login_button_style"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/signin_linearlayout_checkboxs"
+        android:layout_marginTop="10dip"
+        />
+
+    <Button
+        android:id="@+id/signin_button_signup"
+        android:layout_width="100dip"
+        android:layout_height="wrap_content"
+        android:text="@string/signup"
+        android:textColor="@color/login_hint_color"
+        android:background="@drawable/login_button_style"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/signin_button_signin"
+        android:layout_marginTop="10dip"
+        android:layout_marginStart="50dip"
+        android:layout_marginEnd="50dip"
+        />
+
+
+
+
+</RelativeLayout>

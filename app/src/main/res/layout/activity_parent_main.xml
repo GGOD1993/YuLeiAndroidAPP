@@ -1,0 +1,70 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentactivity_drawerlayout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/parentactivity_relativelayout_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/parentactivity_relativelayout_actionbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <ImageButton
+            android:id="@+id/parentactivity_relativelayout_actionbar_openleftmenu"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@null"
+            android:layout_marginStart="5dip"
+            android:background="@mipmap/image_parentactivity_leftmenu"/>
+
+        <ImageButton
+            android:id="@+id/parentactivity_relativelayout_actionbar_everydaytask"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dip"
+            android:contentDescription="@null"
+            />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/parentactivity_relativelayout_actionbar">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/parentactivity_viewpager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <android.support.v4.view.PagerTabStrip
+                android:id="@+id/parentactivity_pagertabstrip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                />
+
+        </android.support.v4.view.ViewPager>
+
+    </RelativeLayout>
+
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/parentactivity_fragment_left_menu"
+        android:name="com.example.pc.myapplication.fragment.parent.ParentLeftMenuFragment"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:tag="LEFT"
+        tools:layout="@layout/fragment_parent_left_menu" />
+
+</android.support.v4.widget.DrawerLayout>

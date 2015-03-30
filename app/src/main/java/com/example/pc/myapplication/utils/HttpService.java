@@ -38,4 +38,31 @@ public class HttpService {
 
         HttpApi.Request(hashMap, responseListener, errorListener, url, method);
     }
+
+    private static OnLogoutRequestResponseListener onLogoutRequestResponseListener;
+    public static interface OnLogoutRequestResponseListener {
+        public void OnLogoutSuccessRespoonse(JSONArray jsonArray);
+        public void OnLogoutErrorRespoonse (String errorMsg);
+    }
+    public static void DoLogoutRequest (String url,
+                                        OnLogoutRequestResponseListener listener) {
+        onLogoutRequestResponseListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                onLogoutRequestResponseListener.OnLogoutSuccessRespoonse(jsonArray);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                onLogoutRequestResponseListener.OnLogoutErrorRespoonse(volleyError.getMessage());
+            }
+        };
+
+        HttpApi.LogoutRequest(url, responseListener, errorListener);
+
+    }
+
 }

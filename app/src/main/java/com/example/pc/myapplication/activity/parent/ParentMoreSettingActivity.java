@@ -27,8 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ParentMoreSettingActivity extends Activity
-        implements HttpService.OnRequestResponseListener{
+public class ParentMoreSettingActivity extends Activity implements
+        HttpService.OnRequestResponseListener,
+        HttpService.OnLogoutRequestResponseListener{
 
     private RequestQueue requestQueue;
     private SharedPreferences preferences;
@@ -63,11 +64,10 @@ public class ParentMoreSettingActivity extends Activity
             @Override
             public void onClick(View v) {
 
-                HttpService.DoRequest(
-                        null,
-                        ParentMoreSettingActivity.this,
+                HttpService.DoLogoutRequest(
                         AppConstant.LOGIN_OUT_URL,
-                        Request.Method.GET);
+                        ParentMoreSettingActivity.this
+                );
             }
         });
     }
@@ -102,10 +102,6 @@ public class ParentMoreSettingActivity extends Activity
     public void OnRequestSuccessResponse(String successResult) {
         if (successResult != null) {
             showToast(successResult);
-            if (successResult.contains(String.valueOf(AppConstant.LOGOUT_SUCCESS))) {
-                startActivity(new Intent(ParentMoreSettingActivity.this, MainActivity.class));
-                finish();
-            }
         } else {
             showToast("There something error~~~~");
         }
@@ -114,6 +110,28 @@ public class ParentMoreSettingActivity extends Activity
     @Override
     public void OnRequestErrorResponse(String errorResult) {
         showToast(errorResult);
+    }
+
+    @Override
+    public void OnLogoutSuccessRespoonse(JSONArray successJsonArray) {
+
+        try {
+            JSONObject codeObject = (JSONObject) successJsonArray.get(0);
+            JSONObject msgObject = (JSONObject) successJsonArray.get(1);
+            int code= codeObject.getInt("code");
+            if (AppConstant.LOGOUT_SUCCESS == code) {
+                showToast(msgObject.getString("msg"));
+                startActivity(new Intent(ParentMoreSettingActivity.this, MainActivity.class));
+                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void OnLogoutErrorRespoonse(String errorMsg) {
+        showToast(errorMsg);
     }
 
     private void showToast(String string) {

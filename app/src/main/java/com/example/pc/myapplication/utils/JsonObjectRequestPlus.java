@@ -3,23 +3,27 @@ package com.example.pc.myapplication.utils;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JsonArrayRequestPlus extends JsonArrayRequest {
+
+public class JsonObjectRequestPlus extends JsonObjectRequest {
 
     private Map<String, String> sendHeader=new HashMap<>(1);
 
-    public JsonArrayRequestPlus(String url,
-                                Response.Listener<JSONArray> listener,
-                                Response.ErrorListener errorListener) {
+    public JsonObjectRequestPlus(int method,
+                                 String url,
+                                 JSONObject jsonObject,
+                                 Response.Listener<JSONObject> listener,
+                                 Response.ErrorListener errorListener) {
 
-        super(url, listener, errorListener);
+        super(method, url, jsonObject, listener, errorListener);
     }
 
     @Override
@@ -33,11 +37,5 @@ public class JsonArrayRequestPlus extends JsonArrayRequest {
 
         RequestQueueController.get().addSessionCookie(headers);
         return headers;
-    }
-
-    @Override
-    protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
-
-        return super.parseNetworkResponse(response);
     }
 }

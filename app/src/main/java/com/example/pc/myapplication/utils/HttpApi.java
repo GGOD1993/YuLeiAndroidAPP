@@ -4,6 +4,10 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.example.pc.myapplication.AppConstant;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +32,23 @@ public class HttpApi {
                 }
             };
             RequestQueueController.get().getRequestQueue().add(stringRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void LogoutRequest(String url,
+                                     Response.Listener<JSONArray> listener,
+                                     Response.ErrorListener errorListener) {
+
+        try{
+            JsonArrayRequestPlus jsonArrayRequestPlus = new JsonArrayRequestPlus(
+                    url,
+                    listener,
+                    errorListener);
+
+            RequestQueueController.get().getRequestQueue().add(jsonArrayRequestPlus);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

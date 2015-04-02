@@ -1,30 +1,36 @@
 package com.example.pc.myapplication.utils;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.example.pc.myapplication.AppConstant;
-
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class HttpApi {
 
-    public static void Request(HashMap<String,String> hashMap,
-                                      Response.Listener<String> listener,
-                                      Response.ErrorListener errorListener,
-                                      String url,
-                                      int method) {
+    /**
+     * 字符串请求的网络Api
+     * @param hashMap
+     * @param listener
+     * @param errorListener
+     * @param url
+     * @param method
+     */
+    public static void DoStringRequest(int method,
+                                       String url,
+                                       HashMap<String,String> hashMap,
+                                       Response.Listener<String> listener,
+                                       Response.ErrorListener errorListener
+                                       ) {
 
         final HashMap<String,String> map = hashMap;
         try{
             StringPostRequestPlus stringRequest = new StringPostRequestPlus(
                     method,
                     url,
-                    listener, errorListener){
+                    listener,
+                    errorListener){
 
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
@@ -37,16 +43,33 @@ public class HttpApi {
         }
     }
 
-    public static void LogoutRequest(String url,
-                                     Response.Listener<JSONArray> listener,
-                                     Response.ErrorListener errorListener) {
+    /**
+     * 返回JsonArray的网络请求Api
+     * @param method
+     * @param url
+     * @param requestBody
+     * @param listener
+     * @param errorListener
+     */
+
+    public static void DoJsonArrayRequest(int method,
+                                          String url,
+                                          HashMap hashMap,
+                                          Response.Listener<JSONArray> listener,
+                                          Response.ErrorListener errorListener) {
+        final HashMap<String,String> map = hashMap;
 
         try{
             JsonArrayRequestPlus jsonArrayRequestPlus = new JsonArrayRequestPlus(
+                    method,
                     url,
                     listener,
-                    errorListener);
-
+                    errorListener){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    return map;
+                }
+            };
             RequestQueueController.get().getRequestQueue().add(jsonArrayRequestPlus);
 
         } catch (Exception e) {

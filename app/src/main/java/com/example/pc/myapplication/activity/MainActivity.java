@@ -43,7 +43,7 @@ import java.util.Map;
  * 初始Activity
  */
 public class MainActivity extends ActionBarActivity implements
-        HttpService.OnRequestResponseListener {
+        HttpService.OnLoginRequestResponseListener {
 
     //家长或孩子的模式参数
     private int mode;
@@ -277,7 +277,7 @@ public class MainActivity extends ActionBarActivity implements
                 hashMap.put("username", signin_edittext_username.getText().toString());
                 hashMap.put("password", signin_edittext_password.getText().toString());
 
-                HttpService.DoRequest(hashMap, MainActivity.this, AppConstant.LOGIN_IN_URL, Request.Method.POST);
+                HttpService.DoLoginRequest(Request.Method.POST, AppConstant.LOGIN_IN_URL, hashMap, MainActivity.this);
             } else {
                 showToast("请输入正确的密码");
             }
@@ -289,14 +289,14 @@ public class MainActivity extends ActionBarActivity implements
     /**
      * 登录请求的信息处理
      */
-    public void OnRequestSuccessResponse(String successResult){
+    public void OnLoginSuccessResponse(JSONArray jsonArray){
 
-        showToast(successResult);
+        showToast(jsonArray.toString());
         chooseMode();
     }
 
-    public void OnRequestErrorResponse(String errorResult) {
-        showToast(errorResult);
+    public void OnLoginErrorResponse(String errorMsg) {
+        showToast(errorMsg);
     }
 
     private void showToast(String string) {

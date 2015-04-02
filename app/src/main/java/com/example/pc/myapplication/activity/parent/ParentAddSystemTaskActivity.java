@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ParentAddSystemTaskActivity extends ActionBarActivity
-        implements HttpService.OnRequestResponseListener {
+        implements HttpService.OnGetSysTaskRequestResponseListener {
 
     //Volley请求队列
     private RequestQueue requestQueue;
@@ -111,11 +111,12 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        HttpService.DoRequest(
-                                null,
-                                ParentAddSystemTaskActivity.this,
+                        HttpService.DoGetSysTaskRequest(
+                                Request.Method.GET,
                                 AppConstant.GET_SYS_TASK_URL,
-                                Request.Method.GET);
+                                null,
+                                ParentAddSystemTaskActivity.this
+                                );
                     }
                 }
         );
@@ -126,26 +127,19 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity
      * @param successResult
      */
     @Override
-    public void OnRequestSuccessResponse(String successResult) {
+    public void OnGetSysTaskSuccessResponse(JSONArray jsonArray) {
 
-        JSONArray response = null;
-        try {
-            response = new JSONArray(successResult);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (response != null) {
-            if (response.toString().contains("1409")) {
+        if (jsonArray != null) {
+            if (jsonArray.toString().contains("1409")) {
                 showToast("Not login please login");
             } else {
 
                 JSONObject object = null;
                 systemTaskList.clear();
-                for (int i = 0 ; i < response.length() ; i ++) {
+                for (int i = 0 ; i < jsonArray.length() ; i ++) {
 
                     try{
-                        object = (JSONObject) response.get(i);
+                        object = (JSONObject) jsonArray.get(i);
                         systemTaskList.add(new SystemTaskInfo(
                                 object.getString("taskId"),
                                 object.getString("taskContent")
@@ -164,7 +158,7 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity
     }
 
     @Override
-    public void OnRequestErrorResponse(String errorResult) {
+    public void OnGetSysTaskErrorResponse(String errorResult) {
         parent_addsystemtaskactivity_swiperefreshlayout.setRefreshing(false);
         showToast(errorResult);
     }

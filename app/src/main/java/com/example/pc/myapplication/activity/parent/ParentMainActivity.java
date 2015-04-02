@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -49,7 +50,7 @@ public class ParentMainActivity extends FragmentActivity implements
         ParentBabyFragment.OnBabyFragmentInteractionListener,
         ParentMsgFragment.OnMsgFragmentInteractionListener,
         ParentDynamicFragment.OnDynamicFragmentInteractionListener,
-        HttpService.OnRequestResponseListener{
+        HttpService.OnSetDiyTaskRequestResponseListener{
 
     //记录连续按两次退出
     private long exitTime;
@@ -364,16 +365,14 @@ public class ParentMainActivity extends FragmentActivity implements
         map.put("to_userid", newTask.getChildId());
         map.put("award", newTask.getAward());
 
-        HttpService.DoRequest(map, ParentMainActivity.this, AppConstant.SET_DIY_TASK_URL, Request.Method.POST);
+        HttpService.DoSetDiyTaskRequest(Request.Method.POST, AppConstant.SET_DIY_TASK_URL, map, ParentMainActivity.this);
 
     }
 
     @Override
-    public void OnRequestSuccessResponse(String successResult) {
+    public void OnSetDiyTaskSuccessResponse(JSONArray jsonArray) {
 
-        showToast(successResult);
-        if (successResult.contains("success")) {
-
+        if (jsonArray.toString().contains("success")) {
             ParentMsgFragment parentMsgFragment = (ParentMsgFragment) fragmentList.get(0);
             parentMsgFragment.taskList.add(diyTaskInfo);
             parentMsgFragment.parentRecyclerViewAdapter.notifyDataSetChanged();
@@ -381,8 +380,9 @@ public class ParentMainActivity extends FragmentActivity implements
     }
 
     @Override
-    public void OnRequestErrorResponse(String errorResult) {
+    public void OnSetDiyTaskErrorResponse(String errorResult) {
         showToast(errorResult);
+        Log.e("error", errorResult);
     }
 
     private void showToast(String string) {

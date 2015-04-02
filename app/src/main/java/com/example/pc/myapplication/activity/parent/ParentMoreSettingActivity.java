@@ -28,7 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ParentMoreSettingActivity extends Activity implements
-        HttpService.OnRequestResponseListener,
+        HttpService.OnGetCurrentUserRequestResponseListener,
         HttpService.OnLogoutRequestResponseListener{
 
     private RequestQueue requestQueue;
@@ -51,11 +51,12 @@ public class ParentMoreSettingActivity extends Activity implements
             @Override
             public void onClick(View v) {
 
-                HttpService.DoRequest(
-                        null,
-                        ParentMoreSettingActivity.this,
+                HttpService.DoGetCurrentUserRequest(
+                        Request.Method.GET,
                         AppConstant.GET_CURRENT_USER_URL,
-                        Request.Method.GET);
+                        null,
+                        ParentMoreSettingActivity.this
+                        );
             }
         });
 
@@ -65,7 +66,9 @@ public class ParentMoreSettingActivity extends Activity implements
             public void onClick(View v) {
 
                 HttpService.DoLogoutRequest(
+                        Request.Method.GET,
                         AppConstant.LOGIN_OUT_URL,
+                        null,
                         ParentMoreSettingActivity.this
                 );
             }
@@ -96,24 +99,20 @@ public class ParentMoreSettingActivity extends Activity implements
 
     /**
      * 网络请求结果处理
-     * @param successResult
+     * @param jsonArray
      */
     @Override
-    public void OnRequestSuccessResponse(String successResult) {
-        if (successResult != null) {
-            showToast(successResult);
-        } else {
-            showToast("There something error~~~~");
-        }
+    public void OnGetCurrentUserSuccessResponse(JSONArray jsonArray) {
+            showToast(jsonArray.toString());
     }
 
     @Override
-    public void OnRequestErrorResponse(String errorResult) {
+    public void OnGetCurrentUserErrorResponse(String errorResult) {
         showToast(errorResult);
     }
 
     @Override
-    public void OnLogoutSuccessRespoonse(JSONArray successJsonArray) {
+    public void OnLogoutSuccessResponse(JSONArray successJsonArray) {
 
         try {
             JSONObject codeObject = (JSONObject) successJsonArray.get(0);
@@ -130,7 +129,7 @@ public class ParentMoreSettingActivity extends Activity implements
     }
 
     @Override
-    public void OnLogoutErrorRespoonse(String errorMsg) {
+    public void OnLogoutErrorResponse(String errorMsg) {
         showToast(errorMsg);
     }
 

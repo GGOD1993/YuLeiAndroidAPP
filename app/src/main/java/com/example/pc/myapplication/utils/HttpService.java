@@ -42,6 +42,36 @@ public class HttpService {
     }
 
     /**
+     * 注册请求
+     */
+    private static OnSignupRequestResponseListener mSignupRequestListener;
+    public static interface OnSignupRequestResponseListener {
+        public void OnSignupSuccessResponse(JSONArray jsonArray);
+        public void OnSignupErrorResponse(String errorResult);
+    }
+    public static void DoSignupRequest (int method,
+                                        String url,
+                                        HashMap<String, String> hashMap,
+                                        OnSignupRequestResponseListener listener
+                                        ) {
+        mSignupRequestListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mSignupRequestListener.OnSignupSuccessResponse(jsonArray);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mSignupRequestListener.OnSignupErrorResponse(volleyError.getMessage());
+            }
+        };
+        HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    }
+
+    /**
      * 获得当前用户
      */
     private static OnGetCurrentUserRequestResponseListener mGetCurrentUserListener;
@@ -195,6 +225,216 @@ public class HttpService {
             }
         };
 
+        HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    }
+
+    /**
+     * 获取用户信息请求
+     */
+    private static OnGetUserInfoRequestResponseListener mGetUserInfoRequestListener;
+    public static interface OnGetUserInfoRequestResponseListener {
+        public void OnGetUserInfoSuccessResponse(JSONArray jsonArray);
+        public void OnGetUserInfoErrorResponse(String errorResult);
+    }
+    public static void DoGetUserInfoRequest (int method,
+                                        String url,
+                                        HashMap<String, String> hashMap,
+                                        OnGetUserInfoRequestResponseListener listener
+                                        ) {
+        mGetUserInfoRequestListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mGetUserInfoRequestListener.OnGetUserInfoSuccessResponse(jsonArray);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mGetUserInfoRequestListener.OnGetUserInfoErrorResponse(volleyError.getMessage());
+            }
+        };
+        HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    }
+
+    /**
+     *孩子获取任务
+     */
+    private static OnGetDiyTaskRequestResponseListener mGetDiyTaskRequestListener;
+    public static interface OnGetDiyTaskRequestResponseListener {
+        public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray);
+        public void OnGetDiyTaskErrorResponse(String errorResult);
+    }
+    public static void DoGetDiyTaskRequest (int method,
+                                             String url,
+                                             HashMap<String, String> hashMap,
+                                             OnGetDiyTaskRequestResponseListener listener
+    ) {
+        mGetDiyTaskRequestListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mGetDiyTaskRequestListener.OnGetDiyTaskSuccessResponse(jsonArray);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mGetDiyTaskRequestListener.OnGetDiyTaskErrorResponse(volleyError.getMessage());
+            }
+        };
+        HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    }
+
+    /**
+     *家长审核完成任务
+     */
+    private static OnFinishDiyTaskRequestResponseListener mFinishDiyTaskRequestListener;
+    public static interface OnFinishDiyTaskRequestResponseListener {
+        public void OnFinishDiyTaskSuccessResponse(JSONArray jsonArray);
+        public void OnFinishDiyTaskErrorResponse(String errorResult);
+    }
+    public static void DoFinishDiyTaskRequest (int method,
+                                            String url,
+                                            HashMap<String, String> hashMap,
+                                            OnFinishDiyTaskRequestResponseListener listener
+    ) {
+        mFinishDiyTaskRequestListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mFinishDiyTaskRequestListener.OnFinishDiyTaskSuccessResponse(jsonArray);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mFinishDiyTaskRequestListener.OnFinishDiyTaskErrorResponse(volleyError.getMessage());
+            }
+        };
+        HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    }
+
+    /**
+     *孩子提交任务进行审核
+     */
+    private static OnSubmitDiyTaskRequestResponseListener mSubmitDiyTaskRequestListener;
+    public static interface OnSubmitDiyTaskRequestResponseListener {
+        public void OnSubmitDiyTaskSuccessResponse(JSONArray jsonArray);
+        public void OnSubmitDiyTaskErrorResponse(String errorResult);
+    }
+    public static void DoSubmitDiyTaskRequest (int method,
+                                            String url,
+                                            HashMap<String, String> hashMap,
+                                            OnSubmitDiyTaskRequestResponseListener listener
+    ) {
+        mSubmitDiyTaskRequestListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mSubmitDiyTaskRequestListener.OnSubmitDiyTaskSuccessResponse(jsonArray);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mSubmitDiyTaskRequestListener.OnSubmitDiyTaskErrorResponse(volleyError.getMessage());
+            }
+        };
+        HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    }
+
+    /**
+     *捐款
+     */
+    private static OnDonateRequestResponseListener mDonateRequestListener;
+    public static interface OnDonateRequestResponseListener {
+        public void OnDonateSuccessResponse(JSONArray jsonArray);
+        public void OnDonateErrorResponse(String errorResult);
+    }
+    public static void DoDonateRequest (int method,
+                                            String url,
+                                            HashMap<String, String> hashMap,
+                                            OnDonateRequestResponseListener listener
+    ) {
+        mDonateRequestListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mDonateRequestListener.OnDonateSuccessResponse(jsonArray);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mDonateRequestListener.OnDonateErrorResponse(volleyError.getMessage());
+            }
+        };
+        HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    }
+
+    /**
+     *获取公司列表
+     */
+    private static OnGetCompanyRequestResponseListener mGetCompanyRequestListener;
+    public static interface OnGetCompanyRequestResponseListener {
+        public void OnGetCompanySuccessResponse(JSONArray jsonArray);
+        public void OnGetCompanyErrorResponse(String errorResult);
+    }
+    public static void DoGetCompanyRequest (int method,
+                                            String url,
+                                            HashMap<String, String> hashMap,
+                                            OnGetCompanyRequestResponseListener listener
+    ) {
+        mGetCompanyRequestListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mGetCompanyRequestListener.OnGetCompanySuccessResponse(jsonArray);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mGetCompanyRequestListener.OnGetCompanyErrorResponse(volleyError.getMessage());
+            }
+        };
+        HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    }
+
+    /**
+     *获取孩子提交审查任务
+     */
+    private static OnCheckDiyTaskRequestResponseListener mCheckDiyTaskRequestListener;
+    public static interface OnCheckDiyTaskRequestResponseListener {
+        public void OnCheckDiyTaskSuccessResponse(JSONArray jsonArray);
+        public void OnCheckDiyTaskErrorResponse(String errorResult);
+    }
+    public static void DoCheckDiyTaskRequest (int method,
+                                            String url,
+                                            HashMap<String, String> hashMap,
+                                            OnCheckDiyTaskRequestResponseListener listener
+    ) {
+        mCheckDiyTaskRequestListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mCheckDiyTaskRequestListener.OnCheckDiyTaskSuccessResponse(jsonArray);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mCheckDiyTaskRequestListener.OnCheckDiyTaskErrorResponse(volleyError.getMessage());
+            }
+        };
         HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
     }
 }

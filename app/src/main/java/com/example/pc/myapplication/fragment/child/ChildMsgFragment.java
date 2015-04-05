@@ -28,14 +28,14 @@ public class ChildMsgFragment extends Fragment {
   private OnChildMsgFragmentInteractionListener mListener;
 
   public static ChildMsgFragment newInstance() {
-        ChildMsgFragment fragment = new ChildMsgFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    ChildMsgFragment fragment = new ChildMsgFragment();
+    Bundle args = new Bundle();
+    fragment.setArguments(args);
+    return fragment;
   }
 
   public ChildMsgFragment() {
-      // Required empty public constructor
+    // Required empty public constructor
   }
 
   @Override
@@ -93,26 +93,26 @@ public class ChildMsgFragment extends Fragment {
     return v;
   }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnChildMsgFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    try {
+      mListener = (OnChildMsgFragmentInteractionListener) activity;
+    } catch (ClassCastException e) {
+      throw new ClassCastException(activity.toString()
+              + " must implement OnFragmentInteractionListener");
     }
+  }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+  @Override
+  public void onDetach() {
+    super.onDetach();
+    mListener = null;
+  }
 
-    public interface OnChildMsgFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onChildMsgFragmentInteraction();
-    }
+  public interface OnChildMsgFragmentInteractionListener {
+    // TODO: Update argument type and name
+    public void onChildMsgFragmentInteraction();
+  }
 
 }

@@ -11,57 +11,57 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public class TaskInfoActivity extends SwipeBackActivity {
 
-    private DiyTaskInfo clickTask;
+  private DiyTaskInfo clickTask;
 
-    private EditText parent_taskinfoactivity_edittext_childId;
-    private EditText parent_taskinfoactivity_edittext_taskname;
-    private EditText parent_taskinfoactivity_editext_award;
-    private EditText parent_taskinfoactivity_editext_taskcontent;
+  private EditText parent_taskinfoactivity_edittext_childId;
+  private EditText parent_taskinfoactivity_edittext_taskname;
+  private EditText parent_taskinfoactivity_editext_award;
+  private EditText parent_taskinfoactivity_editext_taskcontent;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_info);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_task_info);
 
-        Intent intent = getIntent();
-        clickTask = (DiyTaskInfo) intent.getSerializableExtra("clickTask");
+    Intent intent = getIntent();
+    clickTask = (DiyTaskInfo) intent.getSerializableExtra("clickTask");
 
-        initViews();
+    initViews();
 
+  }
+
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.menu_task_info, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+
+    //noinspection SimplifiableIfStatement
+    if (id == R.id.action_settings) {
+      return true;
     }
+    return super.onOptionsItemSelected(item);
+  }
 
+  private void initViews() {
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_task_info, menu);
-        return true;
-    }
+    parent_taskinfoactivity_edittext_childId = (EditText) findViewById(R.id.parent_taskinfoactivity_edittext_childid);
+    parent_taskinfoactivity_edittext_taskname = (EditText) findViewById(R.id.parent_taskinfoactivity_edittext_taskname);
+    parent_taskinfoactivity_editext_award = (EditText) findViewById(R.id.parent_taskinfoactivity_editext_award);
+    parent_taskinfoactivity_editext_taskcontent = (EditText) findViewById(R.id.parent_taskinfoactivity_editext_taskcontent);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void initViews() {
-
-        parent_taskinfoactivity_edittext_childId = (EditText) findViewById(R.id.parent_taskinfoactivity_edittext_childid);
-        parent_taskinfoactivity_edittext_taskname = (EditText) findViewById(R.id.parent_taskinfoactivity_edittext_taskname);
-        parent_taskinfoactivity_editext_award = (EditText) findViewById(R.id.parent_taskinfoactivity_editext_award);
-        parent_taskinfoactivity_editext_taskcontent = (EditText) findViewById(R.id.parent_taskinfoactivity_editext_taskcontent);
-
-        parent_taskinfoactivity_edittext_childId.setText(clickTask.getChildId());
-        parent_taskinfoactivity_edittext_taskname.setText(clickTask.getTaskName());
-        parent_taskinfoactivity_editext_award.setText(clickTask.getAward());
-        parent_taskinfoactivity_editext_taskcontent.setText(clickTask.getTaskContent());
-    }
+    parent_taskinfoactivity_edittext_childId.setText(clickTask.getChildId());
+    parent_taskinfoactivity_edittext_taskname.setText(clickTask.getTaskName());
+    parent_taskinfoactivity_editext_award.setText(clickTask.getAward());
+    parent_taskinfoactivity_editext_taskcontent.setText(clickTask.getTaskContent());
+  }
 }

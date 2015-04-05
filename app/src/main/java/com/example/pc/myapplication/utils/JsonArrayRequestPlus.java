@@ -17,48 +17,48 @@ import java.util.Map;
 
 public class JsonArrayRequestPlus extends Request<JSONArray>{
 
-    private final Response.Listener<JSONArray> mListener;
+  private final Response.Listener<JSONArray> mListener;
 
-    public JsonArrayRequestPlus(int method,
-                                String url,
-                                Response.Listener<JSONArray> listener,
-                                Response.ErrorListener errorListener) {
-        super(method, url, errorListener);
-        mListener = listener;
+  public JsonArrayRequestPlus(int method,
+                              String url,
+                              Response.Listener<JSONArray> listener,
+                              Response.ErrorListener errorListener) {
+    super(method, url, errorListener);
+    mListener = listener;
+  }
+
+  @Override
+  public Map<String, String> getHeaders() throws AuthFailureError {
+    Map<String, String> headers = super.getHeaders();
+
+    if(headers == null || headers.equals(Collections.emptyMap())) {
+
+      headers = new HashMap<>();
     }
 
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> headers = super.getHeaders();
+    RequestQueueController.get().addSessionCookie(headers);
+    return headers;
+  }
 
-        if(headers == null || headers.equals(Collections.emptyMap())) {
+  @Override
+  protected void deliverResponse(JSONArray jsonArray) {
+    mListener.onResponse(jsonArray);
+  }
 
-            headers = new HashMap<>();
-        }
+  @Override
+  protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
 
-        RequestQueueController.get().addSessionCookie(headers);
-        return headers;
+    RequestQueueController.get().checkSessionCookie(response.headers);
+
+    try {
+      String jsonString =
+              new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+      return Response.success(new JSONArray(jsonString),
+              HttpHeaderParser.parseCacheHeaders(response));
+    } catch (UnsupportedEncodingException e) {
+      return Response.error(new ParseError(e));
+    } catch (JSONException je) {
+      return Response.error(new ParseError(je));
     }
-
-    @Override
-    protected void deliverResponse(JSONArray jsonArray) {
-        mListener.onResponse(jsonArray);
-    }
-
-    @Override
-    protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
-
-        RequestQueueController.get().checkSessionCookie(response.headers);
-
-        try {
-            String jsonString =
-                    new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(new JSONArray(jsonString),
-                    HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException e) {
-            return Response.error(new ParseError(e));
-        } catch (JSONException je) {
-            return Response.error(new ParseError(je));
-        }
-    }
+  }
 }

@@ -10,6 +10,7 @@ import java.io.InputStream;
 public class AppConstant {
   public static final int MODE_PARENT = 1;
   public static final int MODE_CHILD = 2;
+  public static final String USER_MODE = "mode";
 
   public static final int SELECT_PIC_KITKAT = 3;
   public static final int SELECT_PIC = 4;
@@ -62,9 +63,9 @@ public class AppConstant {
   public static final String DONATE_URL = HOST + "/Users/Donate.php";
   public static final String FINISH_DIY_TASK_URL = HOST + "/Users/FinishDiyTask.php";
   public static final String GET_CHILDREN_URL = HOST + "/Users/GetChildren.php";
-	public static final String GET_PARENT_URL = HOST + "/Users/GetParent.php";
-	public static final String GET_USER_INFO_URL = HOST + "/Users/GetUserInfo.php";
-	public static final String SUBMIT_DIY_TASK_URL = HOST + "/Users/SubmitDiyTask.php";
+  public static final String GET_PARENT_URL = HOST + "/Users/GetParent.php";
+  public static final String GET_USER_INFO_URL = HOST + "/Users/GetUserInfo.php";
+  public static final String SUBMIT_DIY_TASK_URL = HOST + "/Users/SubmitDiyTask.php";
 
   /**
    * 流弊的一个函数

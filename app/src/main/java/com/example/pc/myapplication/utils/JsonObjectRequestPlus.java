@@ -15,27 +15,27 @@ import java.util.Map;
 
 public class JsonObjectRequestPlus extends JsonObjectRequest {
 
-    private Map<String, String> sendHeader=new HashMap<>(1);
+  private Map<String, String> sendHeader=new HashMap<>(1);
 
-    public JsonObjectRequestPlus(int method,
-                                 String url,
-                                 JSONObject jsonObject,
-                                 Response.Listener<JSONObject> listener,
-                                 Response.ErrorListener errorListener) {
+  public JsonObjectRequestPlus(int method,
+                               String url,
+                               JSONObject jsonObject,
+                               Response.Listener<JSONObject> listener,
+                               Response.ErrorListener errorListener) {
 
-        super(method, url, jsonObject, listener, errorListener);
+    super(method, url, jsonObject, listener, errorListener);
+  }
+
+  @Override
+  public Map<String, String> getHeaders() throws AuthFailureError {
+    Map<String, String> headers = super.getHeaders();
+
+    if(headers == null || headers.equals(Collections.emptyMap())) {
+
+      headers = new HashMap<>();
     }
 
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> headers = super.getHeaders();
-
-        if(headers == null || headers.equals(Collections.emptyMap())) {
-
-            headers = new HashMap<>();
-        }
-
-        RequestQueueController.get().addSessionCookie(headers);
-        return headers;
-    }
+    RequestQueueController.get().addSessionCookie(headers);
+    return headers;
+  }
 }

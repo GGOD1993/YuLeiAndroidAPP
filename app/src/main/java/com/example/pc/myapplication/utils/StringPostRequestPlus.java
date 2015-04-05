@@ -22,38 +22,38 @@ import java.util.regex.Pattern;
 public class StringPostRequestPlus extends StringRequest {
 
 
-    public StringPostRequestPlus(int method, String url,
-                                 Response.Listener<String> listener,
-                                 Response.ErrorListener errorListener) {
-        super(method, url, listener, errorListener);
+  public StringPostRequestPlus(int method, String url,
+                               Response.Listener<String> listener,
+                               Response.ErrorListener errorListener) {
+    super(method, url, listener, errorListener);
+  }
+
+  @Override
+  protected Response<String> parseNetworkResponse(NetworkResponse response) {
+
+    RequestQueueController.get().checkSessionCookie(response.headers);
+
+    return super.parseNetworkResponse(response);
+  }
+
+  /**
+   * 给Post请求添加Cookie
+   *
+   * @return
+   * @throws AuthFailureError
+   */
+  @Override
+  public Map<String, String> getHeaders() throws AuthFailureError {
+
+    Map<String, String> headers = super.getHeaders();
+
+    if (headers == null
+            || headers.equals(Collections.emptyMap())) {
+      headers = new HashMap<>();
     }
 
-    @Override
-    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+    RequestQueueController.get().addSessionCookie(headers);
 
-        RequestQueueController.get().checkSessionCookie(response.headers);
-
-        return super.parseNetworkResponse(response);
-    }
-
-    /**
-     * 给Post请求添加Cookie
-     *
-     * @return
-     * @throws AuthFailureError
-     */
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-
-        Map<String, String> headers = super.getHeaders();
-
-        if (headers == null
-                || headers.equals(Collections.emptyMap())) {
-            headers = new HashMap<>();
-        }
-
-        RequestQueueController.get().addSessionCookie(headers);
-
-        return headers;
-    }
+    return headers;
+  }
 }

@@ -65,12 +65,13 @@ public class ParentMoreSettingActivity extends Activity implements
             @Override
             public void onClick(View v) {
 
-                HttpService.DoLogoutRequest(
-                        Request.Method.GET,
-                        AppConstant.LOGIN_OUT_URL,
-                        null,
-                        ParentMoreSettingActivity.this
-                );
+              preferences.edit().putInt(AppConstant.USER_MODE,0).apply();
+              HttpService.DoLogoutRequest(
+                      Request.Method.GET,
+                      AppConstant.LOGIN_OUT_URL,
+                      null,
+                      ParentMoreSettingActivity.this
+              );
             }
         });
     }

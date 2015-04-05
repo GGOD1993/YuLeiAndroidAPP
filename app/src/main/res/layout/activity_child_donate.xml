@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <include layout="@layout/layout_child_mainactivity_header"
-        android:id="@+id/child_donateactivity_header"/>
+             android:id="@+id/child_donateactivity_header"/>
 
     <LinearLayout
         android:id="@+id/child_donateactivity_linearlayout_money"
@@ -34,7 +34,7 @@
             android:textColor="@color/indianred"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
             android:layout_height="50dip"
             android:layout_margin="10dip"
             android:background="@mipmap/child_donateactivity_back"/>
-        </LinearLayout>
+    </LinearLayout>
 
     <ImageView
         android:layout_width="250dip"

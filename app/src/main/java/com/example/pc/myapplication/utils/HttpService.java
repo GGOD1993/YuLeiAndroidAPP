@@ -11,32 +11,32 @@ import java.util.HashMap;
 
 public class HttpService {
   /**
-  * 登录请求
-  */
+   * 登录请求
+   */
   private static OnLoginRequestResponseListener mLoginRequestListener;
-    public static interface OnLoginRequestResponseListener {
-      public void OnLoginSuccessResponse(JSONArray jsonArray);
-      public void OnLoginErrorResponse(String errorResult);
-    }
+  public static interface OnLoginRequestResponseListener {
+    public void OnLoginSuccessResponse(JSONArray jsonArray);
+    public void OnLoginErrorResponse(String errorResult);
+  }
   public static void DoLoginRequest (int method,
                                      String url,
                                      HashMap<String,String> hashMap,
                                      OnLoginRequestResponseListener listener
-                                     ) {
+  ) {
     mLoginRequestListener = listener;
-      Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+    Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
       public void onResponse(JSONArray jsonArray) {
         mLoginRequestListener.OnLoginSuccessResponse(jsonArray);
       }
     };
 
-     Response.ErrorListener errorListener = new Response.ErrorListener() {
-       @Override
-       public void onErrorResponse(VolleyError volleyError) {
-         mLoginRequestListener.OnLoginErrorResponse(volleyError.getMessage());
-       }
-     };
+    Response.ErrorListener errorListener = new Response.ErrorListener() {
+      @Override
+      public void onErrorResponse(VolleyError volleyError) {
+        mLoginRequestListener.OnLoginErrorResponse(volleyError.getMessage());
+      }
+    };
     HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
   }
 
@@ -52,7 +52,7 @@ public class HttpService {
                                       String url,
                                       HashMap<String, String> hashMap,
                                       OnSignupRequestResponseListener listener
-                                      ) {
+  ) {
     mSignupRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -82,7 +82,7 @@ public class HttpService {
                                               String url,
                                               HashMap<String,String> hashMap,
                                               OnGetCurrentUserRequestResponseListener listener
-                                              ) {
+  ) {
     mGetCurrentUserListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -119,10 +119,10 @@ public class HttpService {
                                       OnLogoutRequestResponseListener listener) {
     onLogoutRequestResponseListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
-        @Override
-        public void onResponse(JSONArray jsonArray) {
-          onLogoutRequestResponseListener.OnLogoutSuccessResponse(jsonArray);
-        }
+      @Override
+      public void onResponse(JSONArray jsonArray) {
+        onLogoutRequestResponseListener.OnLogoutSuccessResponse(jsonArray);
+      }
     };
 
     Response.ErrorListener errorListener = new Response.ErrorListener() {
@@ -238,7 +238,7 @@ public class HttpService {
                                            String url,
                                            HashMap<String, String> hashMap,
                                            OnGetUserInfoRequestResponseListener listener
-                                      ) {
+  ) {
     mGetUserInfoRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -268,7 +268,7 @@ public class HttpService {
                                           String url,
                                           HashMap<String, String> hashMap,
                                           OnGetDiyTaskRequestResponseListener listener
-                                         ) {
+  ) {
     mGetDiyTaskRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -494,9 +494,9 @@ public class HttpService {
     HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
   }
 
-	/**
-	 * 孩子确认添加
-	 */
+  /**
+   * 孩子确认添加
+   */
   private static OnAddFriendRequestResponseListener mAddFriendRequestListener;
   public static interface OnAddFriendRequestResponseListener {
     public void OnAddFriendSuccessResponse(JSONArray jsonArray);
@@ -523,18 +523,18 @@ public class HttpService {
     };
     HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
   }
-	/**
-	 * 拉取孩子列表
-	 */
+  /**
+   * 拉取孩子列表
+   */
   private static OnGetChildrenRequestResponseListener mGetChildrenRequestListener;
   public static interface OnGetChildrenRequestResponseListener {
     public void OnGetChildrenSuccessResponse(JSONArray jsonArray);
     public void OnGetChildrenErrorResponse(String errorResult);
   }
   public static void DoGetChildrenRequest (int method,
-                                         String url,
-                                         HashMap<String, String> hashMap,
-                                         OnGetChildrenRequestResponseListener listener
+                                           String url,
+                                           HashMap<String, String> hashMap,
+                                           OnGetChildrenRequestResponseListener listener
   ) {
     mGetChildrenRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
@@ -552,9 +552,9 @@ public class HttpService {
     };
     HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
   }
-	/**
-	 * 拉取家长列表
-	 */
+  /**
+   * 拉取家长列表
+   */
   private static OnGetParentRequestResponseListener mGetParentRequestListener;
   public static interface OnGetParentRequestResponseListener {
     public void OnGetParentSuccessResponse(JSONArray jsonArray);

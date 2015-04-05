@@ -21,18 +21,32 @@ public class AppConstant {
   public static final int PARENT_ADDSYSTEMTASK_REQUESTCODE = 8;
   public static final int PARENT_ADDSYSTEMTASK_RESULTCODE = 9;
 
+
+
+  //孩子端控件漂浮参数
+  public static final int START_MOVE = 10;
+  public static final int STOP_MOVE = 11;
+  public static final int MOVE_INTERVAL_TIME = 100;
+  public static final int LEFT_DIRECTION = 1;
+  public static final int RIGHT_DIRECTION = -1;
+  public static final int UP_DIRECTION = 2;
+  public static final int DOWN_DIRECTION = -2;
+  public static final int TOP_SPEED = 5;
+
+  //网络请求返回code
   public static final int NEW_USER_SUCCESS = 1105;
   public static final int LOGIN_SUCCESS = 1201;
   public static final int LOGOUT_SUCCESS = 1203;
   public static final int SET_DIY_TASK_SUCCESS = 1302;
 
-  public static String COOKIE = "";
-
   public static final String FROM_USERID = "from_userid";
   public static final String PREFERENCE_NAME = "yulei";
   public static final String CLICKED_SYSTEM_TASK = "clickedSystemTask";
-  public static final String HOST = "http://byhands.sinaapp.com";
 
+
+
+  //网络请求URL
+  public static final String HOST = "http://byhands.sinaapp.com";
   public static final String NEW_USER_URL= HOST + "/Users/NewUser.php";
   public static final String LOGIN_IN_URL = HOST + "/Users/Login.php";
   public static final String LOGIN_OUT_URL = HOST + "/Users/Logout.php";

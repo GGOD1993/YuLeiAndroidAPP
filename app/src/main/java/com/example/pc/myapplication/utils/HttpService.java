@@ -435,9 +435,8 @@ public class HttpService {
     };
     HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
   }
-
-	/**
-   *邀请添加孩子
+  /**
+   * 邀请添加孩子
    */
   private static OnUserInvitationRequestResponseListener mUserInvitationRequestListener;
   public static interface OnUserInvitationRequestResponseListener {
@@ -465,7 +464,7 @@ public class HttpService {
     };
     HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
   }
-	/**
+  /**
    *拉取添加信息
    */
   private static OnGetInvitationRequestResponseListener mGetInvitationRequestListener;

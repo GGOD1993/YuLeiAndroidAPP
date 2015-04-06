@@ -41,6 +41,8 @@ public class AppConstant {
   public static final int SET_DIY_TASK_SUCCESS = 1302;
 
   public static final String FROM_USERID = "from_userid";
+  public static final String TO_USERID = "to_userid";
+  public static final String USERID = "userid";
   public static final String PREFERENCE_NAME = "yulei";
   public static final String CLICKED_SYSTEM_TASK = "clickedSystemTask";
 

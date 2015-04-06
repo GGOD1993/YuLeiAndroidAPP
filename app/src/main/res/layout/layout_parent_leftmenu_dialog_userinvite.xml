@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/parent_leftmenu_edittext_tousername"
+        android:layout_width="match_parent"
+        android:layout_height="35dip"
+        android:layout_marginStart="40dip"
+        android:layout_marginEnd="40dip"
+        android:layout_marginTop="10dip"
+        android:textSize="10pt"
+        android:hint="请输入用户名"
+        android:background="@drawable/signin_edittext_style"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_marginTop="20dip"
+        android:layout_marginStart="90dip"
+        android:layout_marginEnd="90dip"
+        android:layout_gravity="center_horizontal">
+
+        <ImageButton
+            android:id="@+id/parent_leftmenu_imagebutton_cancel"
+            android:layout_height="50dip"
+            android:layout_width="50dip"
+            android:background="@drawable/parent_addtaskactivity_imagebutton_cancel_style"/>
+
+        <ImageButton
+            android:id="@+id/parent_leftmenu_imagebutton_submit"
+            android:layout_height="50dip"
+            android:layout_width="50dip"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/parent_addtaskactivity_imagebutton_submit_style"/>
+        </RelativeLayout>
+</LinearLayout>

@@ -51,6 +51,7 @@
         android:orientation="vertical" >
 
         <RelativeLayout
+            android:id="@+id/parentactivity_leftmenu_relativelayout_addchild"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -86,7 +87,6 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/parentactivity_leftmenu_relativelayout_addtask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 

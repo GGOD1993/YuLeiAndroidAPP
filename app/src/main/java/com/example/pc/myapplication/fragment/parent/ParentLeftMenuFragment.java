@@ -28,7 +28,8 @@ import java.util.HashMap;
 
 public class ParentLeftMenuFragment extends Fragment
         implements HttpService.OnUserInvitationRequestResponseListener,
-                   HttpService.OnGetInvitationRequestResponseListener{
+                   HttpService.OnGetInvitationRequestResponseListener,
+                   HttpService.OnAddFriendRequestResponseListener{
 
   private SharedPreferences preferences;
 
@@ -118,7 +119,7 @@ public class ParentLeftMenuFragment extends Fragment
   /**
    * 获取邀请的对话框
    */
-  private void showGetInviteDialog(String parent) {
+  private void showGetInviteDialog(final String parent) {
     final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
     final View view = layoutInflater.inflate(R.layout.layout_parent_leftmenu_dialog_getinvite, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -140,7 +141,15 @@ public class ParentLeftMenuFragment extends Fragment
             .setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-
+                HashMap<String, String> map = new HashMap<>();
+                map.put(AppConstant.TO_USERID, parent);
+                map.put(AppConstant.USERID, preferences.getString(AppConstant.FROM_USERID,""));
+                HttpService.DoAddFriendRequest(
+                        Request.Method.POST,
+                        AppConstant.ADD_FRIEND_URL,
+                        map,
+                        ParentLeftMenuFragment.this
+                );
               }
             });
   }
@@ -170,9 +179,17 @@ public class ParentLeftMenuFragment extends Fragment
   public void OnUserInvitationSuccessResponse(JSONArray jsonArray) {
     showToast(jsonArray.toString());
   }
-
   @Override
   public void OnUserInvitationErrorResponse(String errorResult) {
+    showToast(errorResult);
+  }
+
+  @Override
+  public void OnAddFriendSuccessResponse(JSONArray jsonArray) {
+    showToast(jsonArray.toString());
+  }
+  @Override
+  public void OnAddFriendErrorResponse(String errorResult) {
     showToast(errorResult);
   }
 

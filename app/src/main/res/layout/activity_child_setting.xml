@@ -13,7 +13,7 @@
         android:layout_marginTop="20dip">
 
         <RelativeLayout
-            android:id="@+id/nowuser"
+            android:id="@+id/addFriend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dip">

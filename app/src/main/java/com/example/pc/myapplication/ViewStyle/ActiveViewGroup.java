@@ -1,15 +1,23 @@
 package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 
-public class ActiveViewGroup extends ViewGroup {
+public class ActiveViewGroup extends ViewGroup{
+
+  private float fingerDownY;
+  private float fingerUpY;
+  private float fingerMoveY;
+  private float fingerDistanceY;
 
   private ArrayList<ActiveView> arrayList = new ArrayList<>();
 
@@ -25,8 +33,7 @@ public class ActiveViewGroup extends ViewGroup {
    * 计算所有ChildView的宽度和高度 然后根据ChildView的计算结果，设置自己的宽和高
    */
   @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-  {
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
     /**
      * 获得此ViewGroup上级容器为其推荐的宽和高，以及计算模式
      */
@@ -47,8 +54,7 @@ public class ActiveViewGroup extends ViewGroup {
   }
 
   @Override
-  protected void onLayout(boolean changed, int l, int t, int r, int b)
-  {
+  protected void onLayout(boolean changed, int l, int t, int r, int b){
     int cCount = getChildCount();
     int mTotalHeight = 0;
     int cWidth = 0;

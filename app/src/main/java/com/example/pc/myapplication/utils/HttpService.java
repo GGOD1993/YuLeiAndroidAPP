@@ -199,7 +199,7 @@ public class HttpService {
   }
 
   /**
-   * 父母获取发出的心愿
+   * 接收心愿
    */
   private static OnGetTaskRequestResponseListener onGetTaskRequestResponseListener;
   public static interface OnGetTaskRequestResponseListener {

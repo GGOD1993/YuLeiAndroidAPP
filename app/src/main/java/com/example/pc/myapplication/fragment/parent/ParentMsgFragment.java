@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class ParentMsgFragment extends Fragment implements
         RecyclerViewItemClickListener,
-        HttpService.OnGetTaskRequestResponseListener{
+        HttpService.OnGetDiyTaskRequestResponseListener{
 
   //从activity中获得的volley请求队列
   private RequestQueue requestQueue;
@@ -120,7 +120,6 @@ public class ParentMsgFragment extends Fragment implements
             new SwipeRefreshLayout.OnRefreshListener() {
               @Override
               public void onRefresh() {
-
                 postGetDiyTaskRequest();
               }
             }
@@ -211,18 +210,18 @@ public class ParentMsgFragment extends Fragment implements
             getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0)
                     .getString(AppConstant.FROM_USERID, "");
 
-    HttpService.DoGetTaskRequest(Request.Method.GET, url, null, ParentMsgFragment.this);
+    HttpService.DoGetDiyTaskRequest(Request.Method.GET, url, null, ParentMsgFragment.this);
   }
 
   @Override
-  public void OnGetTaskSuccessResponse(JSONArray jsonArray) {
+  public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray) {
 
     mListener.onMsgFragmentInteraction(jsonArray);
     parent_msgfragment_swipefreshlayout.setRefreshing(false);
   }
 
   @Override
-  public void OnGetTaskErrorResponse(String errorResult) {
+  public void OnGetDiyTaskErrorResponse(String errorResult) {
     showToast(errorResult);
   }
 

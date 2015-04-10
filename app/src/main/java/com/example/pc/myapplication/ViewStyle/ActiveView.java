@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 
 import java.util.Random;
 
@@ -27,6 +28,9 @@ public class ActiveView extends ImageView {
   //随机数发生器
   private Random random;
 
+  //View携带的任务信息
+  private DiyTaskInfo taskInfo;
+
   private Paint mPaint = new Paint();
 
   public ActiveView(Context context) {
@@ -36,6 +40,14 @@ public class ActiveView extends ImageView {
 
   public ActiveView(Context context, AttributeSet attrs) {
     super(context, attrs);
+  }
+
+  public DiyTaskInfo getTaskInfo() {
+    return taskInfo;
+  }
+
+  public void setTaskInfo(DiyTaskInfo taskInfo) {
+    this.taskInfo = taskInfo;
   }
 
   public int getMoveXDirection() {

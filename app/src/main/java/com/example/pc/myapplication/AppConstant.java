@@ -40,6 +40,9 @@ public class AppConstant {
   public static final int LOGOUT_SUCCESS = 1203;
   public static final int SET_DIY_TASK_SUCCESS = 1302;
 
+
+  public static final String RETURN_MSG = "msg";
+  public static final String RETURN_CODE = "code";
   public static final String FROM_USERID = "from_userid";
   public static final String TO_USERID = "to_userid";
   public static final String USERID = "userid";

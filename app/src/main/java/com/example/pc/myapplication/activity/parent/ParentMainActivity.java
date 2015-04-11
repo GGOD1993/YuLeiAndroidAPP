@@ -39,6 +39,7 @@ import com.example.pc.myapplication.utils.StringPostRequestPlus;
 import com.nineoldandroids.view.ViewHelper;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -372,10 +373,23 @@ public class ParentMainActivity extends FragmentActivity implements
   @Override
   public void OnSetDiyTaskSuccessResponse(JSONArray jsonArray) {
 
-    if (jsonArray.toString().contains("success")) {
-      ParentMsgFragment parentMsgFragment = (ParentMsgFragment) fragmentList.get(0);
-      parentMsgFragment.taskList.add(diyTaskInfo);
-      parentMsgFragment.parentRecyclerViewAdapter.notifyDataSetChanged();
+    JSONObject codeObject =null;
+    JSONObject msgObject = null;
+    try{
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      if (null != codeObject) {
+        if (AppConstant.SET_DIY_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
+          ParentMsgFragment parentMsgFragment = (ParentMsgFragment) fragmentList.get(0);
+          parentMsgFragment.taskList.add(diyTaskInfo);
+          parentMsgFragment.parentRecyclerViewAdapter.notifyDataSetChanged();
+        }
+      }
+      if (null != msgObject) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
     }
   }
 

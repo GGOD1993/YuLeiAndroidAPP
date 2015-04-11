@@ -1,9 +1,11 @@
 package com.example.pc.myapplication.fragment.child;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,17 +26,19 @@ import org.json.JSONArray;
 public class ChildMsgFragment extends Fragment implements
         HttpService.OnGetDiyTaskRequestResponseListener{
 
-  private Button add;
-  private Button delete;
-  private Button start;
-  private Button stop;
+  //SharedPreference
+  private SharedPreferences preferences;
 
+  //自定义的viewgroup
   private ActiveViewGroup activeViewGroup;
 
+  //用于子控件漂浮效果的辅助工具
   private ActiveHelper activeHelper;
 
+  //自定义可下拉刷新的linearlayout
   private RefreshableLinearLayout refreshableLinearLayout;
 
+  //activity中实现的回调接口
   private OnChildMsgFragmentInteractionListener mListener;
 
   public static ChildMsgFragment newInstance() {
@@ -59,51 +63,15 @@ public class ChildMsgFragment extends Fragment implements
                            Bundle savedInstanceState) {
 
     View v = inflater.inflate(R.layout.fragment_child_msg, container, false);
-    add = (Button) v.findViewById(R.id.add);
-    delete = (Button) v.findViewById(R.id.delete);
-    start = (Button) v.findViewById(R.id.start);
-    stop = (Button) v.findViewById(R.id.stop);
     activeViewGroup = (ActiveViewGroup) v.findViewById(R.id.activeViewGroup);
     activeHelper = new ActiveHelper(activeViewGroup);
+    preferences = getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
     refreshableLinearLayout = (RefreshableLinearLayout) v.findViewById(R.id.refreshable_linearlayout);
 
     refreshableLinearLayout.setOnRefreshListener(new RefreshableLinearLayout.PullToRefreshListener() {
       @Override
       public void onRefresh() {
-          //存放下拉刷新需要执行的内容
-        refreshableLinearLayout.finishRefreshing();
-      }
-    });
-
-
-    add.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        ActiveView activeView = new ActiveView(getActivity());
-        activeView.setImageResource(R.mipmap.ic_launcher);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        activeView.setLayoutParams(layoutParams);
-        activeViewGroup.addActiveView(activeView);
-      }
-    });
-    delete.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (activeViewGroup.getChildCount() != 0) {
-          activeViewGroup.removeActiveViewAt(activeViewGroup.getChildCount() - 1);
-        }
-      }
-    });
-    start.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        activeHelper.startMove();
-      }
-    });
-    stop.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        activeHelper.stopMove();
+        startGetDiyTaskRequest();
       }
     });
     return v;
@@ -132,14 +100,17 @@ public class ChildMsgFragment extends Fragment implements
   }
 
   public void startMoveActiveView() {
-    activeHelper.stopMove();
+    activeHelper.startMove();
   }
 
   public void stopMoveActiveView() {
     activeHelper.stopMove();
   }
 
-  private void postGetDiyTaskRequest() {
+  /**
+   * 开始请求
+   */
+  private void startGetDiyTaskRequest() {
 
     String url = AppConstant.GET_DIY_TASK_URL + "?username=" +
             getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0)
@@ -148,13 +119,38 @@ public class ChildMsgFragment extends Fragment implements
     HttpService.DoGetDiyTaskRequest(Request.Method.GET, url, null, ChildMsgFragment.this);
   }
 
+  /**
+   * 处理请求结果
+   * @param jsonArray
+   */
   @Override
   public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray) {
+    refreshableLinearLayout.finishRefreshing();
+    addActiveView(jsonArray);
 
   }
 
   @Override
   public void OnGetDiyTaskErrorResponse(String errorResult) {
+    refreshableLinearLayout.finishRefreshing();
+  }
 
+  /**
+   * 获取任务后添加activeview
+   * @param jsonArray
+   */
+  private void addActiveView(JSONArray jsonArray) {
+    activeViewGroup.removeAllViews();
+    ActiveView activeView = null;
+    int count = jsonArray.length();
+    ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+    for (int i = 0; i < count; i++) {
+      activeView = new ActiveView(getActivity());
+      activeView.setImageResource(R.mipmap.ic_launcher);
+      activeView.setLayoutParams(layoutParams);
+      activeViewGroup.addActiveView(activeView);
+    }
+    startMoveActiveView();
   }
 }

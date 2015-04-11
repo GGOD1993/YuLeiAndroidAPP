@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- 状态栏颜色 -->
-        <item name="colorPrimaryDark">#9932CC</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 

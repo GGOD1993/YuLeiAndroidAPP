@@ -100,7 +100,7 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity {
             if (parent_addtaskactivity_editext_award.getText().length() != 0) {
               if (parent_addtaskactivity_editext_taskcontent.getText().length() != 0) {
 
-                diyTaskInfo.setChildId(parent_addtaskactivity_edittext_childid.getText().toString());
+                diyTaskInfo.setToUserId(parent_addtaskactivity_edittext_childid.getText().toString());
                 diyTaskInfo.setTaskName(parent_addtaskactivity_edittext_taskname.getText().toString());
                 diyTaskInfo.setAward(parent_addtaskactivity_editext_award.getText().toString());
                 diyTaskInfo.setTaskContent(parent_addtaskactivity_editext_taskcontent.getText().toString());

@@ -33,6 +33,7 @@ public class AppConstant {
   public static final int UP_DIRECTION = 2;
   public static final int DOWN_DIRECTION = -2;
   public static final int TOP_SPEED = 5;
+  public static final int ROTATE_TIME = 3000;
 
   //网络请求返回code
   public static final int NEW_USER_SUCCESS = 1105;
@@ -48,6 +49,15 @@ public class AppConstant {
   public static final String USERID = "userid";
   public static final String PREFERENCE_NAME = "yulei";
   public static final String CLICKED_SYSTEM_TASK = "clickedSystemTask";
+
+  //和任务相关的关键字
+  public static final String TASK_ID = "taskId";
+  public static final String TASK_CONTENT = "content";
+  public static final String TASK_REGDATE = "regdate";
+  public static final String TASK_TO_BE_SUBMIT = "task_to_be_submit";
+
+  //发送广播的关键字
+  public static final String BROADCAST_REMOVEVIEW = "broadcast_to_removeview";
 
 
 

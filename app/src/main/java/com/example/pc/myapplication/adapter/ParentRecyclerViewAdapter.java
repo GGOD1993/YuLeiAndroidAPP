@@ -37,7 +37,7 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
   public void onBindViewHolder(RecyclerViewHolder viewHolder, int i) {
     // 绑定数据到ViewHolder上
     DiyTaskInfo task = taskList.get(i);
-    viewHolder.parent_recyclerview_textview_childid.setText(task.getChildId());
+    viewHolder.parent_recyclerview_textview_childid.setText(task.getToUserId());
     viewHolder.parent_rectclerview_textview_award.setText(task.getTaskName());
     viewHolder.parent_rectclerview_textview_award.setText((task.getAward()));
     viewHolder.parent_recyclerview_imageview_taskstate.setImageResource(R.mipmap.image_parent_recyclerview_item_doing);

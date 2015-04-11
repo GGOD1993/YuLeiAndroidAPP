@@ -63,7 +63,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="任务限时: "
+            android:text="任务奖励: "
             android:gravity="center"
             android:textSize="10pt"/>
 

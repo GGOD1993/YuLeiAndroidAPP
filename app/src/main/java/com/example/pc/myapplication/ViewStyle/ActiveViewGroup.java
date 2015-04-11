@@ -14,11 +14,6 @@ import java.util.ArrayList;
 
 public class ActiveViewGroup extends ViewGroup{
 
-  private float fingerDownY;
-  private float fingerUpY;
-  private float fingerMoveY;
-  private float fingerDistanceY;
-
   private ArrayList<ActiveView> arrayList = new ArrayList<>();
 
   public ActiveViewGroup(Context context) {
@@ -65,9 +60,12 @@ public class ActiveViewGroup extends ViewGroup{
       View childView = getChildAt(i);
       cWidth = childView.getMeasuredWidth();
       cHeight = childView.getMeasuredHeight();
-      childView.layout(l, mTotalHeight, cWidth, mTotalHeight
+      if (mTotalHeight >= getMeasuredHeight() + cHeight) {
+        mTotalHeight = 0;
+        l += cWidth;
+      }
+      childView.layout(l, mTotalHeight, l + cWidth, mTotalHeight
               + cHeight);
-
       mTotalHeight += cHeight;
     }
   }
@@ -80,6 +78,19 @@ public class ActiveViewGroup extends ViewGroup{
     removeViewAt(position);
   }
 
+  public void removeActiveViewByTaskId(String taskId) {
+    int i = 0;
+    ActiveView activeView = null;
+    for (;i<getChildCount();i++) {
+      activeView = (ActiveView) getChildAt(i);
+      if (activeView.getTaskInfo().getTaskName().equals(taskId)) {
+        break;
+      }
+    }
+    removeActiveViewAt(i);
+    arrayList.remove(i);
+  }
+
   public ArrayList<ActiveView> getChildArrayList() {
     arrayList.clear();
     for (int i=0; i < getChildCount() ; i ++) {
@@ -87,4 +98,5 @@ public class ActiveViewGroup extends ViewGroup{
     }
     return arrayList;
   }
+
 }

@@ -1,6 +1,10 @@
 package com.example.pc.myapplication.fragment.child;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +19,7 @@ import android.widget.RelativeLayout;
 import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
+import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.ActiveView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
 import com.example.pc.myapplication.ViewStyle.RefreshableLinearLayout;
@@ -22,6 +27,8 @@ import com.example.pc.myapplication.utils.ActiveHelper;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ChildMsgFragment extends Fragment implements
         HttpService.OnGetDiyTaskRequestResponseListener{
@@ -41,6 +48,9 @@ public class ChildMsgFragment extends Fragment implements
   //activity中实现的回调接口
   private OnChildMsgFragmentInteractionListener mListener;
 
+  //广播接收器
+  private RemoveViewReciver reciver;
+
   public static ChildMsgFragment newInstance() {
     ChildMsgFragment fragment = new ChildMsgFragment();
     Bundle args = new Bundle();
@@ -55,6 +65,11 @@ public class ChildMsgFragment extends Fragment implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    reciver = new RemoveViewReciver();
+    IntentFilter intentFilter = new IntentFilter();
+    intentFilter.addAction(AppConstant.BROADCAST_REMOVEVIEW);
+    getActivity().registerReceiver(reciver, intentFilter);
 
   }
 
@@ -92,6 +107,7 @@ public class ChildMsgFragment extends Fragment implements
   public void onDetach() {
     super.onDetach();
     mListener = null;
+    getActivity().unregisterReceiver(reciver);
   }
 
   public interface OnChildMsgFragmentInteractionListener {
@@ -127,7 +143,6 @@ public class ChildMsgFragment extends Fragment implements
   public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray) {
     refreshableLinearLayout.finishRefreshing();
     addActiveView(jsonArray);
-
   }
 
   @Override
@@ -149,8 +164,29 @@ public class ChildMsgFragment extends Fragment implements
       activeView = new ActiveView(getActivity());
       activeView.setImageResource(R.mipmap.ic_launcher);
       activeView.setLayoutParams(layoutParams);
+      try{
+        JSONObject object = jsonArray.getJSONObject(i);
+        activeView.setTaskInfo(new DiyTaskInfo(
+                object.getString(AppConstant.TO_USERID),
+                object.getString(AppConstant.TASK_ID),
+                object.getString(AppConstant.TASK_REGDATE),
+                object.getString(AppConstant.TASK_CONTENT)));
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
       activeViewGroup.addActiveView(activeView);
     }
     startMoveActiveView();
+  }
+
+  /**
+   * 广播接收器类
+   */
+  class RemoveViewReciver extends BroadcastReceiver {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      String taskId = intent.getStringExtra(AppConstant.TASK_ID);
+      activeViewGroup.removeActiveViewByTaskId(taskId);
+    }
   }
 }

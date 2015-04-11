@@ -363,7 +363,7 @@ public class ParentMainActivity extends FragmentActivity implements
     HashMap<String, String> map = new HashMap<>();
     map.put(AppConstant.FROM_USERID, from_userid);
     map.put("content", newTask.getTaskContent());
-    map.put("to_userid", newTask.getChildId());
+    map.put("to_userid", newTask.getToUserId());
     map.put("award", newTask.getAward());
 
     HttpService.DoSetDiyTaskRequest(Request.Method.POST, AppConstant.SET_DIY_TASK_URL, map, ParentMainActivity.this);

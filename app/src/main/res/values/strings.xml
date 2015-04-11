@@ -57,4 +57,5 @@
     <string name="title_activity_child_diary">ChildDiaryActivity</string>
     <string name="title_activity_child_setting">ChildSettingActivity</string>
     <string name="title_activity_child_donate">ChildDonateActivity</string>
+    <string name="title_activity_submit_task">SubmitTaskActivity</string>
 </resources>

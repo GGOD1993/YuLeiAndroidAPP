@@ -2,12 +2,16 @@ package com.example.pc.myapplication.utils;
 
 import android.os.Handler;
 import android.os.Message;
+import android.view.animation.Animation;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.RotateAnimation;
 
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.ViewStyle.ActiveView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -152,5 +156,7 @@ public class ActiveHelper {
       child.setTop(child.getTop() + child.getMoveYSpeed());
       child.setBottom(child.getBottom() + child.getMoveYSpeed());
     }
+
+
   }
 }

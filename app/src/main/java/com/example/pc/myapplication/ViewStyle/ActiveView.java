@@ -1,21 +1,28 @@
 package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+import com.example.pc.myapplication.activity.SubmitTaskActivity;
 
 import java.util.Random;
 
 
-public class ActiveView extends ImageView {
+public class ActiveView extends ImageView implements View.OnClickListener{
 
   //运动方向
   private int moveXDirection;
@@ -24,6 +31,9 @@ public class ActiveView extends ImageView {
   //运动速度
   private int moveXSpeed;
   private int moveYSpeed;
+
+  //旋转的速度
+  private int rotate;
 
   //随机数发生器
   private Random random;
@@ -36,6 +46,7 @@ public class ActiveView extends ImageView {
   public ActiveView(Context context) {
     super(context);
     initParams();
+    this.setOnClickListener(this);
   }
 
   public ActiveView(Context context, AttributeSet attrs) {
@@ -112,5 +123,12 @@ public class ActiveView extends ImageView {
     } else {
       moveYDirection = AppConstant.DOWN_DIRECTION;
     }
+  }
+
+  @Override
+  public void onClick(View v) {
+    Intent intent = new Intent(getContext(), SubmitTaskActivity.class);
+    intent.putExtra(AppConstant.TASK_TO_BE_SUBMIT, getTaskInfo());
+    getContext().startActivity(intent);
   }
 }

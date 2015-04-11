@@ -59,7 +59,7 @@ public class TaskInfoActivity extends SwipeBackActivity {
     parent_taskinfoactivity_editext_award = (EditText) findViewById(R.id.parent_taskinfoactivity_editext_award);
     parent_taskinfoactivity_editext_taskcontent = (EditText) findViewById(R.id.parent_taskinfoactivity_editext_taskcontent);
 
-    parent_taskinfoactivity_edittext_childId.setText(clickTask.getChildId());
+    parent_taskinfoactivity_edittext_childId.setText(clickTask.getToUserId());
     parent_taskinfoactivity_edittext_taskname.setText(clickTask.getTaskName());
     parent_taskinfoactivity_editext_award.setText(clickTask.getAward());
     parent_taskinfoactivity_editext_taskcontent.setText(clickTask.getTaskContent());

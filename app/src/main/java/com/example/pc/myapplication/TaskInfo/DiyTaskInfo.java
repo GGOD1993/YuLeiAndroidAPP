@@ -6,23 +6,23 @@ public class DiyTaskInfo implements Serializable {
 
   private String award;
   private String taskName;
-  private String childId;
+  private String toUserId;
   private String taskContent;
 
-  public DiyTaskInfo(String childId, String taskName, String award, String taskContent) {
+  public DiyTaskInfo(String toUserId, String taskName, String award, String taskContent) {
 
     this.award = award;
     this.taskName = taskName;
-    this.childId = childId;
+    this.toUserId = toUserId;
     this.taskContent = taskContent;
   }
 
-  public String getChildId() {
-    return childId;
+  public String getToUserId() {
+    return toUserId;
   }
 
-  public void setChildId(String childId) {
-    this.childId = childId;
+  public void setToUserId(String toUserId) {
+    this.toUserId = toUserId;
   }
 
   public String getTaskName() {

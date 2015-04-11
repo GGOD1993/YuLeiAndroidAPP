@@ -150,6 +150,7 @@ public class RefreshableLinearLayout extends LinearLayout implements View.OnTouc
       case MotionEvent.ACTION_MOVE:
         float yMove = event.getRawY();
         int distance = (int) (yMove - yDown);
+
 //          如果手指是下滑状态，并且下拉头是完全隐藏的，就屏蔽下拉事件
         if (distance <= 0 && headerLayoutParams.topMargin <= headerHeight) {
           return false;

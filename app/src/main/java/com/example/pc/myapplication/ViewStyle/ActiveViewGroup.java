@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class ActiveViewGroup extends ViewGroup{
 
+  private boolean isRefresh = true;
+
   private ArrayList<ActiveView> arrayList = new ArrayList<>();
 
   public ActiveViewGroup(Context context) {
@@ -22,6 +24,14 @@ public class ActiveViewGroup extends ViewGroup{
 
   public ActiveViewGroup(Context context, AttributeSet attrs) {
     super(context, attrs);
+  }
+
+  public boolean isRefresh() {
+    return isRefresh;
+  }
+
+  public void setRefresh(boolean isRefresh) {
+    this.isRefresh = isRefresh;
   }
 
   /**
@@ -55,18 +65,19 @@ public class ActiveViewGroup extends ViewGroup{
     int cWidth = 0;
     int cHeight = 0;
 
-    for (int i = 0; i < cCount; i++)
-    {
-      View childView = getChildAt(i);
-      cWidth = childView.getMeasuredWidth();
-      cHeight = childView.getMeasuredHeight();
-      if (mTotalHeight >= getMeasuredHeight() + cHeight) {
-        mTotalHeight = 0;
-        l += cWidth;
+    if (isRefresh) {
+      for (int i = 0; i < cCount; i++){
+        View childView = getChildAt(i);
+        cWidth = childView.getMeasuredWidth();
+        cHeight = childView.getMeasuredHeight();
+        if (mTotalHeight >= getMeasuredHeight() + cHeight) {
+          mTotalHeight = 0;
+          l += cWidth;
+        }
+        childView.layout(l, mTotalHeight, l + cWidth, mTotalHeight
+                + cHeight);
+        mTotalHeight += cHeight;
       }
-      childView.layout(l, mTotalHeight, l + cWidth, mTotalHeight
-              + cHeight);
-      mTotalHeight += cHeight;
     }
   }
 

@@ -159,7 +159,6 @@ public class ChildMsgFragment extends Fragment implements
     ActiveView activeView = null;
     int count = jsonArray.length();
     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
     for (int i = 0; i < count; i++) {
       activeView = new ActiveView(getActivity());
       activeView.setImageResource(R.mipmap.ic_launcher);

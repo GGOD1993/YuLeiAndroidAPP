@@ -33,7 +33,8 @@ public class AppConstant {
   public static final int UP_DIRECTION = 2;
   public static final int DOWN_DIRECTION = -2;
   public static final int TOP_SPEED = 5;
-  public static final int ROTATE_TIME = 3000;
+  public static final int CLOCKSIDE_DIRECTION = 1;
+  public static final int ANTICLOCKSIDE_DIRECTION = -1;
 
   //网络请求返回code
   public static final int NEW_USER_SUCCESS = 1105;

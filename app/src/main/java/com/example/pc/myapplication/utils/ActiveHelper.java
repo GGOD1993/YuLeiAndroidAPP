@@ -2,6 +2,7 @@ package com.example.pc.myapplication.utils;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.RotateAnimation;
@@ -140,23 +141,45 @@ public class ActiveHelper {
    * @param child
    */
   private void moveWithChild(ActiveView child) {
+    int childLeft = child.getLeft();
+    int childRight = child.getRight();
+    int childTop = child.getTop();
+    int childBottom= child.getBottom();
+    int childXSpeed = child.getMoveXSpeed();
+    int childYSpeed = child.getMoveYSpeed();
+    int childRotateDirection = child.getRotateDirection();
+    float childRotateSpeed = child.getRotateSpeed();
+    float childRotation = child.getRotation();
 
     if (AppConstant.RIGHT_DIRECTION == child.getMoveXDirection()) {
-      child.setLeft(child.getLeft() + child.getMoveXSpeed());
-      child.setRight(child.getRight() + child.getMoveXSpeed());
+      child.setLeft(childLeft + childXSpeed);
+      child.setRight(childRight + childXSpeed);
     } else {
-      child.setLeft(child.getLeft() - child.getMoveXSpeed());
-      child.setRight(child.getRight() - child.getMoveXSpeed());
+      child.setLeft(childLeft - childXSpeed);
+      child.setRight(childRight - childXSpeed);
     }
 
     if (AppConstant.UP_DIRECTION == child.getMoveYDirection()) {
-      child.setTop(child.getTop() - child.getMoveYSpeed());
-      child.setBottom(child.getBottom() - child.getMoveYSpeed());
+      child.setTop(childTop - childYSpeed);
+      child.setBottom(childBottom - childYSpeed);
     } else {
-      child.setTop(child.getTop() + child.getMoveYSpeed());
-      child.setBottom(child.getBottom() + child.getMoveYSpeed());
+      child.setTop(childTop + childYSpeed);
+      child.setBottom(childBottom + childYSpeed);
     }
 
+    if (AppConstant.CLOCKSIDE_DIRECTION == childRotateDirection) {
+      if (childRotation < 360 - childRotateSpeed) {
+        child.setRotation(childRotation + childRotateSpeed);
+      } else {
+        child.setRotation(0);
+      }
+    } else {
+      if (childRotation > childRotateSpeed - 360) {
+        child.setRotation(childRotation - childRotateSpeed);
+      } else {
+        child.setRotation(0);
+      }
+    }
 
   }
 }

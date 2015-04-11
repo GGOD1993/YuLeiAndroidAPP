@@ -28,12 +28,15 @@ public class ActiveView extends ImageView implements View.OnClickListener{
   private int moveXDirection;
   private int moveYDirection;
 
+  //旋转方向
+  private int rotateDirection;
+
   //运动速度
   private int moveXSpeed;
   private int moveYSpeed;
 
   //旋转的速度
-  private int rotate;
+  private float rotateSpeed;
 
   //随机数发生器
   private Random random;
@@ -93,6 +96,22 @@ public class ActiveView extends ImageView implements View.OnClickListener{
     this.moveYSpeed = moveYSpeed;
   }
 
+  public float getRotateSpeed() {
+    return rotateSpeed;
+  }
+
+  public void setRotateSpeed(float rotateSpeed) {
+    this.rotateSpeed = rotateSpeed;
+  }
+
+  public int getRotateDirection() {
+    return rotateDirection;
+  }
+
+  public void setRotateDirection(int rotateDirection) {
+    this.rotateDirection = rotateDirection;
+  }
+
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
@@ -110,8 +129,10 @@ public class ActiveView extends ImageView implements View.OnClickListener{
    */
   private void initParams() {
     random = new Random();
-    moveXSpeed = (int) (random.nextInt(AppConstant.TOP_SPEED) + 1);
-    moveYSpeed = (int) (random.nextInt(AppConstant.TOP_SPEED) + 1);
+    moveXSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
+    moveYSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
+    rotateSpeed = random.nextFloat() * 3;
+
     if (random.nextInt(100)%2 == 0) {
       moveXDirection = AppConstant.RIGHT_DIRECTION;
     } else {
@@ -122,6 +143,12 @@ public class ActiveView extends ImageView implements View.OnClickListener{
       moveYDirection = AppConstant.UP_DIRECTION;
     } else {
       moveYDirection = AppConstant.DOWN_DIRECTION;
+    }
+
+    if (random.nextInt(100)%2 == 0) {
+      rotateDirection = AppConstant.CLOCKSIDE_DIRECTION;
+    } else {
+      rotateDirection = AppConstant.ANTICLOCKSIDE_DIRECTION;
     }
   }
 

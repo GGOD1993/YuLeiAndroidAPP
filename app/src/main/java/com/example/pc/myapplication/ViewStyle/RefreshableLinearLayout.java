@@ -143,6 +143,11 @@ public class RefreshableLinearLayout extends LinearLayout implements View.OnTouc
 
   @Override
   public boolean onTouch(View v, MotionEvent event) {
+
+    if (activeViewGroup.isRefresh()) {
+      activeViewGroup.setRefresh(false);
+    }
+
     switch (event.getAction()) {
       case MotionEvent.ACTION_DOWN:
         yDown = event.getRawY();
@@ -249,7 +254,7 @@ public class RefreshableLinearLayout extends LinearLayout implements View.OnTouc
       toDegrees = 180f;
     }
     RotateAnimation animation = new RotateAnimation(fromDegrees, toDegrees, pivotX, pivotY);
-    animation.setDuration(100);
+    animation.setDuration(300);
     animation.setFillAfter(true);
     arrow.startAnimation(animation);
   }
@@ -325,6 +330,7 @@ public class RefreshableLinearLayout extends LinearLayout implements View.OnTouc
       updateHeaderView();
       headerLayoutParams.topMargin = topMargin[0];
       header.setLayoutParams(headerLayoutParams);
+      activeViewGroup.setRefresh(true);
     }
 
   }

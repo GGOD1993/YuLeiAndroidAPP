@@ -110,11 +110,6 @@ public class ChildMsgFragment extends Fragment implements
     getActivity().unregisterReceiver(reciver);
   }
 
-  public interface OnChildMsgFragmentInteractionListener {
-    // TODO: Update argument type and name
-    public void onChildMsgFragmentInteraction();
-  }
-
   public void startMoveActiveView() {
     activeHelper.startMove();
   }
@@ -143,6 +138,7 @@ public class ChildMsgFragment extends Fragment implements
   public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray) {
     refreshableLinearLayout.finishRefreshing();
     addActiveView(jsonArray);
+    activeViewGroup.setRefresh(true);
   }
 
   @Override
@@ -169,7 +165,8 @@ public class ChildMsgFragment extends Fragment implements
                 object.getString(AppConstant.TO_USERID),
                 object.getString(AppConstant.TASK_ID),
                 object.getString(AppConstant.TASK_REGDATE),
-                object.getString(AppConstant.TASK_CONTENT)));
+                object.getString(AppConstant.TASK_CONTENT),
+                object.getString(AppConstant.FROM_USERID)));
       } catch (JSONException e) {
         e.printStackTrace();
       }
@@ -187,5 +184,10 @@ public class ChildMsgFragment extends Fragment implements
       String taskId = intent.getStringExtra(AppConstant.TASK_ID);
       activeViewGroup.removeActiveViewByTaskId(taskId);
     }
+  }
+
+  public interface OnChildMsgFragmentInteractionListener {
+    // TODO: Update argument type and name
+    public void onChildMsgFragmentInteraction();
   }
 }

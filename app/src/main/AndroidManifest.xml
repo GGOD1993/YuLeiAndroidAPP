@@ -68,6 +68,10 @@
             android:name=".activity.SubmitTaskActivity"
             android:label="@string/title_activity_submit_task" >
         </activity>
+        <activity
+            android:name=".activity.FinishTaskActivity"
+            android:label="@string/title_activity_award_task" >
+        </activity>
     </application>
 
 </manifest>

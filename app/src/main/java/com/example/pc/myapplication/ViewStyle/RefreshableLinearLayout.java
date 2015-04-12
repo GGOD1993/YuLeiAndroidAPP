@@ -330,9 +330,7 @@ public class RefreshableLinearLayout extends LinearLayout implements View.OnTouc
       updateHeaderView();
       headerLayoutParams.topMargin = topMargin[0];
       header.setLayoutParams(headerLayoutParams);
-      activeViewGroup.setRefresh(true);
     }
-
   }
 
   /**

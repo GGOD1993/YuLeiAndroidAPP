@@ -41,21 +41,28 @@ public class AppConstant {
   public static final int LOGIN_SUCCESS = 1201;
   public static final int LOGOUT_SUCCESS = 1203;
   public static final int SET_DIY_TASK_SUCCESS = 1302;
+  public static final int FINISH_TASK_SUCCESS = 1310;
 
 
   public static final String RETURN_MSG = "msg";
   public static final String RETURN_CODE = "code";
   public static final String FROM_USERID = "from_userid";
   public static final String TO_USERID = "to_userid";
+  public static final String USERNAME = "username";
   public static final String USERID = "userid";
   public static final String PREFERENCE_NAME = "yulei";
   public static final String CLICKED_SYSTEM_TASK = "clickedSystemTask";
+  public static final String CLICKED_CHECK_TASK = "clickedCheckTask";
+  public static final String CLICKED_SEND_TASK = "clickedSendTask";
 
   //和任务相关的关键字
+  public static final int SEND_TASK_TYPE = 1;
+  public static final int RECIVE_TASK_TYPE = 2;
   public static final String TASK_ID = "taskId";
   public static final String TASK_CONTENT = "content";
   public static final String TASK_REGDATE = "regdate";
   public static final String TASK_TO_BE_SUBMIT = "task_to_be_submit";
+  public static final String NEW_TASK = "newTask";
 
   //发送广播的关键字
   public static final String BROADCAST_REMOVEVIEW = "broadcast_to_removeview";
@@ -70,6 +77,7 @@ public class AppConstant {
   public static final String SET_DIY_TASK_URL = HOST + "/Users/SetDiyTask.php";
   public static final String GET_SYS_TASK_URL = HOST + "/Users/GetSysTask.php";
   public static final String GET_DIY_TASK_URL = HOST + "/Users/GetDiyTask.php";
+  public static final String GET_SEND_DIY_TASK_URL = HOST + "/Users/GetSendDiyTask.php";
   public static final String GET_CURRENT_USER_URL = HOST + "/Users/GetCurUser.php";
   public static final String USER_INVITATION_URL = HOST + "/Users/user_invitation.php";
   public static final String GET_INVITATION_URL = HOST + "/Users/get_invitation.php";

@@ -27,17 +27,13 @@ import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.activity.child.ChildMainActivity;
 import com.example.pc.myapplication.activity.parent.ParentMainActivity;
-import com.example.pc.myapplication.utils.HttpApi;
 import com.example.pc.myapplication.utils.HttpService;
-import com.example.pc.myapplication.utils.RequestQueueController;
-import com.example.pc.myapplication.utils.StringPostRequestPlus;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 初始Activity

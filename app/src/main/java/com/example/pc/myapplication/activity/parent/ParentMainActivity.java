@@ -21,11 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
@@ -35,7 +32,6 @@ import com.example.pc.myapplication.fragment.parent.ParentDynamicFragment;
 import com.example.pc.myapplication.fragment.parent.ParentMsgFragment;
 import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
-import com.example.pc.myapplication.utils.StringPostRequestPlus;
 import com.nineoldandroids.view.ViewHelper;
 
 import org.json.JSONArray;
@@ -45,7 +41,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ParentMainActivity extends FragmentActivity implements
         ParentBabyFragment.OnBabyFragmentInteractionListener,
@@ -143,32 +138,6 @@ public class ParentMainActivity extends FragmentActivity implements
 
   @Override
   public void onMsgFragmentInteraction(JSONArray jsonArray) {
-
-    ParentMsgFragment parentMsgFragment = (ParentMsgFragment) fragmentList.get(0);
-
-    JSONObject arrayTask = null;
-    DiyTaskInfo taskInfo = null;
-
-    parentMsgFragment.taskList.clear();
-
-    for (int i = 0 ; i < jsonArray.length() ; i ++) {
-
-      try{
-        arrayTask = (JSONObject) jsonArray.get(i);
-        taskInfo = new DiyTaskInfo(
-                arrayTask.getString("to_userid"),
-                arrayTask.getString("taskId"),
-                arrayTask.getString("regdate"),
-                arrayTask.getString("content")
-        );
-
-        parentMsgFragment.taskList.add(taskInfo);
-        parentMsgFragment.parentRecyclerViewAdapter.notifyDataSetChanged();
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
   }
 
   @Override
@@ -192,21 +161,17 @@ public class ParentMainActivity extends FragmentActivity implements
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (resultCode) {
       case AppConstant.PARENT_ADDDIYTASK_RESULTCODE:
-
         if (data != null) {
-
-          diyTaskInfo = (DiyTaskInfo) data.getSerializableExtra("newTask");
+          diyTaskInfo = (DiyTaskInfo) data.getSerializableExtra(AppConstant.NEW_TASK);
           addNewTask(diyTaskInfo);
         }
         break;
 
       case AppConstant.PARENT_ADDSYSTEMTASK_RESULTCODE:
         if (data != null) {
-//                    家电什么
         }
         break;
     }
-
     super.onActivityResult(requestCode, resultCode, data);
   }
 
@@ -313,16 +278,12 @@ public class ParentMainActivity extends FragmentActivity implements
               public void onClick(View v) {
 
                 String everyDayTaskDoneTime = preferences.getString("everytaskdonetime","");
-
                 if (!nowTime.equals(everyDayTaskDoneTime)) {
-
                   parentactivity_relativelayout_actionbar_everydaytask.
                           setImageResource(R.mipmap.parentactivityeveryday_task_done);
                   Toast.makeText(getApplicationContext(), "签到成功，奖励50金币O(∩_∩)O~~~", Toast.LENGTH_SHORT).show();
-
                   parentactivity_leftmenu_textview_money.setText(String.valueOf
                           (Integer.valueOf(parentactivity_leftmenu_textview_money.getText().toString()) + 50));
-
                   SharedPreferences.Editor editor = preferences.edit();
                   editor.putBoolean("everydaytaskdone", true).apply();
                   editor.putInt("leftmoney", Integer.valueOf(parentactivity_leftmenu_textview_money.getText().toString())).apply();
@@ -344,14 +305,13 @@ public class ParentMainActivity extends FragmentActivity implements
     fragmentList.add(ParentBabyFragment.newInstance());
     fragmentList.add(ParentDynamicFragment.newInstance());
 
-    titleList.add("消息");
-    titleList.add("宝贝");
-    titleList.add("动态");
+    titleList.add("我的心愿");
+    titleList.add("宝贝心愿");
+    titleList.add("空间动态");
 
     pagerTabStrip.setTabIndicatorColorResource(R.color.deepskyblue);
     viewPager.setAdapter(new ParentViewPagerAdapter(ParentMainActivity.this, getSupportFragmentManager(),
             fragmentList, titleList));
-
   }
 
   /**

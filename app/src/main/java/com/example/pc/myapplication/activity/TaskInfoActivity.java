@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -24,7 +26,7 @@ public class TaskInfoActivity extends SwipeBackActivity {
     setContentView(R.layout.activity_task_info);
 
     Intent intent = getIntent();
-    clickTask = (DiyTaskInfo) intent.getSerializableExtra("clickTask");
+    clickTask = (DiyTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_SEND_TASK);
 
     initViews();
 

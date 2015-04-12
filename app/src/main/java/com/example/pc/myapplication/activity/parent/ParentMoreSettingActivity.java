@@ -21,7 +21,6 @@ import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.activity.MainActivity;
 import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
-import com.example.pc.myapplication.utils.StringPostRequestPlus;
 
 import org.json.JSONArray;
 import org.json.JSONException;

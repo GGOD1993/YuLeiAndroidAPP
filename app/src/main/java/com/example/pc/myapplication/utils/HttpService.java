@@ -259,7 +259,7 @@ public class HttpService {
   }
 
   /**
-   *孩子获取任务
+   *获取自己要完成任务
    */
   private static OnGetDiyTaskRequestResponseListener mGetDiyTaskRequestListener;
   public static interface OnGetDiyTaskRequestResponseListener {
@@ -283,6 +283,36 @@ public class HttpService {
       @Override
       public void onErrorResponse(VolleyError volleyError) {
         mGetDiyTaskRequestListener.OnGetDiyTaskErrorResponse(volleyError.getMessage());
+      }
+    };
+    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+  }
+
+  /**
+   *获取自己要完成任务
+   */
+  private static OnGetSendDiyTaskRequestResponseListener mGetSendDiyTaskRequestListener;
+  public static interface OnGetSendDiyTaskRequestResponseListener {
+    public void OnGetSendDiyTaskSuccessResponse(JSONArray jsonArray);
+    public void OnGetSendDiyTaskErrorResponse(String errorResult);
+  }
+  public static void DoGetSendDiyTaskRequest (int method,
+                                          String url,
+                                          HashMap<String, String> hashMap,
+                                          OnGetSendDiyTaskRequestResponseListener listener
+  ) {
+    mGetSendDiyTaskRequestListener = listener;
+    Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+      @Override
+      public void onResponse(JSONArray jsonArray) {
+        mGetSendDiyTaskRequestListener.OnGetSendDiyTaskSuccessResponse(jsonArray);
+      }
+    };
+
+    Response.ErrorListener errorListener = new Response.ErrorListener() {
+      @Override
+      public void onErrorResponse(VolleyError volleyError) {
+        mGetSendDiyTaskRequestListener.OnGetSendDiyTaskErrorResponse(volleyError.getMessage());
       }
     };
     HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);

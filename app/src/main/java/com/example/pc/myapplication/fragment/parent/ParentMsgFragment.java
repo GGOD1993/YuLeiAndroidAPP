@@ -3,6 +3,7 @@ package com.example.pc.myapplication.fragment.parent;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,12 +31,13 @@ import com.shamanland.fab.FloatingActionButton;
 import com.shamanland.fab.ShowHideOnScroll;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class ParentMsgFragment extends Fragment implements
         RecyclerViewItemClickListener,
-        HttpService.OnGetDiyTaskRequestResponseListener{
+        HttpService.OnGetSendDiyTaskRequestResponseListener{
 
   //从activity中获得的volley请求队列
   private RequestQueue requestQueue;
@@ -47,7 +49,7 @@ public class ParentMsgFragment extends Fragment implements
   private FloatingActionButton parent_msgfragment_floatingactionbutton;
 
   //下拉刷新控件
-  private SwipeRefreshLayout parent_msgfragment_swipefreshlayout;
+  private SwipeRefreshLayout mSwipefreshlayout;
 
   //activity端实现的接口,用于和activity通信
   private OnMsgFragmentInteractionListener mListener;
@@ -57,6 +59,9 @@ public class ParentMsgFragment extends Fragment implements
 
   //recyclerview适配器
   public ParentRecyclerViewAdapter parentRecyclerViewAdapter;
+
+  //SharedPreference
+  private SharedPreferences preferences;
 
   public static ParentMsgFragment newInstance(RequestQueue requestQueue) {
     ParentMsgFragment fragment = new ParentMsgFragment();
@@ -79,48 +84,26 @@ public class ParentMsgFragment extends Fragment implements
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
 
-    View w = inflater.inflate(R.layout.fragment_parent_msg,container,false);
-
+    View w = inflater.inflate(R.layout.fragment_parent_msg, container, false);
     taskList = new ArrayList<DiyTaskInfo>();
-
+    preferences = getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
     initView(w);
     return w;
-
-  }
-
-  @Override
-  public void onAttach(Activity activity) {
-    super.onAttach(activity);
-    try {
-      mListener = (OnMsgFragmentInteractionListener) activity;
-    } catch (ClassCastException e) {
-      throw new ClassCastException(activity.toString()
-              + " must implement OnFragmentInteractionListener");
-    }
-  }
-
-  @Override
-  public void onDetach() {
-    super.onDetach();
-    mListener = null;
-  }
-
-  public interface OnMsgFragmentInteractionListener {
-    // TODO: Update argument type and name
-    public void onMsgFragmentInteraction(JSONArray jsonArray);
   }
 
   private void initView(View w) {
 
     recyclerView = (RecyclerView) w.findViewById(R.id.parent_msgfragment_recyclerview);
     parent_msgfragment_floatingactionbutton = (FloatingActionButton) w.findViewById(R.id.parent_msgfragment_floatingactionbutton);
-    parent_msgfragment_swipefreshlayout = (SwipeRefreshLayout) w.findViewById(R.id.parent_msgfragment_swipefreshlayout);
+    mSwipefreshlayout = (SwipeRefreshLayout) w.findViewById(R.id.parent_msgfragment_swipefreshlayout);
 
-    parent_msgfragment_swipefreshlayout.setOnRefreshListener(
+    mSwipefreshlayout.setOnRefreshListener(
             new SwipeRefreshLayout.OnRefreshListener() {
               @Override
               public void onRefresh() {
-                postGetDiyTaskRequest();
+                String url = AppConstant.GET_SEND_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
+                        preferences.getString(AppConstant.FROM_USERID, "");
+                HttpService.DoGetSendDiyTaskRequest(Request.Method.GET, url, null, ParentMsgFragment.this);
               }
             }
     );
@@ -164,15 +147,10 @@ public class ParentMsgFragment extends Fragment implements
         );
       }
     });
-
     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setItemAnimator(new DefaultItemAnimator());
-    recyclerView.setHasFixedSize(false);
-
-    parentRecyclerViewAdapter = new ParentRecyclerViewAdapter(taskList,getActivity());
+    parentRecyclerViewAdapter = new ParentRecyclerViewAdapter(taskList,getActivity(), AppConstant.SEND_TASK_TYPE);
     parentRecyclerViewAdapter.setOnItemClickListener(this);
-
     recyclerView.setAdapter(parentRecyclerViewAdapter);
     recyclerView.setOnTouchListener(new ShowHideOnScroll(parent_msgfragment_floatingactionbutton));
     recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -185,10 +163,10 @@ public class ParentMsgFragment extends Fragment implements
       public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (recyclerView.getChildCount() != 0) {
           if (recyclerView.findViewHolderForPosition(0) != null) {
-            parent_msgfragment_swipefreshlayout.setEnabled(true);
+            mSwipefreshlayout.setEnabled(true);
           }
           else {
-            parent_msgfragment_swipefreshlayout.setEnabled(false);
+            mSwipefreshlayout.setEnabled(false);
           }
         }
       }
@@ -200,32 +178,64 @@ public class ParentMsgFragment extends Fragment implements
 
     DiyTaskInfo clickTask = taskList.get(position);
     Intent intent = new Intent(getActivity(), TaskInfoActivity.class);
-    intent.putExtra("clickTask", clickTask);
+    intent.putExtra(AppConstant.CLICKED_SEND_TASK, clickTask);
     startActivity(intent);
   }
 
-  private void postGetDiyTaskRequest() {
+  @Override
+  public void OnGetSendDiyTaskSuccessResponse(JSONArray jsonArray) {
+    mSwipefreshlayout.setRefreshing(false);
+    JSONObject arrayTask = null;
+    DiyTaskInfo taskInfo = null;
+    taskList.clear();
+    for (int i = 0 ; i < jsonArray.length() ; i ++) {
 
-    String url = AppConstant.GET_DIY_TASK_URL + "?username=" +
-            getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0)
-                    .getString(AppConstant.FROM_USERID, "");
-
-    HttpService.DoGetDiyTaskRequest(Request.Method.GET, url, null, ParentMsgFragment.this);
+      try{
+        arrayTask = (JSONObject) jsonArray.get(i);
+        taskInfo = new DiyTaskInfo(
+                arrayTask.getString(AppConstant.TO_USERID),
+                arrayTask.getString(AppConstant.TASK_ID),
+                arrayTask.getString(AppConstant.TASK_REGDATE),
+                arrayTask.getString(AppConstant.TASK_CONTENT),
+                arrayTask.getString(AppConstant.FROM_USERID)
+        );
+        taskList.add(taskInfo);
+        parentRecyclerViewAdapter.notifyDataSetChanged();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   @Override
-  public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray) {
-
-    mListener.onMsgFragmentInteraction(jsonArray);
-    parent_msgfragment_swipefreshlayout.setRefreshing(false);
-  }
-
-  @Override
-  public void OnGetDiyTaskErrorResponse(String errorResult) {
+  public void OnGetSendDiyTaskErrorResponse(String errorResult) {
     showToast(errorResult);
   }
 
   private void showToast(String string) {
     Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
+  }
+
+
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    try {
+      mListener = (OnMsgFragmentInteractionListener) activity;
+    } catch (ClassCastException e) {
+      throw new ClassCastException(activity.toString()
+              + " must implement OnFragmentInteractionListener");
+    }
+  }
+
+  @Override
+  public void onDetach() {
+    super.onDetach();
+    mListener = null;
+  }
+
+  public interface OnMsgFragmentInteractionListener {
+    // TODO: Update argument type and name
+    public void onMsgFragmentInteraction(JSONArray jsonArray);
   }
 }

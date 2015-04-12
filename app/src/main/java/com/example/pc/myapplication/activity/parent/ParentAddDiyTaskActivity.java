@@ -2,6 +2,7 @@ package com.example.pc.myapplication.activity.parent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,11 +30,13 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity {
   private ImageButton parent_addtaskactivity_imagebutton_submit;
   private ImageButton parent_addtaskactivity_imagebutton_cancel;
 
+  private SharedPreferences preferences;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_parent_add_diy_task);
-
+    preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
     initView();
   }
 
@@ -93,7 +96,7 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity {
       @Override
       public void onClick(View v) {
 
-        diyTaskInfo = new DiyTaskInfo("", "", "", "");
+        diyTaskInfo = new DiyTaskInfo("", "", "", "", "");
 
         if (parent_addtaskactivity_edittext_childid.getText().length() != 0) {
           if (parent_addtaskactivity_edittext_taskname.getText().length() != 0) {
@@ -104,9 +107,10 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity {
                 diyTaskInfo.setTaskName(parent_addtaskactivity_edittext_taskname.getText().toString());
                 diyTaskInfo.setAward(parent_addtaskactivity_editext_award.getText().toString());
                 diyTaskInfo.setTaskContent(parent_addtaskactivity_editext_taskcontent.getText().toString());
+                diyTaskInfo.setFromUserId(preferences.getString(AppConstant.FROM_USERID, ""));
                 Intent data = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("newTask", diyTaskInfo);
+                bundle.putSerializable(AppConstant.NEW_TASK, diyTaskInfo);
                 data.putExtras(bundle);
                 setResult(AppConstant.PARENT_ADDDIYTASK_RESULTCODE, data);
 

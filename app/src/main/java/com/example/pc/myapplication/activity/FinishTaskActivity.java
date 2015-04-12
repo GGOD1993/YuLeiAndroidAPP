@@ -71,10 +71,10 @@ public class FinishTaskActivity extends SwipeBackActivity
 
   private void initViews() {
 
-    editTextChildId = (EditText) findViewById(R.id.parent_taskinfoactivity_edittext_childid);
-    editTextTaskname = (EditText) findViewById(R.id.parent_taskinfoactivity_edittext_taskname);
-    editTextAward = (EditText) findViewById(R.id.parent_taskinfoactivity_editext_award);
-    editTextTaskcontent = (EditText) findViewById(R.id.parent_taskinfoactivity_editext_taskcontent);
+    editTextChildId = (EditText) findViewById(R.id.parent_finishtaskactivity_edittext_childid);
+    editTextTaskname = (EditText) findViewById(R.id.parent_finishtaskactivity_edittext_taskname);
+    editTextAward = (EditText) findViewById(R.id.parent_finishtaskactivity_editext_award);
+    editTextTaskcontent = (EditText) findViewById(R.id.parent_finishtaskactivity_editext_taskcontent);
     submit = (ImageButton) findViewById(R.id.parent_finishtaskactivity_imagebutton_submit);
     cancel = (ImageButton) findViewById(R.id.parent_finishtaskactivity_imagebutton_cancel);
 

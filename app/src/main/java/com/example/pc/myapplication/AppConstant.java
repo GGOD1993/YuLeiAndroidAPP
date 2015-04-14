@@ -45,6 +45,7 @@ public class AppConstant {
   public static final int LOGOUT_SUCCESS = 1203;
   public static final int SET_DIY_TASK_SUCCESS = 1302;
   public static final int FINISH_TASK_SUCCESS = 1310;
+  public static final int SIGNUP_SUCCESS = 1105;
 
   public static final String LEFT_MONEY = "leftmoney";
   public static final String EVERYDAY_TASK = "everytaskdonetime";

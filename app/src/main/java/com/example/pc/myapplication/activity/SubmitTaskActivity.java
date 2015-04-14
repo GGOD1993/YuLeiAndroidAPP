@@ -24,7 +24,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class SubmitTaskActivity extends ActionBarActivity
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
+public class SubmitTaskActivity extends SwipeBackActivity
         implements HttpService.OnSubmitDiyTaskRequestResponseListener{
 
   //头部的文本框
@@ -71,7 +73,7 @@ public class SubmitTaskActivity extends ActionBarActivity
     imageButtonCancel = (ImageButton) findViewById(R.id.submittaskactivity_imagebutton_cancel);
 
     Intent intent = getIntent();
-    taskToBeSubmit = (DiyTaskInfo) intent.getSerializableExtra(AppConstant.TASK_TO_BE_SUBMIT);
+    taskToBeSubmit = (DiyTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_SEND_TASK);
     textViewToUserId.setText(taskToBeSubmit.getToUserId());
     textViewTaskName.setText(taskToBeSubmit.getTaskName());
     textViewAward.setText(taskToBeSubmit.getAward());

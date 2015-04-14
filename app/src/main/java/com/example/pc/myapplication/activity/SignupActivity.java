@@ -90,9 +90,9 @@ public class SignupActivity extends ActionBarActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_signup);
-    initViews();
     context = getApplicationContext();
     imageLoader = ImageLoader.getInstance();
+    initViews();
   }
 
   /**
@@ -108,8 +108,8 @@ public class SignupActivity extends ActionBarActivity
     editTextEmail = (EditText) findViewById(R.id.signupactivity_edittext_email);
     radioButtonMale = (RadioButton) findViewById(R.id.signupactivity_radiobutton_male);
     radioButtonFemale = (RadioButton) findViewById(R.id.signupactivity_radiobutton_female);
-    buttonSubmmit = (Button) findViewById(R.id.signup_button_submmit);
-    buttonCancel = (Button) findViewById(R.id.signup_button_cancel);
+    buttonSubmmit = (Button) findViewById(R.id.signupactivity_button_submmit);
+    buttonCancel = (Button) findViewById(R.id.signupactivity_button_cancel);
     relativeLayoutRoot = (RelativeLayout) findViewById(R.id.signupactivity_relativelayout_1);
     circularImageUserImage = (CircularImage) findViewById(R.id.signupactivity_circularimage_userimage);
     circularImageUserImage.setImageResource(R.mipmap.bg_imagebutton_parent_access);
@@ -236,6 +236,9 @@ public class SignupActivity extends ActionBarActivity
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
+        if (AppConstant.SIGNUP_SUCCESS == codeObject.getInt("code")) {
+          finish();
+        }
       }
       if (null != msgObject) {
         showToast(msgObject.getString(AppConstant.RETURN_MSG));

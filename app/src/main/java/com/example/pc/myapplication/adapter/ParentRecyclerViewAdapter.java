@@ -3,7 +3,6 @@ package com.example.pc.myapplication.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,13 +14,16 @@ import java.util.List;
 
 public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder>{
 
+  //上下文的引用
   private Context context;
 
+  //任务列表
   private List<DiyTaskInfo> taskList;
 
-  //用来区别是发出的任务还是接受到的人物
+  //用来区别是发出的任务还是接受到的任务
   private int type;
 
+  //点击事件的回调方法
   private RecyclerViewItemClickListener recyclerViewItemClickListener;
 
   public ParentRecyclerViewAdapter(List<DiyTaskInfo> taskList, Context context, int type) {
@@ -45,16 +47,12 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     // 绑定数据到ViewHolder上
     DiyTaskInfo task = taskList.get(i);
 
-    if (AppConstant.SEND_TASK_TYPE == type) {
-      viewHolder.parent_recyclerview_textview_childid.setText(task.getToUserId());
-    } else {
-      viewHolder.parent_recyclerview_textview_childid.setText(task.getFromUserId());
-    }
-    viewHolder.parent_rectclerview_textview_award.setText(task.getTaskName());
-    viewHolder.parent_rectclerview_textview_award.setText((task.getAward()));
-    viewHolder.parent_recyclerview_imageview_taskstate.setImageResource(R.mipmap.image_parent_recyclerview_item_doing);
-    viewHolder.parent_recyclerview_circularimage_userimage.setImageResource(R.mipmap.ic_launcher);
-
+    if (AppConstant.SEND_TASK_TYPE == type) viewHolder.textViewUserId.setText(task.getToUserId());
+    else viewHolder.textViewUserId.setText(task.getFromUserId());
+    viewHolder.textViewTaskName.setText(task.getTaskName());
+    viewHolder.textViewAwrad.setText((task.getAward()));
+    viewHolder.textViewTaskStatus.setImageResource(R.mipmap.image_parent_recyclerview_item_doing);
+    viewHolder.circularImageUserImage.setImageResource(R.mipmap.ic_launcher);
   }
 
   @Override

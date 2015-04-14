@@ -10,8 +10,10 @@ import java.util.ArrayList;
 
 public class ChildViewpagerAdapter extends FragmentPagerAdapter {
 
+  //ViewPager所在的activity
   private Activity activity;
 
+  //viewpager中存放fragment的数组
   private ArrayList<Fragment> fragmentList;
 
   public ChildViewpagerAdapter(FragmentManager fm, Activity activity, ArrayList<Fragment> fragmentList) {

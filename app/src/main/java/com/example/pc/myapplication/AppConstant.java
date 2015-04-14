@@ -11,11 +11,14 @@ public class AppConstant {
   public static final int MODE_PARENT = 1;
   public static final int MODE_CHILD = 2;
   public static final String USER_MODE = "mode";
+  public static final int GENDER_MALE = 1;
+  public static final int GENDER_FEMALE = 0;
 
   public static final int SELECT_PIC_KITKAT = 3;
   public static final int SELECT_PIC = 4;
 
   public static final int CAMERA_RESULTCODE = 5;
+  public static final String CAMERA_DATA = "data";
 
   public static final int PARENT_ADDDIYTASK_REQUESTCODE = 6;
   public static final int PARENT_ADDDIYTASK_RESULTCODE = 7;
@@ -43,17 +46,24 @@ public class AppConstant {
   public static final int SET_DIY_TASK_SUCCESS = 1302;
   public static final int FINISH_TASK_SUCCESS = 1310;
 
-
+  public static final String LEFT_MONEY = "leftmoney";
+  public static final String EVERYDAY_TASK = "everytaskdonetime";
   public static final String RETURN_MSG = "msg";
   public static final String RETURN_CODE = "code";
   public static final String FROM_USERID = "from_userid";
   public static final String TO_USERID = "to_userid";
   public static final String USERNAME = "username";
   public static final String USERID = "userid";
+  public static final String PASSWORD = "password";
+  public static final String EMAIL = "email";
+  public static final String NICKNAME = "nickname";
+  public static final String GENDER = "gender";
   public static final String PREFERENCE_NAME = "yulei";
   public static final String CLICKED_SYSTEM_TASK = "clickedSystemTask";
   public static final String CLICKED_CHECK_TASK = "clickedCheckTask";
   public static final String CLICKED_SEND_TASK = "clickedSendTask";
+  public static final String AUTO_SIGNIN_USERNAME = "auto_signin_username";
+  public static final String AUTO_SIGNIN_PASSWORD = "auto_signin_password";
 
   //和任务相关的关键字
   public static final int SEND_TASK_TYPE = 1;
@@ -66,8 +76,6 @@ public class AppConstant {
 
   //发送广播的关键字
   public static final String BROADCAST_REMOVEVIEW = "broadcast_to_removeview";
-
-
 
   //网络请求URL
   public static final String HOST = "http://byhands.sinaapp.com";

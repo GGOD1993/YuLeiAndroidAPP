@@ -82,7 +82,6 @@ public class ChildMsgFragment extends Fragment implements
     activeHelper = new ActiveHelper(activeViewGroup);
     preferences = getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
     refreshableLinearLayout = (RefreshableLinearLayout) v.findViewById(R.id.refreshable_linearlayout);
-
     refreshableLinearLayout.setOnRefreshListener(new RefreshableLinearLayout.PullToRefreshListener() {
       @Override
       public void onRefresh() {

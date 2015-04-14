@@ -20,16 +20,28 @@ import com.example.pc.myapplication.TaskInfo.SystemTaskInfo;
 
 public class ParentAddDiyTaskActivity extends ActionBarActivity {
 
-
+  //用于存放即将发布的任务
   private DiyTaskInfo diyTaskInfo;
 
-  private EditText parent_addtaskactivity_edittext_childid;
-  private EditText parent_addtaskactivity_edittext_taskname;
-  private EditText parent_addtaskactivity_editext_award;
-  private EditText parent_addtaskactivity_editext_taskcontent;
-  private ImageButton parent_addtaskactivity_imagebutton_submit;
-  private ImageButton parent_addtaskactivity_imagebutton_cancel;
+  //输入孩子id的控件
+  private EditText editTextChildId;
 
+  //输入任务内容的控件
+  private EditText editTextTaskName;
+
+  //输入任务奖金的控件
+  private EditText ediTextAward;
+
+  //输入任务内容的控件
+  private EditText ediTextTaskContent;
+
+  //提交按钮
+  private ImageButton imageButtonSubmit;
+
+  //取消按钮
+  private ImageButton imageButtonCancel;
+
+  //存储小型数据的SharedPerference
   private SharedPreferences preferences;
 
   @Override
@@ -40,37 +52,15 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity {
     initView();
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_parent_add_task, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
-  }
-
   private void initView() {
 
-    parent_addtaskactivity_edittext_childid = (EditText) findViewById(R.id.parent_addtaskactivity_edittext_childid);
-    parent_addtaskactivity_edittext_taskname = (EditText) findViewById(R.id.parent_addtaskactivity_edittext_taskname);
-    parent_addtaskactivity_editext_award = (EditText) findViewById(R.id.parent_addtaskactivity_editext_award);
-    parent_addtaskactivity_editext_taskcontent = (EditText) findViewById(R.id.parent_addtaskactivity_editext_taskcontent);
+    editTextChildId = (EditText) findViewById(R.id.parent_addtaskactivity_edittext_childid);
+    editTextTaskName = (EditText) findViewById(R.id.parent_addtaskactivity_edittext_taskname);
+    ediTextAward = (EditText) findViewById(R.id.parent_addtaskactivity_editext_award);
+    ediTextTaskContent = (EditText) findViewById(R.id.parent_addtaskactivity_editext_taskcontent);
 
-    parent_addtaskactivity_imagebutton_submit = (ImageButton) findViewById(R.id.parent_addtaskactivity_imagebutton_submit);
-    parent_addtaskactivity_imagebutton_cancel = (ImageButton) findViewById(R.id.parent_addtaskactivity_imagebutton_cancel);
+    imageButtonSubmit = (ImageButton) findViewById(R.id.parent_addtaskactivity_imagebutton_submit);
+    imageButtonCancel = (ImageButton) findViewById(R.id.parent_addtaskactivity_imagebutton_cancel);
 
     /**
      * 针对从系统任务选择的任务
@@ -79,11 +69,11 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity {
     if (intent.getSerializableExtra(AppConstant.CLICKED_SYSTEM_TASK) != null) {
 
       SystemTaskInfo newSystemTask = (SystemTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_SYSTEM_TASK);
-      parent_addtaskactivity_editext_taskcontent.setText(newSystemTask.getTaskContent());
-      parent_addtaskactivity_edittext_taskname.setText(newSystemTask.getTaskId());
+      ediTextTaskContent.setText(newSystemTask.getTaskContent());
+      editTextTaskName.setText(newSystemTask.getTaskId());
     }
 
-    parent_addtaskactivity_imagebutton_cancel.setOnClickListener(new View.OnClickListener() {
+    imageButtonCancel.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         setResult(AppConstant.PARENT_ADDDIYTASK_RESULTCODE, null);
@@ -92,21 +82,21 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity {
       }
     });
 
-    parent_addtaskactivity_imagebutton_submit.setOnClickListener(new View.OnClickListener() {
+    imageButtonSubmit.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
 
         diyTaskInfo = new DiyTaskInfo("", "", "", "", "");
 
-        if (parent_addtaskactivity_edittext_childid.getText().length() != 0) {
-          if (parent_addtaskactivity_edittext_taskname.getText().length() != 0) {
-            if (parent_addtaskactivity_editext_award.getText().length() != 0) {
-              if (parent_addtaskactivity_editext_taskcontent.getText().length() != 0) {
+        if (editTextChildId.getText().length() != 0) {
+          if (editTextTaskName.getText().length() != 0) {
+            if (ediTextAward.getText().length() != 0) {
+              if (ediTextTaskContent.getText().length() != 0) {
 
-                diyTaskInfo.setToUserId(parent_addtaskactivity_edittext_childid.getText().toString());
-                diyTaskInfo.setTaskName(parent_addtaskactivity_edittext_taskname.getText().toString());
-                diyTaskInfo.setAward(parent_addtaskactivity_editext_award.getText().toString());
-                diyTaskInfo.setTaskContent(parent_addtaskactivity_editext_taskcontent.getText().toString());
+                diyTaskInfo.setToUserId(editTextChildId.getText().toString());
+                diyTaskInfo.setTaskName(editTextTaskName.getText().toString());
+                diyTaskInfo.setAward(ediTextAward.getText().toString());
+                diyTaskInfo.setTaskContent(ediTextTaskContent.getText().toString());
                 diyTaskInfo.setFromUserId(preferences.getString(AppConstant.FROM_USERID, ""));
                 Intent data = new Intent();
                 Bundle bundle = new Bundle();

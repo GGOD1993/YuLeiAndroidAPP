@@ -3,11 +3,8 @@ package com.example.pc.myapplication.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,11 +14,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
@@ -45,21 +38,39 @@ public class MainActivity extends ActionBarActivity implements
   private int mode;
 
   //登录用户的Id
-  public String from_userid;
+  public String fromUserId;
 
-  private Button signin_button_signin;
-  private Button signin_button_signup;
-  private EditText signin_edittext_password;
-  private EditText signin_edittext_username;
+  //登录按钮
+  private Button buttonSignIn;
+
+  //注册按钮
+  private Button buttonSignUp;
+
+  //登录密码
+  private EditText editTextPassword;
+
+  //登录用户名
+  private EditText editTextUsername;
+
+  //头像框
   private CircularImage circularImage;
-  private RelativeLayout signin_relativelayout_root;
 
-  private ImageButton imagebutton_parent_access;
-  private ImageButton imagebutton_child_access;
+  //登录界面的根视图
+  private RelativeLayout root;
 
-  private CheckBox signin_checkbox_memorypassword;
-  private CheckBox signin_checkbox_autosignin;
+  //家长端的入口
+  private ImageButton imageButtonParentAccess;
 
+  //孩子端的入口
+  private ImageButton imageButtonChildAccess;
+
+  //记住密码选项框
+  private CheckBox checkBoxMemoryPassword;
+
+  //自动登录选项框
+  private CheckBox checkBoxAutoSignIn;
+
+  //存储数据的SharedPreferences
   private SharedPreferences preferences;
 
   @Override
@@ -69,75 +80,41 @@ public class MainActivity extends ActionBarActivity implements
     initActivity();
   }
 
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_main, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-    return super.onOptionsItemSelected(item);
-  }
-
   /**
    * 初始化登陆界面
    */
   private void initActivity() {
-
     setContentView(R.layout.layout_signin);
-
     preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
-
-    signin_button_signin = (Button) findViewById(R.id.signin_button_signin);
-    signin_button_signup = (Button) findViewById(R.id.signin_button_signup);
-    signin_edittext_username = (EditText) findViewById(R.id.signin_edittext_username);
-    signin_edittext_password = (EditText) findViewById(R.id.signin_edittext_password);
-    signin_checkbox_autosignin = (CheckBox) findViewById(R.id.signin_checkbox_autosignin);
-    signin_checkbox_memorypassword = (CheckBox) findViewById(R.id.signin_checkbox_memorypassword);
+    buttonSignIn = (Button) findViewById(R.id.signin_button_signin);
+    buttonSignUp= (Button) findViewById(R.id.signin_button_signup);
+    editTextUsername = (EditText) findViewById(R.id.signin_edittext_username);
+    editTextPassword = (EditText) findViewById(R.id.signin_edittext_password);
+    checkBoxAutoSignIn = (CheckBox) findViewById(R.id.signin_checkbox_autosignin);
+    checkBoxMemoryPassword = (CheckBox) findViewById(R.id.signin_checkbox_memorypassword);
     circularImage = (CircularImage) findViewById(R.id.signin_circularimage_userimage);
-    signin_relativelayout_root = (RelativeLayout) findViewById(R.id.signin_relativelayout_root);
-
+    root = (RelativeLayout) findViewById(R.id.signin_relativelayout_root);
     circularImage.setImageResource(R.mipmap.ic_launcher);
-
-    signin_edittext_username.setText(preferences.getString("auto_sign_username",""));
-    signin_edittext_password.setText(preferences.getString("auto_sign_password",""));
-
+    editTextUsername.setText(preferences.getString(AppConstant.AUTO_SIGNIN_USERNAME,""));
+    editTextPassword.setText(preferences.getString(AppConstant.AUTO_SIGNIN_PASSWORD,""));
     if (preferences.getBoolean("autosignin",false)) {
-      signin_checkbox_autosignin.setChecked(true);
-
+      checkBoxAutoSignIn.setChecked(true);
 //            dealWithUserInfo();
-
     }
-
     if (preferences.getBoolean("memorypassword",false)) {
-
-      signin_checkbox_memorypassword.setChecked(true);
+      checkBoxMemoryPassword.setChecked(true);
     }
-
-    signin_relativelayout_root.setBackground(
+    root.setBackground(
             new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.skin_bg_player_x)));
-
     /**
      * 登陆按钮
      */
-    signin_button_signin.setOnClickListener(new View.OnClickListener() {
+    buttonSignIn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (signin_checkbox_memorypassword.isChecked()) {
-          preferences.edit().putString("auto_sign_username",signin_edittext_username.getText().toString()).apply();
-          preferences.edit().putString("auto_sign_password",signin_edittext_password.getText().toString()).apply();
+        if (checkBoxMemoryPassword.isChecked()) {
+          preferences.edit().putString(AppConstant.AUTO_SIGNIN_USERNAME,editTextUsername.getText().toString()).apply();
+          preferences.edit().putString(AppConstant.AUTO_SIGNIN_PASSWORD,editTextPassword.getText().toString()).apply();
         }
         dealWithUserInfo();
       }
@@ -146,10 +123,9 @@ public class MainActivity extends ActionBarActivity implements
     /**
      * 注册按钮
      */
-    signin_button_signup.setOnClickListener(new View.OnClickListener() {
+   buttonSignUp.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
         startActivity(new Intent(MainActivity.this, SignupActivity.class));
       }
     });
@@ -157,34 +133,24 @@ public class MainActivity extends ActionBarActivity implements
     /**
      * 自动登陆和记住密码
      */
-    signin_checkbox_autosignin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    checkBoxAutoSignIn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
         if (isChecked) {
           preferences.edit().putBoolean("autosignin",true).apply();
-          signin_checkbox_memorypassword.setChecked(true);
-
+          checkBoxMemoryPassword.setChecked(true);
         } else {
-
           preferences.edit().putBoolean("autosignin",false).apply();
-          signin_checkbox_memorypassword.setChecked(false);
+          checkBoxMemoryPassword.setChecked(false);
         }
       }
     });
 
-    signin_checkbox_memorypassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    checkBoxMemoryPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-        if (isChecked) {
-
-          preferences.edit().putBoolean("memorypassword",true).apply();
-
-        } else {
-
-          preferences.edit().putBoolean("memorypassword",false).apply();
-        }
+        if (isChecked) preferences.edit().putBoolean("memorypassword",true).apply();
+        else preferences.edit().putBoolean("memorypassword",false).apply();
       }
     });
   }
@@ -195,41 +161,33 @@ public class MainActivity extends ActionBarActivity implements
   private void chooseMode() {
     mode = preferences.getInt(AppConstant.USER_MODE,0);
     if (mode == 0) {
-
       setContentView(R.layout.activity_main);
-
-      imagebutton_parent_access = (ImageButton) findViewById(R.id.imagebutton_parent_access);
-      imagebutton_child_access = (ImageButton) findViewById(R.id.imagebutton_child_access);
-
-      imagebutton_child_access.setOnClickListener(new View.OnClickListener() {
+      imageButtonParentAccess = (ImageButton) findViewById(R.id.imagebutton_parent_access);
+      imageButtonChildAccess = (ImageButton) findViewById(R.id.imagebutton_child_access);
+      imageButtonChildAccess.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
           SharedPreferences.Editor editor = preferences.edit();
           mode = AppConstant.MODE_CHILD;
           editor.putInt(AppConstant.USER_MODE, mode);
           editor.apply();
-
           Intent intent = new Intent(MainActivity.this,ChildMainActivity.class);
-          intent.putExtra(AppConstant.FROM_USERID,from_userid);
-          editor.putString(AppConstant.FROM_USERID,from_userid).apply();
+          intent.putExtra(AppConstant.FROM_USERID,fromUserId);
+          editor.putString(AppConstant.FROM_USERID,fromUserId).apply();
           startActivity(intent);
           finish();
         }
       });
-
-      imagebutton_parent_access.setOnClickListener(new View.OnClickListener() {
+      imageButtonParentAccess.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
           SharedPreferences.Editor editor = preferences.edit();
           mode = AppConstant.MODE_PARENT;
           editor.putInt(AppConstant.USER_MODE, mode);
           editor.apply();
-
           Intent intent = new Intent(MainActivity.this,ParentMainActivity.class);
-          intent.putExtra(AppConstant.FROM_USERID,from_userid);
-          editor.putString(AppConstant.FROM_USERID,from_userid).apply();
+          intent.putExtra(AppConstant.FROM_USERID,fromUserId);
+          editor.putString(AppConstant.FROM_USERID,fromUserId).apply();
           startActivity(intent);
           finish();
         }
@@ -239,15 +197,15 @@ public class MainActivity extends ActionBarActivity implements
       int mode = preferences.getInt(AppConstant.USER_MODE,0);
       if (AppConstant.MODE_CHILD == mode) {
         Intent intent = new Intent(MainActivity.this,ChildMainActivity.class);
-        intent.putExtra(AppConstant.FROM_USERID,from_userid);
-        preferences.edit().putString(AppConstant.FROM_USERID,from_userid).apply();
+        intent.putExtra(AppConstant.FROM_USERID,fromUserId);
+        preferences.edit().putString(AppConstant.FROM_USERID,fromUserId).apply();
         startActivity(intent);
         finish();
       }
       else if (AppConstant.MODE_PARENT == mode) {
         Intent intent = new Intent(MainActivity.this,ParentMainActivity.class);
-        intent.putExtra(AppConstant.FROM_USERID,from_userid);
-        preferences.edit().putString(AppConstant.FROM_USERID,from_userid).apply();
+        intent.putExtra(AppConstant.FROM_USERID,fromUserId);
+        preferences.edit().putString(AppConstant.FROM_USERID,fromUserId).apply();
         startActivity(intent);
         finish();
       }
@@ -262,16 +220,13 @@ public class MainActivity extends ActionBarActivity implements
    * 并发送给服务器
    */
   private void dealWithUserInfo() {
-    if (signin_edittext_username.getText().length() != 0) {
-      if (signin_edittext_password.getText().length() != 0) {
-
-        from_userid = signin_edittext_username.getText().toString();
-        preferences.edit().putString(AppConstant.FROM_USERID,from_userid).apply();
-
+    if (editTextUsername.getText().length() != 0) {
+      if (editTextPassword.getText().length() != 0) {
+        fromUserId = editTextUsername.getText().toString();
+        preferences.edit().putString(AppConstant.FROM_USERID,fromUserId).apply();
         HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("username", signin_edittext_username.getText().toString());
-        hashMap.put("password", signin_edittext_password.getText().toString());
-
+        hashMap.put(AppConstant.USERNAME,editTextUsername.getText().toString());
+        hashMap.put(AppConstant.PASSWORD,editTextPassword.getText().toString());
         HttpService.DoLoginRequest(Request.Method.POST, AppConstant.LOGIN_IN_URL, hashMap, MainActivity.this);
       } else {
         showToast("请输入正确的密码");
@@ -285,14 +240,12 @@ public class MainActivity extends ActionBarActivity implements
    * 登录请求的信息处理
    */
   public void OnLoginSuccessResponse(JSONArray jsonArray){
-
-    JSONObject codeObject =null;
-    JSONObject msgObject = null;
+    JSONObject codeObject;
+    JSONObject msgObject;
     try{
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
-
       }
       if (null != msgObject) {
         showToast(msgObject.getString(AppConstant.RETURN_MSG));
@@ -300,7 +253,6 @@ public class MainActivity extends ActionBarActivity implements
     } catch (JSONException e) {
       e.printStackTrace();
     }
-    
     chooseMode();
   }
 

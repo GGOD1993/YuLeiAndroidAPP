@@ -3,19 +3,18 @@ package com.example.pc.myapplication.activity.parent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,6 +32,7 @@ import com.example.pc.myapplication.fragment.parent.ParentMsgFragment;
 import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
 import com.nineoldandroids.view.ViewHelper;
+import com.viewpagerindicator.UnderlinePageIndicator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,20 +57,26 @@ public class ParentMainActivity extends FragmentActivity implements
   //最底层的父控件
   private DrawerLayout mDrawerLayout;
 
-  //抽屉右侧显示的内容
-  private RelativeLayout parentactivity_relativelayout_root;
-
+  //侧滑控件
   private ViewPager viewPager;
-  private PagerTabStrip pagerTabStrip;
 
-  //剩余金币数量
+  //viewpager指示器
+  private UnderlinePageIndicator viewPagerIndicator;
+
+  //viewpager的父控件
+  private RelativeLayout relativeLayoutViewPagerParent;
+
+  //记录签到的当前时间
   private String nowTime;
-  private TextView parentactivity_leftmenu_textview_money;
-  private ImageButton parentactivity_relativelayout_actionbar_openleftmenu;
-  private ImageButton parentactivity_relativelayout_actionbar_everydaytask;
 
-  //ViewPager的标签
-  private List<String> titleList = new ArrayList<String>();
+  //显示钱的控件
+  private TextView textViewMoney;
+
+  //打开侧滑菜单按钮
+  private ImageButton imageButtonOpenLeftMenu;
+
+  //每日签到按钮
+  private ImageButton imageButtonEverydayTask;
 
   //存放ViewPager上显示的fragment
   private List<Fragment> fragmentList = new ArrayList<Fragment>();
@@ -87,11 +93,9 @@ public class ParentMainActivity extends FragmentActivity implements
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_parent_main);
-
     exitTime = 0;
     preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
     mQueue = RequestQueueController.get().getRequestQueue();
-
     from_userid = preferences.getString(AppConstant.FROM_USERID,"");
 
     Time t = new Time();
@@ -102,28 +106,13 @@ public class ParentMainActivity extends FragmentActivity implements
     initView();
     initEvents();
 
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_parent_main, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      //透明状态栏
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      //透明导航栏
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
 
-    return super.onOptionsItemSelected(item);
   }
 
   @Override
@@ -236,82 +225,54 @@ public class ParentMainActivity extends FragmentActivity implements
   }
 
   private void initView() {
-    mDrawerLayout = (DrawerLayout) findViewById(R.id.parentactivity_drawerlayout_root);
-    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
-            Gravity.RIGHT);
+    mDrawerLayout = (DrawerLayout) findViewById(R.id.parent_mainactivity_drawerlayout_root);
+    viewPagerIndicator = (UnderlinePageIndicator) findViewById(R.id.parent_mainactivity_indicator);
+    textViewMoney = (TextView) findViewById(R.id.parentactivity_leftmenu_textview_money);
+    imageButtonOpenLeftMenu = (ImageButton) findViewById(R.id.parent_mainactivity_relativelayout_actionbar_openleftmenu);
+    imageButtonEverydayTask = (ImageButton) findViewById(R.id.parent_mainactivity_relativelayout_actionbar_everydaytask);
+    viewPager = (ViewPager) findViewById(R.id.parentactivity_viewpager);
+    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
     mDrawerLayout.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.bg_slight_rain_night)));
-    parentactivity_relativelayout_root = (RelativeLayout) findViewById(R.id.parentactivity_relativelayout_root);
-    parentactivity_relativelayout_root.setBackground(
-            new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.bg_slight_rain_day))
-    );
+    relativeLayoutViewPagerParent = (RelativeLayout) findViewById(R.id.parent_mainactivity_relativelayout_viewpager);
+    textViewMoney.setText(String.valueOf(preferences.getInt(AppConstant.LEFT_MONEY, 0)));
+//    parentactivity_relativelayout_root.setBackground(
+//            new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.bg_slight_rain_day))
+//    );
+//    relativeLayoutViewpagerParent.setBackgroundColor(R.color.papayawhip);
 
-    parentactivity_leftmenu_textview_money = (TextView) findViewById(R.id.parentactivity_leftmenu_textview_money);
-    parentactivity_relativelayout_actionbar_openleftmenu = (ImageButton)
-            findViewById(R.id.parentactivity_relativelayout_actionbar_openleftmenu);
-    parentactivity_relativelayout_actionbar_everydaytask = (ImageButton)
-            findViewById(R.id.parentactivity_relativelayout_actionbar_everydaytask);
-
-    parentactivity_leftmenu_textview_money.setText(String.valueOf(preferences.getInt("leftmoney", 0)));
-
-    if (nowTime.equals(preferences.getString("everytaskdonetime", ""))) {
-
-      parentactivity_relativelayout_actionbar_everydaytask.
-              setImageResource(R.mipmap.parentactivityeveryday_task_done);
+    if (nowTime.equals(preferences.getString(AppConstant.EVERYDAY_TASK, ""))) {
+      imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_done);
+    } else {
+      imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_normal);
     }
-    else {
-      parentactivity_relativelayout_actionbar_everydaytask.
-              setImageResource(R.mipmap.parentactivityeveryday_task_normal);
-    }
-
-    parentactivity_relativelayout_actionbar_openleftmenu.setOnClickListener(
-            new View.OnClickListener() {
+    imageButtonOpenLeftMenu.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
                 OpenRightMenu();
               }
             }
     );
-
-    parentactivity_relativelayout_actionbar_everydaytask.setOnClickListener(
-            new View.OnClickListener() {
+    imageButtonEverydayTask.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-
                 String everyDayTaskDoneTime = preferences.getString("everytaskdonetime","");
                 if (!nowTime.equals(everyDayTaskDoneTime)) {
-                  parentactivity_relativelayout_actionbar_everydaytask.
-                          setImageResource(R.mipmap.parentactivityeveryday_task_done);
+                  imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_done);
                   Toast.makeText(getApplicationContext(), "签到成功，奖励50金币O(∩_∩)O~~~", Toast.LENGTH_SHORT).show();
-                  parentactivity_leftmenu_textview_money.setText(String.valueOf
-                          (Integer.valueOf(parentactivity_leftmenu_textview_money.getText().toString()) + 50));
+                  textViewMoney.setText(String.valueOf(Integer.valueOf(textViewMoney.getText().toString()) + 50));
                   SharedPreferences.Editor editor = preferences.edit();
                   editor.putBoolean("everydaytaskdone", true).apply();
-                  editor.putInt("leftmoney", Integer.valueOf(parentactivity_leftmenu_textview_money.getText().toString())).apply();
+                  editor.putInt("leftmoney", Integer.valueOf(textViewMoney.getText().toString())).apply();
                   editor.putString("everytaskdonetime", nowTime).apply();
-                }
-                else {
-                  Toast.makeText(getApplicationContext(), "您今天已经签到过咯~~~~(>_<)~~~~ ", Toast.LENGTH_SHORT).show();
-                }
+                } else Toast.makeText(getApplicationContext(), "您今天已经签到过咯~~~~(>_<)~~~~ ", Toast.LENGTH_SHORT).show();
               }
             }
     );
-
-
-    //初始化ViewPager以及标签
-    viewPager = (ViewPager) findViewById(R.id.parentactivity_viewpager);
-    pagerTabStrip = (PagerTabStrip) findViewById(R.id.parentactivity_pagertabstrip);
-
     fragmentList.add(ParentMsgFragment.newInstance(mQueue));
     fragmentList.add(ParentBabyFragment.newInstance());
     fragmentList.add(ParentDynamicFragment.newInstance());
-
-    titleList.add("我的心愿");
-    titleList.add("宝贝心愿");
-    titleList.add("空间动态");
-
-    pagerTabStrip.setTabIndicatorColorResource(R.color.deepskyblue);
-    viewPager.setAdapter(new ParentViewPagerAdapter(ParentMainActivity.this, getSupportFragmentManager(),
-            fragmentList, titleList));
+    viewPager.setAdapter(new ParentViewPagerAdapter(ParentMainActivity.this, getSupportFragmentManager(), fragmentList));
+    viewPagerIndicator.setViewPager(viewPager, 0);
   }
 
   /**
@@ -319,20 +280,16 @@ public class ParentMainActivity extends FragmentActivity implements
    * @param newTask
    */
   private void addNewTask(DiyTaskInfo newTask) {
-
     HashMap<String, String> map = new HashMap<>();
     map.put(AppConstant.FROM_USERID, from_userid);
     map.put("content", newTask.getTaskContent());
     map.put("to_userid", newTask.getToUserId());
     map.put("award", newTask.getAward());
-
     HttpService.DoSetDiyTaskRequest(Request.Method.POST, AppConstant.SET_DIY_TASK_URL, map, ParentMainActivity.this);
-
   }
 
   @Override
   public void OnSetDiyTaskSuccessResponse(JSONArray jsonArray) {
-
     JSONObject codeObject =null;
     JSONObject msgObject = null;
     try{
@@ -345,9 +302,7 @@ public class ParentMainActivity extends FragmentActivity implements
           parentMsgFragment.parentRecyclerViewAdapter.notifyDataSetChanged();
         }
       }
-      if (null != msgObject) {
-        showToast(msgObject.getString(AppConstant.RETURN_MSG));
-      }
+      if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));
     } catch (JSONException e) {
       e.printStackTrace();
     }

@@ -43,53 +43,32 @@ public class SubmitTaskActivity extends ActionBarActivity
   private TextView textViewContent;
 
   //提交按钮
-  private ImageButton submit;
+  private ImageButton imageButtonSubmit;
 
   //取消按钮
-  private ImageButton cancel;
+  private ImageButton imageButtonCancel;
 
+  //显示的任务对象
   private DiyTaskInfo taskToBeSubmit;
-
-
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_submit_task);
-
     initViews();
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_submit_task, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
-  }
-
+  /**
+   * 初始化view
+   */
   private void initViews() {
     textViewToUserId = (TextView) findViewById(R.id.submittaskactivity_textview_touserid);
     textViewTaskName = (TextView) findViewById(R.id.parent_taskinfoactivity_textview_taskname);
     textViewAward = (TextView) findViewById(R.id.submittaskactivity_textview_award);
     textViewContent = (TextView) findViewById(R.id.submittaskactivity_textview_taskcontent);
     textViewHeader = (TextView) findViewById(R.id.child_mainactivity_header_textview);
-    submit = (ImageButton) findViewById(R.id.submittaskactivity_imagebutton_submit);
-    cancel = (ImageButton) findViewById(R.id.submittaskactivity_imagebutton_cancel);
+    imageButtonSubmit = (ImageButton) findViewById(R.id.submittaskactivity_imagebutton_submit);
+    imageButtonCancel = (ImageButton) findViewById(R.id.submittaskactivity_imagebutton_cancel);
 
     Intent intent = getIntent();
     taskToBeSubmit = (DiyTaskInfo) intent.getSerializableExtra(AppConstant.TASK_TO_BE_SUBMIT);
@@ -97,15 +76,13 @@ public class SubmitTaskActivity extends ActionBarActivity
     textViewTaskName.setText(taskToBeSubmit.getTaskName());
     textViewAward.setText(taskToBeSubmit.getAward());
     textViewContent.setText(taskToBeSubmit.getTaskContent());
-
-    submit.setOnClickListener(new View.OnClickListener() {
+    imageButtonSubmit.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         startSubmitTask();
       }
     });
-
-    cancel.setOnClickListener(new View.OnClickListener() {
+    imageButtonCancel.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         finish();
@@ -129,24 +106,20 @@ public class SubmitTaskActivity extends ActionBarActivity
    */
   @Override
   public void OnSubmitDiyTaskSuccessResponse(JSONArray jsonArray) {
-    JSONObject codeObject =null;
-    JSONObject msgObject = null;
+    JSONObject codeObject;
+    JSONObject msgObject;
     try{
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
       }
-      if (null != msgObject) {
-        showToast(msgObject.getString(AppConstant.RETURN_MSG));
-      }
+      if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));
     } catch (JSONException e) {
       e.printStackTrace();
     }
-
     Intent broadcastIntent = new Intent(AppConstant.BROADCAST_REMOVEVIEW);
     broadcastIntent.putExtra(AppConstant.TASK_ID, taskToBeSubmit.getTaskName());
     sendBroadcast(broadcastIntent);
-
     finish();
   }
 

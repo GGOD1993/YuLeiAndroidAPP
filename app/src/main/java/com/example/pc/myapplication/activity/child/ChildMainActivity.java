@@ -32,23 +32,23 @@ public class ChildMainActivity extends FragmentActivity
   //再按一次返回桌面
   private Long exitTime;
 
+  //sharedpreference
+  private SharedPreferences preferences;
+
   //viewpager
-  private ViewPager child_mainactivity_viewpager;
+  private ViewPager viewPager;
 
   //viewpager适配器
   private ChildViewpagerAdapter mAdapter;
 
   //viewpager指示器
-  private UnderlinePageIndicator child_mainactivity_indicator;
+  private UnderlinePageIndicator viewPagerIndicator;
 
   //根布局
-  private RelativeLayout child_mainactivity_relativelayout_root;
+  private RelativeLayout relativeLayoutRoot;
 
   //fragment列表
   private ArrayList<Fragment> fragmentList;
-
-  //sharedpreference
-  private SharedPreferences preferences;
 
   @Override
   public void onChildMsgFragmentInteraction() {
@@ -69,26 +69,25 @@ public class ChildMainActivity extends FragmentActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_child_main);
-
     exitTime = 0L;
     preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
+    initViews();
+  }
+
+  private void initViews() {
+    viewPager = (ViewPager) findViewById(R.id.child_mainactivity_viewpager);
+    viewPagerIndicator = (UnderlinePageIndicator) findViewById(R.id.child_mainactivity_indicator);
+    relativeLayoutRoot = (RelativeLayout) findViewById(R.id.child_mainactivity_relativelayout_root);
 
     fragmentList = new ArrayList<>();
     fragmentList.add(ChildMsgFragment.newInstance());
     fragmentList.add(ChildWishFragment.newInstance());
     fragmentList.add(ChildFuncFragment.newInstance(preferences));
-
-    child_mainactivity_viewpager = (ViewPager) findViewById(R.id.child_mainactivity_viewpager);
-    child_mainactivity_indicator = (UnderlinePageIndicator) findViewById(R.id.child_mainactivity_indicator);
-
     mAdapter = new ChildViewpagerAdapter(getSupportFragmentManager(), ChildMainActivity.this, fragmentList);
-    child_mainactivity_viewpager.setAdapter(mAdapter);
-    child_mainactivity_indicator.setViewPager(child_mainactivity_viewpager, 0);
-
-    child_mainactivity_relativelayout_root = (RelativeLayout) findViewById(R.id.child_mainactivity_relativelayout_root);
-    child_mainactivity_relativelayout_root.setBackground(
+    viewPager.setAdapter(mAdapter);
+    viewPagerIndicator.setViewPager(viewPager, 0);
+    relativeLayoutRoot.setBackground(
             new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.child_mainactivity_background)));
-
   }
 
   @Override

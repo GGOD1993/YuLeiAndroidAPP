@@ -13,14 +13,19 @@ import com.example.pc.myapplication.TaskInfo.SystemTaskInfo;
 import java.util.ArrayList;
 
 class ListViewHolder{
-  public TextView parent_addsystemtaskactivity_listview_taskid;
-  public TextView parent_addsystemtaskactivity_listview_taskcontent;
+  public TextView textViewTaskId;
+  public TextView textViewTaskContent;
 }
 
 public class AddSystemTaskListViewAdapter extends BaseAdapter {
 
+  //上下文的引用
   private Context context;
+
+  //列表中每一项的容器
   private ListViewHolder listViewHolder;
+
+  //存放当前获取到的任务列表
   private ArrayList<SystemTaskInfo> systemTaskList;
 
   public AddSystemTaskListViewAdapter(Context context, ArrayList<SystemTaskInfo> systemTaskList) {
@@ -45,26 +50,17 @@ public class AddSystemTaskListViewAdapter extends BaseAdapter {
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-
     listViewHolder = null;
-
     if (null == convertView) {
       listViewHolder = new ListViewHolder();
       convertView = LayoutInflater.from(context).inflate(R.layout.layout_parent_listview_item, null);
-      listViewHolder.parent_addsystemtaskactivity_listview_taskid =
-              (TextView) convertView.findViewById(R.id.parent_addsystemtaskactivity_listview_taskid);
-      listViewHolder.parent_addsystemtaskactivity_listview_taskcontent =
-              (TextView) convertView.findViewById(R.id.parent_addsystemtaskactivity_listview_taskcontent);
-
+      listViewHolder.textViewTaskId= (TextView) convertView.findViewById(R.id.parent_addsystemtaskactivity_listview_taskid);
+      listViewHolder.textViewTaskContent= (TextView) convertView.findViewById(R.id.parent_addsystemtaskactivity_listview_taskcontent);
       convertView.setTag(listViewHolder);
-    } else {
-      listViewHolder = (ListViewHolder) convertView.getTag();
-    }
+    } else listViewHolder = (ListViewHolder) convertView.getTag();
     SystemTaskInfo taskInfo = systemTaskList.get(position);
-    listViewHolder.parent_addsystemtaskactivity_listview_taskid.
-            setText(taskInfo.getTaskId());
-    listViewHolder.parent_addsystemtaskactivity_listview_taskcontent.
-            setText(taskInfo.getTaskContent());
+    listViewHolder.textViewTaskId.setText(taskInfo.getTaskId());
+    listViewHolder.textViewTaskContent.setText(taskInfo.getTaskContent());
     return convertView;
   }
 }

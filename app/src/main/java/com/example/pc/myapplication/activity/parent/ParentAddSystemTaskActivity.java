@@ -36,49 +36,21 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity
   private ArrayList<SystemTaskInfo> systemTaskList;
 
   //系统任务列表
-  private ListView parent_addsystemtaskactivity_listview;
+  private ListView listView;
 
-  private AddSystemTaskListViewAdapter addSystemTaskListViewAdapter;
+  private AddSystemTaskListViewAdapter adapter;
 
   //下拉刷新组件
-  private SwipeRefreshLayout parent_addsystemtaskactivity_swiperefreshlayout;
+  private SwipeRefreshLayout swipeRefreshLayout;
 
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_parent_add_system_task);
-
     systemTaskList = new ArrayList<>();
     requestQueue = RequestQueueController.get().getRequestQueue();
-
     initViews();
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_parent_add_system_task, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
-  }
-
-  private void showToast(String string) {
-    Toast.makeText(getApplicationContext(), string, Toast.LENGTH_SHORT).show();
   }
 
   private void initViews() {
@@ -86,11 +58,11 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity
     /**
      * listview设置监听器
      */
-    parent_addsystemtaskactivity_listview = (ListView)
+    listView = (ListView)
             findViewById(R.id.parent_addsystemtaskactivity_listview);
-    addSystemTaskListViewAdapter = new AddSystemTaskListViewAdapter(getApplicationContext(),systemTaskList);
-    parent_addsystemtaskactivity_listview.setAdapter(addSystemTaskListViewAdapter);
-    parent_addsystemtaskactivity_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    adapter = new AddSystemTaskListViewAdapter(getApplicationContext(),systemTaskList);
+    listView.setAdapter(adapter);
+    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -105,18 +77,12 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity
     /**
      * 给下拉刷新加监听器
      */
-    parent_addsystemtaskactivity_swiperefreshlayout = (SwipeRefreshLayout)
-            findViewById(R.id.parent_addsystemtaskactivity_swiperefreshlayout);
-    parent_addsystemtaskactivity_swiperefreshlayout.setOnRefreshListener(
+    swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.parent_addsystemtaskactivity_swiperefreshlayout);
+    swipeRefreshLayout.setOnRefreshListener(
             new SwipeRefreshLayout.OnRefreshListener() {
               @Override
               public void onRefresh() {
-                HttpService.DoGetSysTaskRequest(
-                        Request.Method.GET,
-                        AppConstant.GET_SYS_TASK_URL,
-                        null,
-                        ParentAddSystemTaskActivity.this
-                );
+                HttpService.DoGetSysTaskRequest(Request.Method.GET, AppConstant.GET_SYS_TASK_URL, null, ParentAddSystemTaskActivity.this);
               }
             }
     );
@@ -124,7 +90,7 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity
 
   /**
    * 网络请求处理
-   * @param successResult
+   * @param jsonArray
    */
   @Override
   public void OnGetSysTaskSuccessResponse(JSONArray jsonArray) {
@@ -148,18 +114,22 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity
             e.printStackTrace();
           }
         }
-        addSystemTaskListViewAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
       }
     } else {
       showToast("There something error~~~~");
     }
 
-    parent_addsystemtaskactivity_swiperefreshlayout.setRefreshing(false);
+    swipeRefreshLayout.setRefreshing(false);
   }
 
   @Override
   public void OnGetSysTaskErrorResponse(String errorResult) {
-    parent_addsystemtaskactivity_swiperefreshlayout.setRefreshing(false);
+    swipeRefreshLayout.setRefreshing(false);
     showToast(errorResult);
+  }
+
+  private void showToast(String string) {
+    Toast.makeText(getApplicationContext(), string, Toast.LENGTH_SHORT).show();
   }
 }

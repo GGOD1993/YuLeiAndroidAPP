@@ -46,7 +46,7 @@ public class ParentMsgFragment extends Fragment implements
   private RecyclerView recyclerView;
 
   //在fragment上浮动的添加任务按钮
-  private FloatingActionButton parent_msgfragment_floatingactionbutton;
+  private FloatingActionButton floatingActionButton;
 
   //下拉刷新控件
   private SwipeRefreshLayout mSwipefreshlayout;
@@ -92,11 +92,9 @@ public class ParentMsgFragment extends Fragment implements
   }
 
   private void initView(View w) {
-
     recyclerView = (RecyclerView) w.findViewById(R.id.parent_msgfragment_recyclerview);
-    parent_msgfragment_floatingactionbutton = (FloatingActionButton) w.findViewById(R.id.parent_msgfragment_floatingactionbutton);
+    floatingActionButton = (FloatingActionButton) w.findViewById(R.id.parent_msgfragment_floatingactionbutton);
     mSwipefreshlayout = (SwipeRefreshLayout) w.findViewById(R.id.parent_msgfragment_swipefreshlayout);
-
     mSwipefreshlayout.setOnRefreshListener(
             new SwipeRefreshLayout.OnRefreshListener() {
               @Override
@@ -107,17 +105,14 @@ public class ParentMsgFragment extends Fragment implements
               }
             }
     );
-
-    parent_msgfragment_floatingactionbutton.setSize(FloatingActionButton.SIZE_MINI);
-    parent_msgfragment_floatingactionbutton.setColor(Color.GRAY);
-    parent_msgfragment_floatingactionbutton.setOnClickListener(new View.OnClickListener() {
+    floatingActionButton.setSize(FloatingActionButton.SIZE_MINI);
+    floatingActionButton.setColor(Color.GRAY);
+    floatingActionButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         View view = layoutInflater.inflate(R.layout.layout_msgfragment_choosetasktype,null);
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setTitle("任 务 模 式").setView(view).show();
-
         /**
          * 系统任务
          */
@@ -152,13 +147,11 @@ public class ParentMsgFragment extends Fragment implements
     parentRecyclerViewAdapter = new ParentRecyclerViewAdapter(taskList,getActivity(), AppConstant.SEND_TASK_TYPE);
     parentRecyclerViewAdapter.setOnItemClickListener(this);
     recyclerView.setAdapter(parentRecyclerViewAdapter);
-    recyclerView.setOnTouchListener(new ShowHideOnScroll(parent_msgfragment_floatingactionbutton));
+    recyclerView.setOnTouchListener(new ShowHideOnScroll(floatingActionButton));
     recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-
       @Override
       public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
       }
-
       @Override
       public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (recyclerView.getChildCount() != 0) {
@@ -175,7 +168,6 @@ public class ParentMsgFragment extends Fragment implements
 
   @Override
   public void onItemClick(View view, int position) {
-
     DiyTaskInfo clickTask = taskList.get(position);
     Intent intent = new Intent(getActivity(), TaskInfoActivity.class);
     intent.putExtra(AppConstant.CLICKED_SEND_TASK, clickTask);
@@ -185,11 +177,10 @@ public class ParentMsgFragment extends Fragment implements
   @Override
   public void OnGetSendDiyTaskSuccessResponse(JSONArray jsonArray) {
     mSwipefreshlayout.setRefreshing(false);
-    JSONObject arrayTask = null;
-    DiyTaskInfo taskInfo = null;
+    JSONObject arrayTask;
+    DiyTaskInfo taskInfo;
     taskList.clear();
     for (int i = 0 ; i < jsonArray.length() ; i ++) {
-
       try{
         arrayTask = (JSONObject) jsonArray.get(i);
         taskInfo = new DiyTaskInfo(
@@ -214,24 +205,6 @@ public class ParentMsgFragment extends Fragment implements
 
   private void showToast(String string) {
     Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
-  }
-
-
-  @Override
-  public void onAttach(Activity activity) {
-    super.onAttach(activity);
-    try {
-      mListener = (OnMsgFragmentInteractionListener) activity;
-    } catch (ClassCastException e) {
-      throw new ClassCastException(activity.toString()
-              + " must implement OnFragmentInteractionListener");
-    }
-  }
-
-  @Override
-  public void onDetach() {
-    super.onDetach();
-    mListener = null;
   }
 
   public interface OnMsgFragmentInteractionListener {

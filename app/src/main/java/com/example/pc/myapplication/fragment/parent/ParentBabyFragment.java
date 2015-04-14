@@ -17,6 +17,7 @@ import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.activity.FinishTaskActivity;
+import com.example.pc.myapplication.activity.SubmitTaskActivity;
 import com.example.pc.myapplication.activity.TaskInfoActivity;
 import com.example.pc.myapplication.activity.parent.ParentMainActivity;
 import com.example.pc.myapplication.adapter.ParentRecyclerViewAdapter;
@@ -112,8 +113,8 @@ public class ParentBabyFragment extends Fragment
   @Override
   public void onItemClick(View view, int position) {
     DiyTaskInfo clickTask = taskList.get(position);
-    Intent intent = new Intent(getActivity(), FinishTaskActivity.class);
-    intent.putExtra(AppConstant.CLICKED_CHECK_TASK, clickTask);
+    Intent intent = new Intent(getActivity(), SubmitTaskActivity.class);
+    intent.putExtra(AppConstant.CLICKED_SEND_TASK, clickTask);
     startActivity(intent);
   }
 

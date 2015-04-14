@@ -26,14 +26,26 @@ public class ChildFuncFragment extends Fragment {
   //sharedPreference
   private SharedPreferences preferences;
 
-  //屏幕上的组件
-  private CircularImage child_funcfragment_circularimage_userimage;
-  private TextView child_funcfragment_textview_username;
-  private TextView child_funcfragment_textview_money;
-  private ImageButton child_funcfragment_imagebutton_wish;
-  private ImageButton child_funcfragment_imagebutton_diary;
-  private ImageButton child_funcfragment_imagebutton_donate;
-  private ImageButton child_funcfragment_imagebutton_setting;
+  //头像框
+  private CircularImage circularImageUserImage;
+
+  //用户名
+  private TextView textViewUsername;
+
+  //显示剩余金钱数
+  private TextView textViewMoney;
+
+  //心愿按钮
+  private ImageButton imageButtonWish;
+
+  //日记按钮
+  private ImageButton imageButtonDiary;
+
+  //捐赠按钮
+  private ImageButton imageButtonDonate;
+
+  //更多设置按钮
+  private ImageButton imageButtonSetting;
 
   //回调的监听
   private OnChildFuncFragmentInteractionListener mListener;
@@ -59,9 +71,7 @@ public class ChildFuncFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-
     View view = inflater.inflate(R.layout.fragment_child_func, container, false);
-
     initView(view);
     return view;
   }
@@ -90,9 +100,9 @@ public class ChildFuncFragment extends Fragment {
 
   private void initView(View w) {
 
-    child_funcfragment_circularimage_userimage = (CircularImage) w.findViewById(R.id.child_funcfragment_circularimage_userimage);
-    child_funcfragment_circularimage_userimage.setImageResource(R.mipmap.ic_launcher);
-    child_funcfragment_circularimage_userimage.setOnClickListener(new View.OnClickListener() {
+    circularImageUserImage= (CircularImage) w.findViewById(R.id.child_funcfragment_circularimage_userimage);
+    circularImageUserImage.setImageResource(R.mipmap.ic_launcher);
+    circularImageUserImage.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0)
@@ -101,15 +111,13 @@ public class ChildFuncFragment extends Fragment {
       }
     });
 
-    child_funcfragment_textview_username = (TextView) w.findViewById(R.id.child_funcfragment_textview_username);
-    child_funcfragment_textview_username.setText(preferences.getString(AppConstant.FROM_USERID, ""));
-
-    child_funcfragment_textview_money = (TextView) w.findViewById(R.id.child_funcfragment_textview_money);
-
-    child_funcfragment_imagebutton_wish = (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_wish);
-    child_funcfragment_imagebutton_wish.setBackground(
+    textViewUsername = (TextView) w.findViewById(R.id.child_funcfragment_textview_username);
+    textViewUsername.setText(preferences.getString(AppConstant.FROM_USERID, ""));
+    textViewMoney = (TextView) w.findViewById(R.id.child_funcfragment_textview_money);
+    imageButtonWish = (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_wish);
+    imageButtonWish.setBackground(
             new BitmapDrawable(AppConstant.readBitMap(getActivity(), R.mipmap.child_funcfragment_wish)));
-    child_funcfragment_imagebutton_wish.setOnClickListener(new View.OnClickListener() {
+    imageButtonWish.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(getActivity(), ChildWishActivity.class);
@@ -117,11 +125,10 @@ public class ChildFuncFragment extends Fragment {
       }
     });
 
-
-    child_funcfragment_imagebutton_diary = (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_diary);
-    child_funcfragment_imagebutton_diary.setBackground(
+    imageButtonDiary= (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_diary);
+    imageButtonDiary.setBackground(
             new BitmapDrawable(AppConstant.readBitMap(getActivity(), R.mipmap.child_funcfragment_diary)));
-    child_funcfragment_imagebutton_diary.setOnClickListener(new View.OnClickListener() {
+    imageButtonDiary.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(getActivity(), ChildDiaryActivity.class);
@@ -129,10 +136,10 @@ public class ChildFuncFragment extends Fragment {
       }
     });
 
-    child_funcfragment_imagebutton_donate = (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_donate);
-    child_funcfragment_imagebutton_donate.setBackground(
+    imageButtonDonate = (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_donate);
+    imageButtonDonate.setBackground(
             new BitmapDrawable(AppConstant.readBitMap(getActivity(), R.mipmap.child_funcfragment_donate)));
-    child_funcfragment_imagebutton_donate.setOnClickListener(new View.OnClickListener() {
+    imageButtonDonate.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(getActivity(), ChildDonateActivity.class);
@@ -140,10 +147,10 @@ public class ChildFuncFragment extends Fragment {
       }
     });
 
-    child_funcfragment_imagebutton_setting = (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_setting);
-    child_funcfragment_imagebutton_setting.setBackground(
+    imageButtonSetting = (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_setting);
+    imageButtonSetting.setBackground(
             new BitmapDrawable(AppConstant.readBitMap(getActivity(), R.mipmap.child_funcfragment_setting)));
-    child_funcfragment_imagebutton_setting.setOnClickListener(new View.OnClickListener() {
+    imageButtonSetting.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(getActivity(), ChildSettingActivity.class);

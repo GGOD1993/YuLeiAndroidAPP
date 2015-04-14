@@ -2,11 +2,9 @@ package com.example.pc.myapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,12 +24,20 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 public class FinishTaskActivity extends SwipeBackActivity
         implements HttpService.OnFinishDiyTaskRequestResponseListener{
 
+  //当前任务对象
   private DiyTaskInfo clickTask;
 
-  private EditText editTextChildId;
-  private EditText editTextTaskname;
-  private EditText editTextAward;
-  private EditText editTextTaskcontent;
+  //心愿的发布者
+  private TextView textViewFromUserId;
+
+  //心愿的名称
+  private TextView textViewTaskName;
+
+  //心愿奖励
+  private TextView textViewAward;
+
+  //心愿内容
+  private TextView textViewTaskContent;
 
   private ImageButton submit;
   private ImageButton cancel;
@@ -46,42 +52,19 @@ public class FinishTaskActivity extends SwipeBackActivity
     initViews();
   }
 
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_award_task, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
-  }
-
   private void initViews() {
 
-    editTextChildId = (EditText) findViewById(R.id.parent_finishtaskactivity_edittext_childid);
-    editTextTaskname = (EditText) findViewById(R.id.parent_finishtaskactivity_edittext_taskname);
-    editTextAward = (EditText) findViewById(R.id.parent_finishtaskactivity_editext_award);
-    editTextTaskcontent = (EditText) findViewById(R.id.parent_finishtaskactivity_editext_taskcontent);
+    textViewFromUserId = (TextView) findViewById(R.id.parent_finishtaskactivity_edittext_fromuserid);
+    textViewTaskName = (TextView) findViewById(R.id.parent_finishtaskactivity_edittext_taskname);
+    textViewAward = (TextView) findViewById(R.id.parent_finishtaskactivity_editext_award);
+    textViewTaskContent = (TextView) findViewById(R.id.parent_finishtaskactivity_editext_taskcontent);
     submit = (ImageButton) findViewById(R.id.parent_finishtaskactivity_imagebutton_submit);
     cancel = (ImageButton) findViewById(R.id.parent_finishtaskactivity_imagebutton_cancel);
 
-    editTextChildId.setText(clickTask.getFromUserId());
-    editTextTaskname.setText(clickTask.getTaskName());
-    editTextAward.setText(clickTask.getAward());
-    editTextTaskcontent.setText(clickTask.getTaskContent());
+    textViewFromUserId.setText(clickTask.getFromUserId());
+    textViewTaskName.setText(clickTask.getTaskName());
+    textViewAward.setText(clickTask.getAward());
+    textViewTaskContent.setText(clickTask.getTaskContent());
 
     submit.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -107,8 +90,8 @@ public class FinishTaskActivity extends SwipeBackActivity
    */
   @Override
   public void OnFinishDiyTaskSuccessResponse(JSONArray jsonArray) {
-    JSONObject codeObject =null;
-    JSONObject msgObject = null;
+    JSONObject codeObject;
+    JSONObject msgObject;
     try{
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);

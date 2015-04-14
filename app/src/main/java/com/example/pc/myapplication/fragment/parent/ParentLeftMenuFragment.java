@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +32,18 @@ public class ParentLeftMenuFragment extends Fragment
                    HttpService.OnGetInvitationRequestResponseListener,
                    HttpService.OnAddFriendRequestResponseListener{
 
+  //存储数据的sharedPreferences
   private SharedPreferences preferences;
 
-  private RelativeLayout parentactivity_leftmenu_relativelayout_moresetting;
-  private RelativeLayout parentactivity_leftmenu_relativelayout_addchild;
+  //更多设置
+  private RelativeLayout relativeLayoutMoreSetting;
+
+  //添加好友
+  private RelativeLayout relativeLayoutAddFriends;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState)
-  {
-
+                           Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.fragment_parent_left_menu, container, false);
     preferences = getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
     initView(v);
@@ -48,32 +51,24 @@ public class ParentLeftMenuFragment extends Fragment
   }
 
   private void initView(View v) {
-
-    parentactivity_leftmenu_relativelayout_moresetting = (RelativeLayout)
-            v.findViewById(R.id.parentactivity_leftmenu_relativelayout_moresetting);
-    parentactivity_leftmenu_relativelayout_moresetting
-            .setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ParentMoreSettingActivity.class));
-              }
-            });
-
-    parentactivity_leftmenu_relativelayout_addchild = (RelativeLayout)
-            v.findViewById(R.id.parentactivity_leftmenu_relativelayout_addchild);
-    parentactivity_leftmenu_relativelayout_addchild
-            .setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-
-                HttpService.DoGetInvitationRequest(
-                        Request.Method.GET,
-                        AppConstant.GET_INVITATION_URL + "?userid=" + preferences.getString(AppConstant.FROM_USERID,""),
-                        null,
-                        ParentLeftMenuFragment.this);
-
-              }
-            });
+    relativeLayoutMoreSetting = (RelativeLayout) v.findViewById(R.id.parentactivity_leftmenu_relativelayout_moresetting);
+    relativeLayoutMoreSetting.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        startActivity(new Intent(getActivity(), ParentMoreSettingActivity.class));
+      }
+    });
+    relativeLayoutAddFriends = (RelativeLayout) v.findViewById(R.id.parentactivity_leftmenu_relativelayout_addchild);
+    relativeLayoutAddFriends.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        HttpService.DoGetInvitationRequest(
+                Request.Method.GET,
+                AppConstant.GET_INVITATION_URL + "?" +AppConstant.USERID + "=" + preferences.getString(AppConstant.FROM_USERID, ""),
+                null,
+                ParentLeftMenuFragment.this);
+      }
+    });
   }
 
   /**
@@ -156,13 +151,13 @@ public class ParentLeftMenuFragment extends Fragment
 
   @Override
   public void OnGetInvitationSuccessResponse(JSONArray jsonArray) {
-
     if (null != jsonArray) {
       try {
         JSONObject object = (JSONObject) jsonArray.get(0);
         showGetInviteDialog(object.getString("parent"));
       } catch (JSONException e) {
         e.printStackTrace();
+        showUserInviteDialog();
       }
     } else {
       showUserInviteDialog();

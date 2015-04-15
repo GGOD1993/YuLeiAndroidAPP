@@ -74,6 +74,9 @@ public class AppConstant {
   public static final int STATUS_NEW = 0;
   public static final int STATUS_SUBMITTED = 1;
   public static final int STATUS_FINISHED = 2;
+  public static final String STATUS_NEW_STRING = "未提交";
+  public static final String STATUS_SUBMITTED_STRING = "已提交";
+  public static final String STATUS_FINISHED_STRING = "已审核";
   public static final String TASK_STATUS = "taskstatus";
   public static final String TASK_ID = "taskId";
   public static final String TASK_CONTENT = "content";

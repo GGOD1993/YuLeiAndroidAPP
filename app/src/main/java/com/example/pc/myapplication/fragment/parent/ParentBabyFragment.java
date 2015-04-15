@@ -11,26 +11,32 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
-import com.example.pc.myapplication.activity.FinishTaskActivity;
+import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.activity.SubmitTaskActivity;
-import com.example.pc.myapplication.activity.TaskInfoActivity;
 import com.example.pc.myapplication.activity.parent.ParentMainActivity;
 import com.example.pc.myapplication.adapter.ParentRecyclerViewAdapter;
 import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
+
 public class ParentBabyFragment extends Fragment
-        implements HttpService.OnGetDiyTaskRequestResponseListener, RecyclerViewItemClickListener{
+        implements HttpService.OnGetDiyTaskRequestResponseListener,
+        RecyclerViewItemClickListener,
+        HttpService.OnSubmitDiyTaskRequestResponseListener{
 
   //fragment所在的activity
   private ParentMainActivity activity;
@@ -77,24 +83,25 @@ public class ParentBabyFragment extends Fragment
     activity = (ParentMainActivity) getActivity();
     preferences = activity.getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
     initViews(v);
-
     return v;
   }
-
   /**
    * 初始化fragment中的控件
    * @param v
    */
   private void initViews(View v) {
-
     mRecyclerView = (RecyclerView) v.findViewById(R.id.parent_babyfragment_recyclerview);
     mPullRefresh = (SwipeRefreshLayout) v.findViewById(R.id.parent_babyfragment_swiperefreshlayout);
     LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
-    recyclerViewAdapter = new ParentRecyclerViewAdapter(taskList, activity, AppConstant.RECIVE_TASK_TYPE);
+    recyclerViewAdapter = new ParentRecyclerViewAdapter(taskList, ParentBabyFragment.this, AppConstant.RECIVE_TASK_TYPE);
     recyclerViewAdapter.setOnItemClickListener(this);
+    mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
+    ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(recyclerViewAdapter);
+    scaleAdapter.setFirstOnly(false);
+    AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
+    alphaAdapter.setFirstOnly(false);
+    mRecyclerView.setAdapter(alphaAdapter);
     mRecyclerView.setLayoutManager(layoutManager);
-    mRecyclerView.setAdapter(recyclerViewAdapter);
-
     mPullRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
@@ -142,14 +149,15 @@ public class ParentBabyFragment extends Fragment
         );
         switch (arrayTask.getInt(AppConstant.TASK_STATUS)) {
           case AppConstant.STATUS_NEW:
+            taskInfo.setTaskStatus(AppConstant.STATUS_NEW);
             taskList.add(taskInfo);
             break;
-
           case AppConstant.STATUS_SUBMITTED:
+            taskInfo.setTaskStatus(AppConstant.STATUS_SUBMITTED);
             submittedTask.add(taskInfo);
             break;
-
           case AppConstant.STATUS_FINISHED:
+            taskInfo.setTaskStatus(AppConstant.STATUS_FINISHED);
             finishedTask.add(taskInfo);
             break;
         }
@@ -167,6 +175,32 @@ public class ParentBabyFragment extends Fragment
   @Override
   public void OnGetDiyTaskErrorResponse(String errorResult) {
     mPullRefresh.setRefreshing(true);
+  }
+
+  @Override
+  public void OnSubmitDiyTaskSuccessResponse(JSONArray jsonArray) {
+    JSONObject codeObject;
+    JSONObject msgObject;
+    try{
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      if (null != codeObject) {
+      }
+      if (null != msgObject) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void OnSubmitDiyTaskErrorResponse(String errorResult) {
+    showToast(errorResult);
+  }
+
+  private void showToast(String string) {
+    Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
   }
 
   @Override

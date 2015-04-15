@@ -31,6 +31,7 @@ import com.shamanland.fab.FloatingActionButton;
 import com.shamanland.fab.ShowHideOnScroll;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -41,7 +42,8 @@ import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
 public class ParentMsgFragment extends Fragment implements
         RecyclerViewItemClickListener,
-        HttpService.OnGetSendDiyTaskRequestResponseListener{
+        HttpService.OnGetSendDiyTaskRequestResponseListener,
+        HttpService.OnFinishDiyTaskRequestResponseListener{
 
   //从activity中获得的volley请求队列
   private RequestQueue requestQueue;
@@ -148,7 +150,7 @@ public class ParentMsgFragment extends Fragment implements
     });
     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(layoutManager);
-    parentRecyclerViewAdapter = new ParentRecyclerViewAdapter(taskList,getActivity(), AppConstant.SEND_TASK_TYPE);
+    parentRecyclerViewAdapter = new ParentRecyclerViewAdapter(taskList,ParentMsgFragment.this, AppConstant.SEND_TASK_TYPE);
     parentRecyclerViewAdapter.setOnItemClickListener(this);
     recyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(parentRecyclerViewAdapter);
@@ -208,7 +210,6 @@ public class ParentMsgFragment extends Fragment implements
                 arrayTask.getString(AppConstant.TASK_CONTENT),
                 arrayTask.getString(AppConstant.FROM_USERID)
         );
-
         switch (arrayTask.getInt(AppConstant.TASK_STATUS)) {
           case AppConstant.STATUS_NEW:
             taskInfo.setTaskStatus(AppConstant.STATUS_NEW);
@@ -237,9 +238,32 @@ public class ParentMsgFragment extends Fragment implements
   }
 
   @Override
-  public void OnGetSendDiyTaskErrorResponse(String errorResult) {
+  public void OnGetSendDiyTaskErrorResponse(String errorResult){
     showToast(errorResult);
   }
+
+  @Override
+  public void OnFinishDiyTaskSuccessResponse(JSONArray jsonArray) {
+    JSONObject codeObject;
+    JSONObject msgObject;
+    try{
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      if (null != codeObject) {
+      }
+      if (null != msgObject) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void OnFinishDiyTaskErrorResponse(String errorResult) {
+    showToast(errorResult);
+  }
+
 
   private void showToast(String string) {
     Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();

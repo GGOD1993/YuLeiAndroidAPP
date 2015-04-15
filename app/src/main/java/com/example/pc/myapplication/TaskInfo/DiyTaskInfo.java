@@ -9,6 +9,7 @@ public class DiyTaskInfo implements Serializable {
   private String toUserId;
   private String fromUserId;
   private String taskContent;
+  private int taskStatus;
 
   public DiyTaskInfo(String toUserId, String taskName, String award, String taskContent, String fromUserId) {
     this.award = award;
@@ -16,6 +17,15 @@ public class DiyTaskInfo implements Serializable {
     this.toUserId = toUserId;
     this.taskContent = taskContent;
     this.fromUserId = fromUserId;
+    this.taskStatus = 0;
+  }
+
+  public int getTaskStatus() {
+    return taskStatus;
+  }
+
+  public void setTaskStatus(int taskStatus) {
+    this.taskStatus = taskStatus;
   }
 
   public String getToUserId() {

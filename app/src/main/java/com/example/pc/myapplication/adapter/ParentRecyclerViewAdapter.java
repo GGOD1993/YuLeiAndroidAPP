@@ -12,7 +12,7 @@ import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 
 import java.util.List;
 
-public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder>{
+public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
   //上下文的引用
   private Context context;
@@ -38,20 +38,35 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     // 创建一个View，简单起见直接使用系统提供的布局，就是一个TextView
     View view = View.inflate(viewGroup.getContext(), R.layout.layout_parent_recyclerview_item, null);
     // 创建一个ViewHolder
+    if (i == 0) {
+      view.setTag(AppConstant.RECYCLERVIEW_FIRST_TAG);
+    }
     RecyclerViewHolder holder = new RecyclerViewHolder(view, recyclerViewItemClickListener);
     return holder;
   }
 
   @Override
-  public void onBindViewHolder(RecyclerViewHolder viewHolder, int i) {
+  public void onBindViewHolder(RecyclerViewHolder viewHolder,final int i) {
     // 绑定数据到ViewHolder上
-    DiyTaskInfo task = taskList.get(i);
-
+    final DiyTaskInfo task = taskList.get(i);
     if (AppConstant.SEND_TASK_TYPE == type) viewHolder.textViewUserId.setText(task.getToUserId());
     else viewHolder.textViewUserId.setText(task.getFromUserId());
+    switch (task.getTaskStatus()) {
+      case AppConstant.STATUS_NEW:
+        viewHolder.relativeLayoutHeader.setBackgroundColor(R.color.greenyellow);
+        break;
+      case AppConstant.STATUS_SUBMITTED:
+        viewHolder.relativeLayoutHeader.setBackgroundColor(R.color.greenyellow);
+        break;
+
+      case AppConstant.STATUS_FINISHED:
+        viewHolder.relativeLayoutHeader.setBackgroundColor(R.color.greenyellow);
+        break;
+    }
     viewHolder.textViewTaskName.setText(task.getTaskName());
     viewHolder.textViewAwrad.setText((task.getAward()));
     viewHolder.circularImageUserImage.setImageResource(R.mipmap.ic_launcher);
+    viewHolder.textViewTaskContent.setText(task.getTaskContent());
   }
 
   @Override

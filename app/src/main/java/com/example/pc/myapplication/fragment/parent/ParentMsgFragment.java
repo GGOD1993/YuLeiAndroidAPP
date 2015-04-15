@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.recyclerview.animators.FadeInRightAnimator;
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
@@ -87,7 +89,7 @@ public class ParentMsgFragment extends Fragment implements
                            Bundle savedInstanceState) {
 
     View w = inflater.inflate(R.layout.fragment_parent_msg, container, false);
-    taskList = new ArrayList<DiyTaskInfo>();
+    taskList = new ArrayList<>();
     preferences = getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
     initView(w);
     return w;
@@ -148,7 +150,7 @@ public class ParentMsgFragment extends Fragment implements
     recyclerView.setLayoutManager(layoutManager);
     parentRecyclerViewAdapter = new ParentRecyclerViewAdapter(taskList,getActivity(), AppConstant.SEND_TASK_TYPE);
     parentRecyclerViewAdapter.setOnItemClickListener(this);
-    recyclerView.addItemDecoration(new SpaceItemDecoration(20));
+    recyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(parentRecyclerViewAdapter);
     scaleAdapter.setFirstOnly(false);
     AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
@@ -162,13 +164,20 @@ public class ParentMsgFragment extends Fragment implements
       @Override
       public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (recyclerView.getChildCount() != 0) {
-          if (recyclerView.findViewHolderForPosition(0) != null) {
-            mSwipefreshlayout.setEnabled(true);
-          }
-          else {
-            mSwipefreshlayout.setEnabled(false);
-          }
+          if (recyclerView.findViewHolderForPosition(0) != null) mSwipefreshlayout.setEnabled(true);
+          else mSwipefreshlayout.setEnabled(false);
         }
+
+//        Log.e("child0", recyclerView.getChildAt(0) + "");
+//        Log.e("tag", recyclerView.findViewWithTag(AppConstant.RECYCLERVIEW_FIRST_TAG) + "");
+//        if (recyclerView.getChildAt(0).equals(
+//                recyclerView.findViewWithTag(AppConstant.RECYCLERVIEW_FIRST_TAG)) && recyclerView.getChildAt(0).getY() < (float)0.5){
+//          Log.e("true", "true");
+//                      mSwipefreshlayout.setEnabled(true);
+//        } else {
+//          Log.e("false", "false");
+//                      mSwipefreshlayout.setEnabled(false);
+//        }
       }
     });
   }
@@ -199,16 +208,20 @@ public class ParentMsgFragment extends Fragment implements
                 arrayTask.getString(AppConstant.TASK_CONTENT),
                 arrayTask.getString(AppConstant.FROM_USERID)
         );
+
         switch (arrayTask.getInt(AppConstant.TASK_STATUS)) {
           case AppConstant.STATUS_NEW:
+            taskInfo.setTaskStatus(AppConstant.STATUS_NEW);
             taskList.add(taskInfo);
             break;
 
           case AppConstant.STATUS_SUBMITTED:
+            taskInfo.setTaskStatus(AppConstant.STATUS_SUBMITTED);
             submittedTask.add(taskInfo);
             break;
 
           case AppConstant.STATUS_FINISHED:
+            taskInfo.setTaskStatus(AppConstant.STATUS_FINISHED);
             finishedTask.add(taskInfo);
             break;
         }
@@ -221,25 +234,6 @@ public class ParentMsgFragment extends Fragment implements
     parentRecyclerViewAdapter.notifyDataSetChanged();
     submittedTask = null;
     finishedTask = null;
-//    JSONObject arrayTask;
-//    DiyTaskInfo taskInfo;
-//    taskList.clear();
-//    for (int i = 0 ; i < jsonArray.length() ; i ++) {
-//      try{
-//        arrayTask = (JSONObject) jsonArray.get(i);
-//        taskInfo = new DiyTaskInfo(
-//                arrayTask.getString(AppConstant.TO_USERID),
-//                arrayTask.getString(AppConstant.TASK_ID),
-//                arrayTask.getString(AppConstant.TASK_REGDATE),
-//                arrayTask.getString(AppConstant.TASK_CONTENT),
-//                arrayTask.getString(AppConstant.FROM_USERID)
-//        );
-//        taskList.add(taskInfo);
-//        parentRecyclerViewAdapter.notifyDataSetChanged();
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//      }
-//    }
   }
 
   @Override

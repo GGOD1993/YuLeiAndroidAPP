@@ -25,6 +25,7 @@ public class AppConstant {
   public static final int PARENT_ADDSYSTEMTASK_REQUESTCODE = 8;
   public static final int PARENT_ADDSYSTEMTASK_RESULTCODE = 9;
 
+  public static final int RECYCLERVIEW_FIRST_TAG = 1;
 
 
   //孩子端控件漂浮参数

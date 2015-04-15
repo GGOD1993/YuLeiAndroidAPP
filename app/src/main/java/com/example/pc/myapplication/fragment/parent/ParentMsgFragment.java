@@ -1,6 +1,5 @@
 package com.example.pc.myapplication.fragment.parent;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,9 +19,10 @@ import com.android.volley.RequestQueue;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
+import com.example.pc.myapplication.activity.TaskInfoActivity;
 import com.example.pc.myapplication.activity.parent.ParentAddDiyTaskActivity;
 import com.example.pc.myapplication.activity.parent.ParentAddSystemTaskActivity;
-import com.example.pc.myapplication.activity.TaskInfoActivity;
 import com.example.pc.myapplication.adapter.ParentRecyclerViewAdapter;
 import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
 import com.example.pc.myapplication.utils.HttpService;
@@ -34,6 +33,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
 public class ParentMsgFragment extends Fragment implements
         RecyclerViewItemClickListener,
@@ -146,7 +148,12 @@ public class ParentMsgFragment extends Fragment implements
     recyclerView.setLayoutManager(layoutManager);
     parentRecyclerViewAdapter = new ParentRecyclerViewAdapter(taskList,getActivity(), AppConstant.SEND_TASK_TYPE);
     parentRecyclerViewAdapter.setOnItemClickListener(this);
-    recyclerView.setAdapter(parentRecyclerViewAdapter);
+    recyclerView.addItemDecoration(new SpaceItemDecoration(20));
+    ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(parentRecyclerViewAdapter);
+    scaleAdapter.setFirstOnly(false);
+    AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
+    alphaAdapter.setFirstOnly(false);
+    recyclerView.setAdapter(alphaAdapter);
     recyclerView.setOnTouchListener(new ShowHideOnScroll(floatingActionButton));
     recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
       @Override
@@ -179,6 +186,8 @@ public class ParentMsgFragment extends Fragment implements
     mSwipefreshlayout.setRefreshing(false);
     JSONObject arrayTask;
     DiyTaskInfo taskInfo;
+    ArrayList<DiyTaskInfo> submittedTask = new ArrayList<>();
+    ArrayList<DiyTaskInfo> finishedTask = new ArrayList<>();
     taskList.clear();
     for (int i = 0 ; i < jsonArray.length() ; i ++) {
       try{
@@ -190,12 +199,47 @@ public class ParentMsgFragment extends Fragment implements
                 arrayTask.getString(AppConstant.TASK_CONTENT),
                 arrayTask.getString(AppConstant.FROM_USERID)
         );
-        taskList.add(taskInfo);
-        parentRecyclerViewAdapter.notifyDataSetChanged();
+        switch (arrayTask.getInt(AppConstant.TASK_STATUS)) {
+          case AppConstant.STATUS_NEW:
+            taskList.add(taskInfo);
+            break;
+
+          case AppConstant.STATUS_SUBMITTED:
+            submittedTask.add(taskInfo);
+            break;
+
+          case AppConstant.STATUS_FINISHED:
+            finishedTask.add(taskInfo);
+            break;
+        }
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+    taskList.addAll(submittedTask);
+    taskList.addAll(finishedTask);
+    parentRecyclerViewAdapter.notifyDataSetChanged();
+    submittedTask = null;
+    finishedTask = null;
+//    JSONObject arrayTask;
+//    DiyTaskInfo taskInfo;
+//    taskList.clear();
+//    for (int i = 0 ; i < jsonArray.length() ; i ++) {
+//      try{
+//        arrayTask = (JSONObject) jsonArray.get(i);
+//        taskInfo = new DiyTaskInfo(
+//                arrayTask.getString(AppConstant.TO_USERID),
+//                arrayTask.getString(AppConstant.TASK_ID),
+//                arrayTask.getString(AppConstant.TASK_REGDATE),
+//                arrayTask.getString(AppConstant.TASK_CONTENT),
+//                arrayTask.getString(AppConstant.FROM_USERID)
+//        );
+//        taskList.add(taskInfo);
+//        parentRecyclerViewAdapter.notifyDataSetChanged();
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//      }
+//    }
   }
 
   @Override

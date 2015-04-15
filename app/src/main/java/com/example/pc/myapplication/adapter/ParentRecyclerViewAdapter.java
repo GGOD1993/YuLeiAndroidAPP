@@ -51,7 +51,6 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     else viewHolder.textViewUserId.setText(task.getFromUserId());
     viewHolder.textViewTaskName.setText(task.getTaskName());
     viewHolder.textViewAwrad.setText((task.getAward()));
-    viewHolder.textViewTaskStatus.setImageResource(R.mipmap.image_parent_recyclerview_item_doing);
     viewHolder.circularImageUserImage.setImageResource(R.mipmap.ic_launcher);
   }
 

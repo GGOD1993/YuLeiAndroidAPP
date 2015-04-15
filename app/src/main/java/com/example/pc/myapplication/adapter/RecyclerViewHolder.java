@@ -19,9 +19,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
   //任务奖励
   public TextView textViewAwrad;
 
-  //任务状态
-  public ImageView textViewTaskStatus;
-
   //头像框
   public CircularImage circularImageUserImage;
 
@@ -33,7 +30,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
     textViewUserId = (TextView) itemView.findViewById(R.id.parent_recyclerview_textview_childid);
     textViewTaskName = (TextView) itemView.findViewById(R.id.parent_recyclerview_textview_briefinfo);
     textViewAwrad = (TextView) itemView.findViewById(R.id.parent_rectclerview_textview_award);
-    textViewTaskStatus = (ImageView) itemView.findViewById(R.id.parent_recyclerview_imageview_taskstate);
     circularImageUserImage = (CircularImage) itemView.findViewById(R.id.parent_recyclerview_circularimage_userimage);
     this.mListener = mListener;
     itemView.setOnClickListener(this);

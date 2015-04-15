@@ -11,7 +11,6 @@ public class DiyTaskInfo implements Serializable {
   private String taskContent;
 
   public DiyTaskInfo(String toUserId, String taskName, String award, String taskContent, String fromUserId) {
-
     this.award = award;
     this.taskName = taskName;
     this.toUserId = toUserId;

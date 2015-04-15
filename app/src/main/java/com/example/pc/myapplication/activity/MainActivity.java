@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -34,6 +35,8 @@ import java.util.HashMap;
 public class MainActivity extends ActionBarActivity implements
         HttpService.OnLoginRequestResponseListener {
 
+  //再次点击返回桌面
+  private long exitTime = 0;
   //家长或孩子的模式参数
   private int mode;
 
@@ -258,6 +261,23 @@ public class MainActivity extends ActionBarActivity implements
 
   public void OnLoginErrorResponse(String errorMsg) {
     showToast(errorMsg);
+  }
+
+  @Override
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+      if((System.currentTimeMillis()-exitTime) > 2000){
+        showToast("亲~再点一次返回桌面");
+        exitTime = System.currentTimeMillis();
+      } else {
+        Intent i = new Intent(Intent.ACTION_MAIN);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addCategory(Intent.CATEGORY_HOME);
+        startActivity(i);
+      }
+      return true;
+    }
+    return super.onKeyDown(keyCode, event);
   }
 
   private void showToast(String string) {

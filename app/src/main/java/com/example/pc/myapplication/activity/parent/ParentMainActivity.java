@@ -171,12 +171,9 @@ public class ParentMainActivity extends FragmentActivity implements
   }
 
   private void initEvents(){
-    mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener()
-    {
+    mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
       @Override
-      public void onDrawerStateChanged(int newState)
-      {
-      }
+      public void onDrawerStateChanged(int newState) { }
 
       @Override
       public void onDrawerSlide(View drawerView, float slideOffset)
@@ -184,10 +181,7 @@ public class ParentMainActivity extends FragmentActivity implements
         View mContent = mDrawerLayout.getChildAt(0);
         float scale = 1 - slideOffset;
         float rightScale = 0.8f + scale * 0.2f;
-
-        if (drawerView.getTag().equals("LEFT"))
-        {
-
+        if (drawerView.getTag().equals("LEFT")) {
           float leftScale = 1 - 0.3f * scale;
           ViewHelper.setScaleX(drawerView, leftScale);
           ViewHelper.setScaleY(drawerView, leftScale);
@@ -199,28 +193,18 @@ public class ParentMainActivity extends FragmentActivity implements
                   mContent.getMeasuredHeight() / 2);
           ViewHelper.setScaleX(mContent, rightScale);
           ViewHelper.setScaleY(mContent, rightScale);
-
         } else {
-          ViewHelper.setTranslationX(mContent,
-                  -drawerView.getMeasuredWidth() * slideOffset);
+          ViewHelper.setTranslationX(mContent, -drawerView.getMeasuredWidth() * slideOffset);
           ViewHelper.setPivotX(mContent, mContent.getMeasuredWidth());
-          ViewHelper.setPivotY(mContent,
-                  mContent.getMeasuredHeight() / 2);
-
+          ViewHelper.setPivotY(mContent, mContent.getMeasuredHeight() / 2);
           ViewHelper.setScaleX(mContent, rightScale);
           ViewHelper.setScaleY(mContent, rightScale);
         }
       }
-
       @Override
-      public void onDrawerOpened(View drawerView)
-      {
-      }
-
+      public void onDrawerOpened(View drawerView) { }
       @Override
-      public void onDrawerClosed(View drawerView)
-      {
-      }
+      public void onDrawerClosed(View drawerView) { }
     });
   }
 
@@ -235,16 +219,9 @@ public class ParentMainActivity extends FragmentActivity implements
     mDrawerLayout.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.bg_slight_rain_night)));
     relativeLayoutViewPagerParent = (RelativeLayout) findViewById(R.id.parent_mainactivity_relativelayout_viewpager);
     textViewMoney.setText(String.valueOf(preferences.getInt(AppConstant.LEFT_MONEY, 0)));
-//    parentactivity_relativelayout_root.setBackground(
-//            new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.bg_slight_rain_day))
-//    );
-//    relativeLayoutViewpagerParent.setBackgroundColor(R.color.papayawhip);
-
     if (nowTime.equals(preferences.getString(AppConstant.EVERYDAY_TASK, ""))) {
       imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_done);
-    } else {
-      imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_normal);
-    }
+    } else imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_normal);
     imageButtonOpenLeftMenu.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
@@ -282,16 +259,16 @@ public class ParentMainActivity extends FragmentActivity implements
   private void addNewTask(DiyTaskInfo newTask) {
     HashMap<String, String> map = new HashMap<>();
     map.put(AppConstant.FROM_USERID, from_userid);
-    map.put("content", newTask.getTaskContent());
-    map.put("to_userid", newTask.getToUserId());
-    map.put("award", newTask.getAward());
+    map.put(AppConstant.TASK_CONTENT, newTask.getTaskContent());
+    map.put(AppConstant.TO_USERID, newTask.getToUserId());
+    map.put(AppConstant.AWARD, newTask.getAward());
     HttpService.DoSetDiyTaskRequest(Request.Method.POST, AppConstant.SET_DIY_TASK_URL, map, ParentMainActivity.this);
   }
 
   @Override
   public void OnSetDiyTaskSuccessResponse(JSONArray jsonArray) {
-    JSONObject codeObject =null;
-    JSONObject msgObject = null;
+    JSONObject codeObject;
+    JSONObject msgObject;
     try{
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
@@ -311,7 +288,6 @@ public class ParentMainActivity extends FragmentActivity implements
   @Override
   public void OnSetDiyTaskErrorResponse(String errorResult) {
     showToast(errorResult);
-    Log.e("error", errorResult);
   }
 
   private void showToast(String string) {

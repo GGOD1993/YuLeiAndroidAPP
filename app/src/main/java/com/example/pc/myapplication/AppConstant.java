@@ -58,6 +58,7 @@ public class AppConstant {
   public static final String PASSWORD = "password";
   public static final String EMAIL = "email";
   public static final String NICKNAME = "nickname";
+  public static final String AWARD = "award";
   public static final String GENDER = "gender";
   public static final String PREFERENCE_NAME = "yulei";
   public static final String CLICKED_SYSTEM_TASK = "clickedSystemTask";
@@ -69,6 +70,10 @@ public class AppConstant {
   //和任务相关的关键字
   public static final int SEND_TASK_TYPE = 1;
   public static final int RECIVE_TASK_TYPE = 2;
+  public static final int STATUS_NEW = 0;
+  public static final int STATUS_SUBMITTED = 1;
+  public static final int STATUS_FINISHED = 2;
+  public static final String TASK_STATUS = "taskstatus";
   public static final String TASK_ID = "taskId";
   public static final String TASK_CONTENT = "content";
   public static final String TASK_REGDATE = "regdate";

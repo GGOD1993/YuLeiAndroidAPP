@@ -125,11 +125,12 @@ public class ParentBabyFragment extends Fragment
   @Override
   public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray) {
     mPullRefresh.setRefreshing(false);
-    JSONObject arrayTask = null;
-    DiyTaskInfo taskInfo = null;
+    JSONObject arrayTask;
+    DiyTaskInfo taskInfo;
+    ArrayList<DiyTaskInfo> submittedTask = new ArrayList<>();
+    ArrayList<DiyTaskInfo> finishedTask = new ArrayList<>();
     taskList.clear();
     for (int i = 0 ; i < jsonArray.length() ; i ++) {
-
       try{
         arrayTask = (JSONObject) jsonArray.get(i);
         taskInfo = new DiyTaskInfo(
@@ -139,12 +140,28 @@ public class ParentBabyFragment extends Fragment
                 arrayTask.getString(AppConstant.TASK_CONTENT),
                 arrayTask.getString(AppConstant.FROM_USERID)
         );
-        taskList.add(taskInfo);
-        recyclerViewAdapter.notifyDataSetChanged();
+        switch (arrayTask.getInt(AppConstant.TASK_STATUS)) {
+          case AppConstant.STATUS_NEW:
+            taskList.add(taskInfo);
+            break;
+
+          case AppConstant.STATUS_SUBMITTED:
+            submittedTask.add(taskInfo);
+            break;
+
+          case AppConstant.STATUS_FINISHED:
+            finishedTask.add(taskInfo);
+            break;
+        }
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+    taskList.addAll(submittedTask);
+    taskList.addAll(finishedTask);
+    recyclerViewAdapter.notifyDataSetChanged();
+    submittedTask = null;
+    finishedTask = null;
   }
 
   @Override

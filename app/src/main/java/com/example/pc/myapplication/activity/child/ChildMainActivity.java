@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.adapter.ChildViewpagerAdapter;
@@ -22,7 +20,6 @@ import com.example.pc.myapplication.fragment.child.ChildWishFragment;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 import java.util.ArrayList;
-
 
 public class ChildMainActivity extends FragmentActivity
         implements ChildWishFragment.onChildWishFragmentInteractionListener,
@@ -52,17 +49,14 @@ public class ChildMainActivity extends FragmentActivity
 
   @Override
   public void onChildMsgFragmentInteraction() {
-
   }
 
   @Override
   public void onChildWishFragmentInteraction() {
-
   }
 
   @Override
   public void onChildFuncFragmentInteraction() {
-
   }
 
   @Override
@@ -78,10 +72,9 @@ public class ChildMainActivity extends FragmentActivity
     viewPager = (ViewPager) findViewById(R.id.child_mainactivity_viewpager);
     viewPagerIndicator = (UnderlinePageIndicator) findViewById(R.id.child_mainactivity_indicator);
     relativeLayoutRoot = (RelativeLayout) findViewById(R.id.child_mainactivity_relativelayout_root);
-
     fragmentList = new ArrayList<>();
-    fragmentList.add(ChildMsgFragment.newInstance());
     fragmentList.add(ChildWishFragment.newInstance());
+    fragmentList.add(ChildMsgFragment.newInstance());
     fragmentList.add(ChildFuncFragment.newInstance(preferences));
     mAdapter = new ChildViewpagerAdapter(getSupportFragmentManager(), ChildMainActivity.this, fragmentList);
     viewPager.setAdapter(mAdapter);
@@ -106,28 +99,6 @@ public class ChildMainActivity extends FragmentActivity
       return true;
     }
     return super.onKeyDown(keyCode, event);
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_child_main, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
   }
 
   private void showToast(String string) {

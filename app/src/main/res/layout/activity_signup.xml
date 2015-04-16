@@ -38,7 +38,7 @@
         <EditText
             android:id="@+id/signupactivity_edittext_username"
             android:layout_width="250dip"
-            android:layout_height="40dip"
+            android:layout_height="45dip"
             android:layout_margin="5dip"
             android:textSize="9pt"
             android:textColorHint="@color/login_hint_color"
@@ -49,7 +49,7 @@
         <EditText
             android:id="@+id/signupactivity_edittext_nickname"
             android:layout_width="250dip"
-            android:layout_height="40dip"
+            android:layout_height="45dip"
             android:layout_margin="5dip"
             android:textSize="9pt"
             android:textColorHint="@color/login_hint_color"
@@ -62,7 +62,7 @@
         <EditText
             android:id="@+id/signupactivity_edittext_email"
             android:layout_width="250dip"
-            android:layout_height="40dip"
+            android:layout_height="45dip"
             android:layout_margin="5dip"
             android:textSize="9pt"
             android:textColorHint="@color/login_hint_color"
@@ -75,7 +75,7 @@
         <EditText
             android:id="@+id/signupactivity_edittext_password"
             android:layout_width="250dip"
-            android:layout_height="40dip"
+            android:layout_height="45dip"
             android:layout_margin="5dip"
             android:textSize="9pt"
             android:textColorHint="@color/login_hint_color"
@@ -88,7 +88,7 @@
         <EditText
             android:id="@+id/signupactivity_edittext_password_makesure"
             android:layout_width="250dip"
-            android:layout_height="40dip"
+            android:layout_height="45dip"
             android:layout_margin="5dip"
             android:textSize="9pt"
             android:textColorHint="@color/login_hint_color"

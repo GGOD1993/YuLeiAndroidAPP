@@ -245,13 +245,18 @@ public class MainActivity extends ActionBarActivity implements
   public void OnLoginSuccessResponse(JSONArray jsonArray){
     JSONObject codeObject;
     JSONObject msgObject;
+    JSONObject moneyObject;
     try{
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
+      moneyObject = (JSONObject) jsonArray.get(2);
       if (null != codeObject) {
       }
       if (null != msgObject) {
         showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      }
+      if (null != moneyObject) {
+        preferences.edit().putInt(AppConstant.LEFT_MONEY, moneyObject.getInt(AppConstant.MONEY)).apply();
       }
     } catch (JSONException e) {
       e.printStackTrace();

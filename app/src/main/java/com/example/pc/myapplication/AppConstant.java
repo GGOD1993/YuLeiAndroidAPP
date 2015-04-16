@@ -48,6 +48,7 @@ public class AppConstant {
   public static final int FINISH_TASK_SUCCESS = 1310;
   public static final int SIGNUP_SUCCESS = 1105;
 
+  public static final String MONEY = "money";
   public static final String LEFT_MONEY = "leftmoney";
   public static final String EVERYDAY_TASK = "everytaskdonetime";
   public static final String RETURN_MSG = "msg";
@@ -81,7 +82,6 @@ public class AppConstant {
   public static final String TASK_ID = "taskId";
   public static final String TASK_CONTENT = "content";
   public static final String TASK_REGDATE = "regdate";
-  public static final String TASK_TO_BE_SUBMIT = "task_to_be_submit";
   public static final String NEW_TASK = "newTask";
 
   //发送广播的关键字

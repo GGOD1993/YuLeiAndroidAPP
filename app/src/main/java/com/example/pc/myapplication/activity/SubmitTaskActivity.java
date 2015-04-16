@@ -1,13 +1,9 @@
 package com.example.pc.myapplication.activity;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +11,6 @@ import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
-import com.example.pc.myapplication.fragment.parent.ParentMsgFragment;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;

@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+
 import java.util.ArrayList;
 
 
@@ -42,15 +45,10 @@ public class ActiveViewGroup extends ViewGroup{
     /**
      * 获得此ViewGroup上级容器为其推荐的宽和高，以及计算模式
      */
-
-    int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-    int heightMode = MeasureSpec.getMode(heightMeasureSpec);
     int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);
     int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
-
     // 计算出所有的childView的宽和高
     measureChildren(widthMeasureSpec, heightMeasureSpec);
-
     /**
      * 如果是wrap_content设置为我们计算的值
      * 否则：直接设置为父容器计算的值
@@ -62,8 +60,8 @@ public class ActiveViewGroup extends ViewGroup{
   protected void onLayout(boolean changed, int l, int t, int r, int b){
     int cCount = getChildCount();
     int mTotalHeight = 0;
-    int cWidth = 0;
-    int cHeight = 0;
+    int cWidth;
+    int cHeight;
 
     if (isRefresh) {
       for (int i = 0; i < cCount; i++){
@@ -74,8 +72,7 @@ public class ActiveViewGroup extends ViewGroup{
           mTotalHeight = 0;
           l += cWidth;
         }
-        childView.layout(l, mTotalHeight, l + cWidth, mTotalHeight
-                + cHeight);
+        childView.layout(l, mTotalHeight, l + cWidth, mTotalHeight + cHeight);
         mTotalHeight += cHeight;
       }
     }
@@ -91,12 +88,39 @@ public class ActiveViewGroup extends ViewGroup{
 
   public void removeActiveViewByTaskId(String taskId) {
     int i = 0;
-    ActiveView activeView = null;
+    ActiveView activeView;
     for (;i<getChildCount();i++) {
       activeView = (ActiveView) getChildAt(i);
       if (activeView.getTaskInfo().getTaskName().equals(taskId)) {
         break;
       }
+    }
+    removeActiveViewAt(i);
+    arrayList.remove(i);
+  }
+
+  public void changeActiveViewBgByTask(String taskId) {
+    int i = 0;
+    ActiveView activeView;
+    for (;i<getChildCount();i++) {
+      activeView = (ActiveView) getChildAt(i);
+      if (activeView.getTaskInfo().getTaskName().equals(taskId)) {
+        break;
+      }
+    }
+    int taskStatus = arrayList.get(i).getTaskInfo().getTaskStatus();
+    switch (taskStatus) {
+      case AppConstant.STATUS_NEW:
+//        arrayList.get(i).
+        break;
+
+      case AppConstant.STATUS_SUBMITTED:
+
+        break;
+
+      case AppConstant.STATUS_FINISHED:
+
+        break;
     }
     removeActiveViewAt(i);
     arrayList.remove(i);
@@ -109,5 +133,4 @@ public class ActiveViewGroup extends ViewGroup{
     }
     return arrayList;
   }
-
 }

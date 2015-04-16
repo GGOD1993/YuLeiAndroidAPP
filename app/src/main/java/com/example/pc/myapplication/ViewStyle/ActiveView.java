@@ -44,8 +44,6 @@ public class ActiveView extends ImageView implements View.OnClickListener{
   //View携带的任务信息
   private DiyTaskInfo taskInfo;
 
-  private Paint mPaint = new Paint();
-
   public ActiveView(Context context) {
     super(context);
     initParams();
@@ -84,43 +82,25 @@ public class ActiveView extends ImageView implements View.OnClickListener{
     return moveXSpeed;
   }
 
-  public void setMoveXSpeed(int moveXSpeed) {
-    this.moveXSpeed = moveXSpeed;
-  }
-
   public int getMoveYSpeed() {
     return moveYSpeed;
-  }
-
-  public void setMoveYSpeed(int moveYSpeed) {
-    this.moveYSpeed = moveYSpeed;
   }
 
   public float getRotateSpeed() {
     return rotateSpeed;
   }
 
-  public void setRotateSpeed(float rotateSpeed) {
-    this.rotateSpeed = rotateSpeed;
-  }
-
   public int getRotateDirection() {
     return rotateDirection;
   }
 
-  public void setRotateDirection(int rotateDirection) {
-    this.rotateDirection = rotateDirection;
-  }
-
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
   }
 
   @Override
   protected void onDraw(Canvas canvas) {
-
     super.onDraw(canvas);
   }
 
@@ -132,30 +112,18 @@ public class ActiveView extends ImageView implements View.OnClickListener{
     moveXSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
     moveYSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
     rotateSpeed = random.nextFloat() * 3;
-
-    if (random.nextInt(100)%2 == 0) {
-      moveXDirection = AppConstant.RIGHT_DIRECTION;
-    } else {
-      moveXDirection = AppConstant.LEFT_DIRECTION;
-    }
-
-    if (random.nextInt(100)%2 == 0) {
-      moveYDirection = AppConstant.UP_DIRECTION;
-    } else {
-      moveYDirection = AppConstant.DOWN_DIRECTION;
-    }
-
-    if (random.nextInt(100)%2 == 0) {
-      rotateDirection = AppConstant.CLOCKSIDE_DIRECTION;
-    } else {
-      rotateDirection = AppConstant.ANTICLOCKSIDE_DIRECTION;
-    }
+    if (random.nextInt(100)%2 == 0) moveXDirection = AppConstant.RIGHT_DIRECTION;
+    else moveXDirection = AppConstant.LEFT_DIRECTION;
+    if (random.nextInt(100)%2 == 0) moveYDirection = AppConstant.UP_DIRECTION;
+    else moveYDirection = AppConstant.DOWN_DIRECTION;
+    if (random.nextInt(100)%2 == 0) rotateDirection = AppConstant.CLOCKSIDE_DIRECTION;
+    else rotateDirection = AppConstant.ANTICLOCKSIDE_DIRECTION;
   }
 
   @Override
   public void onClick(View v) {
     Intent intent = new Intent(getContext(), SubmitTaskActivity.class);
-    intent.putExtra(AppConstant.TASK_TO_BE_SUBMIT, getTaskInfo());
+    intent.putExtra(AppConstant.CLICKED_SEND_TASK, getTaskInfo());
     getContext().startActivity(intent);
   }
 }

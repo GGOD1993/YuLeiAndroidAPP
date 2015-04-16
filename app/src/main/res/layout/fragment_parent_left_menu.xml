@@ -23,12 +23,13 @@
         />
 
     <LinearLayout
+        android:id="@+id/parent_leftmenu_linearlayout_userimage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/parentactivity_leftmenu_circularimage_userimage"
-        android:layout_marginTop="10dip">
+        android:layout_marginTop="25dip">
 
         <TextView
             android:text="@string/leftmoney"
@@ -39,7 +40,6 @@
             android:id="@+id/parentactivity_leftmenu_textview_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
             />
 
     </LinearLayout>
@@ -47,18 +47,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_below="@id/parent_leftmenu_linearlayout_userimage"
+        android:layout_marginTop="30dip">
 
         <RelativeLayout
             android:id="@+id/parentactivity_leftmenu_relativelayout_addchild"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip">
 
             <ImageView
                 android:id="@+id/one"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -73,7 +75,7 @@
                 android:layout_toEndOf="@id/one"
                 android:text="添 加 宝 贝"
                 android:textColor="#f0f0f0"
-                android:textSize="20sp"/>
+                android:textSize="10pt"/>
 
             <ImageView
                 android:background="@mipmap/ic_arrow"
@@ -81,19 +83,20 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
                 />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip">
 
             <ImageView
                 android:id="@+id/two"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -107,7 +110,7 @@
                 android:layout_toEndOf="@id/two"
                 android:text="布 置 任 务"
                 android:textColor="#f0f0f0"
-                android:textSize="20sp"/>
+                android:textSize="10pt"/>
 
             <ImageView
                 android:background="@mipmap/ic_arrow"
@@ -115,19 +118,20 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
                 />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
 
             <ImageView
                 android:id="@+id/three"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -141,7 +145,7 @@
                 android:layout_toEndOf="@id/three"
                 android:text="我 不 知 道"
                 android:textColor="#f0f0f0"
-                android:textSize="20sp" />
+                android:textSize="10pt" />
 
             <ImageView
                 android:background="@mipmap/ic_arrow"
@@ -149,19 +153,20 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
                 />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
 
             <ImageView
                 android:id="@+id/four"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -175,7 +180,7 @@
                 android:layout_toEndOf="@id/four"
                 android:text="更 多 皮 肤"
                 android:textColor="#f0f0f0"
-                android:textSize="20sp" />
+                android:textSize="10pt" />
 
             <ImageView
                 android:background="@mipmap/ic_arrow"
@@ -183,7 +188,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
                 />
 
         </RelativeLayout>
@@ -191,12 +196,13 @@
         <RelativeLayout
             android:id="@+id/parentactivity_leftmenu_relativelayout_moresetting"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_margin="5pt">
 
             <ImageView
                 android:id="@+id/five"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -210,7 +216,7 @@
                 android:layout_toEndOf="@id/five"
                 android:text="更 多 设 置"
                 android:textColor="#f0f0f0"
-                android:textSize="20sp" />
+                android:textSize="10pt" />
 
             <ImageView
                 android:background="@mipmap/ic_arrow"
@@ -218,7 +224,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
                 />
 
         </RelativeLayout>

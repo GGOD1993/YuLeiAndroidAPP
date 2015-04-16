@@ -109,10 +109,6 @@ public class ChildMsgFragment extends Fragment implements
     getActivity().unregisterReceiver(reciver);
   }
 
-  public void startMoveActiveView() {
-    activeHelper.startMove();
-  }
-
   public void stopMoveActiveView() {
     activeHelper.stopMove();
   }
@@ -122,7 +118,7 @@ public class ChildMsgFragment extends Fragment implements
    */
   private void startGetDiyTaskRequest() {
 
-    String url = AppConstant.GET_DIY_TASK_URL + "?username=" +
+    String url = AppConstant.GET_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
             getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0)
                     .getString(AppConstant.FROM_USERID, "");
 
@@ -151,7 +147,7 @@ public class ChildMsgFragment extends Fragment implements
    */
   private void addActiveView(JSONArray jsonArray) {
     activeViewGroup.removeAllViews();
-    ActiveView activeView = null;
+    ActiveView activeView;
     int count = jsonArray.length();
     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     for (int i = 0; i < count; i++) {
@@ -171,7 +167,7 @@ public class ChildMsgFragment extends Fragment implements
       }
       activeViewGroup.addActiveView(activeView);
     }
-    startMoveActiveView();
+    activeHelper.startMove();
   }
 
   /**

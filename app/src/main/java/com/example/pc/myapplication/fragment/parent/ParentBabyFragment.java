@@ -120,7 +120,7 @@ public class ParentBabyFragment extends Fragment
   public void onItemClick(View view, int position) {
     DiyTaskInfo clickTask = taskList.get(position);
     Intent intent = new Intent(getActivity(), SubmitTaskActivity.class);
-    intent.putExtra(AppConstant.CLICKED_SEND_TASK, clickTask);
+    intent.putExtra(AppConstant.CLICKED_RECIVE_TASK, clickTask);
     startActivity(intent);
   }
 

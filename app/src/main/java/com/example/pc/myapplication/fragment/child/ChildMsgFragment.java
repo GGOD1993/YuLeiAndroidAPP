@@ -117,11 +117,9 @@ public class ChildMsgFragment extends Fragment implements
    * 开始请求
    */
   private void startGetDiyTaskRequest() {
-
     String url = AppConstant.GET_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
             getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0)
                     .getString(AppConstant.FROM_USERID, "");
-
     HttpService.DoGetDiyTaskRequest(Request.Method.GET, url, null, ChildMsgFragment.this);
   }
 
@@ -148,20 +146,31 @@ public class ChildMsgFragment extends Fragment implements
   private void addActiveView(JSONArray jsonArray) {
     activeViewGroup.removeAllViews();
     ActiveView activeView;
+    JSONObject object;
     int count = jsonArray.length();
     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     for (int i = 0; i < count; i++) {
       activeView = new ActiveView(getActivity());
-      activeView.setImageResource(R.mipmap.ic_launcher);
       activeView.setLayoutParams(layoutParams);
       try{
-        JSONObject object = jsonArray.getJSONObject(i);
+        object = jsonArray.getJSONObject(i);
         activeView.setTaskInfo(new DiyTaskInfo(
                 object.getString(AppConstant.TO_USERID),
                 object.getString(AppConstant.TASK_ID),
                 object.getString(AppConstant.TASK_REGDATE),
                 object.getString(AppConstant.TASK_CONTENT),
                 object.getString(AppConstant.FROM_USERID)));
+        switch (object.getInt(AppConstant.TASK_STATUS)) {
+          case AppConstant.STATUS_NEW:
+            activeView.setBackgroundResource(R.mipmap.ic_launcher);
+            break;
+          case AppConstant.STATUS_SUBMITTED:
+            activeView .setBackgroundResource(R.mipmap.sun_loading_blue);
+            break;
+          case AppConstant.STATUS_FINISHED:
+            activeView.setBackgroundResource(R.mipmap.ic_tab_image);
+            break;
+        }
       } catch (JSONException e) {
         e.printStackTrace();
       }
@@ -177,10 +186,9 @@ public class ChildMsgFragment extends Fragment implements
     @Override
     public void onReceive(Context context, Intent intent) {
       String taskId = intent.getStringExtra(AppConstant.TASK_ID);
-      activeViewGroup.removeActiveViewByTaskId(taskId);
+      activeViewGroup.changeActiveViewBgByTask(taskId);
     }
   }
-
   public interface OnChildMsgFragmentInteractionListener {
     // TODO: Update argument type and name
     public void onChildMsgFragmentInteraction();

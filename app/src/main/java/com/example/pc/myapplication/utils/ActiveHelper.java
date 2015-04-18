@@ -44,20 +44,17 @@ public class ActiveHelper {
     public void handleMessage(Message msg) {
       switch(msg.what) {
         case AppConstant.START_MOVE:
-
           list = activeViewGroup.getChildArrayList();
           for (ActiveView child : list) {
             dealWithChild(child);
           }
           activeViewGroup.invalidate();
-
           if (!isSpecGet) {
             activeViewGroupHeight = activeViewGroup.getHeight();
             activeViewGroupWidth = activeViewGroup.getWidth();
             isSpecGet = true;
           }
           break;
-
         case AppConstant.STOP_MOVE:
           if (null != task) {
             task.cancel();

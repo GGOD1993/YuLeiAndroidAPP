@@ -3,6 +3,7 @@ package com.example.pc.myapplication.fragment.child;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class ChildWishFragment extends Fragment
   }
 
   private void startGetSendDiyTaskRequest() {
-    String url = AppConstant.GET_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
+    String url = AppConstant.GET_SEND_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
             getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0)
                     .getString(AppConstant.FROM_USERID, "");
 
@@ -95,20 +96,34 @@ public class ChildWishFragment extends Fragment
   private void addActiveView(JSONArray jsonArray) {
     activeViewGroup.removeAllViews();
     ActiveView activeView;
+    JSONObject object;
     int count = jsonArray.length();
     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     for (int i = 0; i < count; i++) {
       activeView = new ActiveView(getActivity());
-      activeView.setImageResource(R.mipmap.ic_launcher);
+//      activeView.setBackgroundResource(R.mipmap.ic_launcher);
       activeView.setLayoutParams(layoutParams);
       try{
-        JSONObject object = jsonArray.getJSONObject(i);
+        object = jsonArray.getJSONObject(i);
         activeView.setTaskInfo(new DiyTaskInfo(
                 object.getString(AppConstant.TO_USERID),
                 object.getString(AppConstant.TASK_ID),
                 object.getString(AppConstant.TASK_REGDATE),
                 object.getString(AppConstant.TASK_CONTENT),
                 object.getString(AppConstant.FROM_USERID)));
+        switch (object.getInt(AppConstant.TASK_STATUS)) {
+          case AppConstant.STATUS_NEW:
+            activeView .setBackgroundResource(R.mipmap.ic_launcher);
+            break;
+          case AppConstant.STATUS_SUBMITTED:
+            activeView.setBackgroundResource(R.mipmap.sun_loading_blue);
+            Log.e("dada", "1------------");
+            break;
+          case AppConstant.STATUS_FINISHED:
+            activeView .setBackgroundResource(R.mipmap.ic_tab_image);
+            Log.e("dada", "2------------");
+            break;
+        }
       } catch (JSONException e) {
         e.printStackTrace();
       }

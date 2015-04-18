@@ -39,6 +39,9 @@ public class FinishTaskActivity extends SwipeBackActivity
   //心愿内容
   private TextView textViewTaskContent;
 
+  //头部文本框
+  private TextView textViewHeader;
+
   private ImageButton submit;
   private ImageButton cancel;
 
@@ -48,24 +51,24 @@ public class FinishTaskActivity extends SwipeBackActivity
     setContentView(R.layout.activity_finish_task);
 
     Intent intent = getIntent();
-    clickTask = (DiyTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_CHECK_TASK);
+    clickTask = (DiyTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_SEND_TASK);
     initViews();
   }
 
   private void initViews() {
-
     textViewFromUserId = (TextView) findViewById(R.id.parent_finishtaskactivity_edittext_fromuserid);
     textViewTaskName = (TextView) findViewById(R.id.parent_finishtaskactivity_edittext_taskname);
     textViewAward = (TextView) findViewById(R.id.parent_finishtaskactivity_editext_award);
     textViewTaskContent = (TextView) findViewById(R.id.parent_finishtaskactivity_editext_taskcontent);
+    textViewHeader = (TextView) findViewById(R.id.child_mainactivity_header_textview);
     submit = (ImageButton) findViewById(R.id.parent_finishtaskactivity_imagebutton_submit);
     cancel = (ImageButton) findViewById(R.id.parent_finishtaskactivity_imagebutton_cancel);
 
-    textViewFromUserId.setText(clickTask.getFromUserId());
+    textViewHeader.setText("审 核 任 务");
+    textViewFromUserId.setText(clickTask.getToUserId());
     textViewTaskName.setText(clickTask.getTaskName());
     textViewAward.setText(clickTask.getAward());
     textViewTaskContent.setText(clickTask.getTaskContent());
-
     submit.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -75,7 +78,6 @@ public class FinishTaskActivity extends SwipeBackActivity
         HttpService.DoFinishDiyTaskRequest(Request.Method.POST, AppConstant.FINISH_DIY_TASK_URL, map, FinishTaskActivity.this);
       }
     });
-
     cancel.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

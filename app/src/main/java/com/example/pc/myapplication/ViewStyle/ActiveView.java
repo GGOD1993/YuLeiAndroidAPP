@@ -3,20 +3,14 @@ package com.example.pc.myapplication.ViewStyle;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+import com.example.pc.myapplication.activity.FinishTaskActivity;
 import com.example.pc.myapplication.activity.SubmitTaskActivity;
 
 import java.util.Random;
@@ -122,8 +116,16 @@ public class ActiveView extends ImageView implements View.OnClickListener{
 
   @Override
   public void onClick(View v) {
-    Intent intent = new Intent(getContext(), SubmitTaskActivity.class);
-    intent.putExtra(AppConstant.CLICKED_SEND_TASK, getTaskInfo());
-    getContext().startActivity(intent);
+    if (getTaskInfo().getToUserId().equals(getContext().
+            getSharedPreferences(AppConstant.PREFERENCE_NAME, 0).getString(AppConstant.FROM_USERID,""))) {
+      Intent intent = new Intent(getContext(), SubmitTaskActivity.class);
+      intent.putExtra(AppConstant.CLICKED_RECIVE_TASK, getTaskInfo());
+      getContext().startActivity(intent);
+    } else {
+      Intent intent = new Intent(getContext(), FinishTaskActivity.class);
+      intent.putExtra(AppConstant.CLICKED_SEND_TASK, getTaskInfo());
+      getContext().startActivity(intent);
+    }
+
   }
 }

@@ -1,16 +1,17 @@
 package com.example.pc.myapplication.utils;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.example.pc.myapplication.AppConstant;
+
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import java.util.HashMap;
 
 
+/**
+ * 第二层相当与传输层
+ * 也负责了对数据进行处理
+ */
 public class HttpService {
   /**
    * 登录请求

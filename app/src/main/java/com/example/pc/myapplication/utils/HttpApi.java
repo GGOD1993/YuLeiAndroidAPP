@@ -7,6 +7,11 @@ import org.json.JSONArray;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 最底层的API
+ * 只根据传来的参数创建了Request
+ * 并将其加入了队列中
+ */
 public class HttpApi {
 
   /**

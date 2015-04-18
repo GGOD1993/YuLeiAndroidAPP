@@ -1,16 +1,13 @@
 package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.example.pc.myapplication.AppConstant;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+import com.example.pc.myapplication.R;
 
 import java.util.ArrayList;
 
@@ -68,7 +65,7 @@ public class ActiveViewGroup extends ViewGroup{
         View childView = getChildAt(i);
         cWidth = childView.getMeasuredWidth();
         cHeight = childView.getMeasuredHeight();
-        if (mTotalHeight >= getMeasuredHeight() + cHeight) {
+        if (mTotalHeight >= getMeasuredHeight() - cHeight) {
           mTotalHeight = 0;
           l += cWidth;
         }
@@ -79,7 +76,9 @@ public class ActiveViewGroup extends ViewGroup{
   }
 
   public void addActiveView(ActiveView view) {
+
     addView(view);
+    arrayList.add(view);
   }
 
   public void removeActiveViewAt(int position) {
@@ -111,19 +110,15 @@ public class ActiveViewGroup extends ViewGroup{
     int taskStatus = arrayList.get(i).getTaskInfo().getTaskStatus();
     switch (taskStatus) {
       case AppConstant.STATUS_NEW:
-//        arrayList.get(i).
+        getChildAt(i).setBackgroundResource(R.mipmap.ic_launcher);
         break;
-
       case AppConstant.STATUS_SUBMITTED:
-
+        getChildAt(i).setBackgroundResource(R.mipmap.sun_loading_blue);
         break;
-
       case AppConstant.STATUS_FINISHED:
-
+        getChildAt(i).setBackgroundResource(R.mipmap.ic_tab_image);
         break;
     }
-    removeActiveViewAt(i);
-    arrayList.remove(i);
   }
 
   public ArrayList<ActiveView> getChildArrayList() {

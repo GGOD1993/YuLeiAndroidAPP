@@ -31,12 +31,9 @@ public class TaskInfoActivity extends SwipeBackActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_task_info);
-
     Intent intent = getIntent();
     clickTask = (DiyTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_SEND_TASK);
-
     initViews();
-
   }
 
   private void initViews() {

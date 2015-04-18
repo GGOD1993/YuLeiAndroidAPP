@@ -2,16 +2,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <include layout="@layout/layout_child_mainactivity_header"
+             android:id="@+id/finishtaskactivity_header"/>
+
     <LinearLayout
         android:id="@+id/parent_finishtaskactivity_linearlayout_fromuserid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dip">
+        android:layout_margin="20dip"
+        android:layout_below="@id/finishtaskactivity_header">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="任务主人: "
+            android:text="任务对象: "
             android:gravity="center"
             android:textSize="10pt"/>
 
@@ -110,13 +114,6 @@
             android:layout_alignParentEnd="true"
             android:background="@drawable/parent_addtaskactivity_imagebutton_submit_style"
             android:contentDescription="@null"/>
-
-        <ToggleButton
-            android:id="@+id/parent_finishtaskactivity_imagebutton_edit"
-            android:layout_width="70dip"
-            android:layout_height="70dip"
-            android:layout_centerInParent="true"
-            />
 
         <ImageButton
             android:id="@+id/parent_finishtaskactivity_imagebutton_cancel"

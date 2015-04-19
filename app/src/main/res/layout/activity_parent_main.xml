@@ -100,7 +100,7 @@
     <fragment
         android:id="@+id/parent_mainactivity_fragment_left_menu"
         android:name="com.example.pc.myapplication.fragment.parent.ParentLeftMenuFragment"
-        android:layout_width="300dp"
+        android:layout_width="260dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:tag="LEFT"

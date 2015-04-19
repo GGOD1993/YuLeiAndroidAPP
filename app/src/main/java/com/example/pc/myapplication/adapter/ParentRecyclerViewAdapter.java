@@ -4,7 +4,6 @@ package com.example.pc.myapplication.adapter;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -31,9 +30,6 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
   //用来区别是发出的任务还是接受到的任务
   private int type;
 
-  //点击事件的回调方法
-  private RecyclerViewItemClickListener recyclerViewItemClickListener;
-
   public ParentRecyclerViewAdapter(List<DiyTaskInfo> taskList, Fragment fragment, int type) {
     super();
     this.taskList = taskList;
@@ -44,10 +40,7 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
   @Override
   public RecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
     View view = View.inflate(viewGroup.getContext(), R.layout.layout_parent_recyclerview_item, null);
-//    if (i == 0) {
-//      view.setTag(AppConstant.RECYCLERVIEW_FIRST_TAG);
-//    }
-    RecyclerViewHolder holder = new RecyclerViewHolder(view, recyclerViewItemClickListener);
+    RecyclerViewHolder holder = new RecyclerViewHolder(view);
     return holder;
   }
 
@@ -103,7 +96,6 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
              case AppConstant.STATUS_SUBMITTED:
                showToast("该心愿已经提交,请耐心等待~~~");
                break;
-
              case AppConstant.STATUS_FINISHED:
                showToast("该心愿已经完成~~~");
                break;
@@ -116,10 +108,6 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
   @Override
   public int getItemCount() {
     return taskList.size();
-  }
-
-  public void setOnItemClickListener(RecyclerViewItemClickListener recyclerViewItemClickListener) {
-    this.recyclerViewItemClickListener = recyclerViewItemClickListener;
   }
 
   private void showToast(String string) {

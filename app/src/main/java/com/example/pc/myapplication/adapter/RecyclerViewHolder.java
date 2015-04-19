@@ -3,14 +3,12 @@ package com.example.pc.myapplication.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 
-public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
   //标示任务状态
   public TextView textViewTaskStatus;
@@ -36,10 +34,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
   //提交按钮
   public ImageButton imageButtonSubmit;
 
-  //每一项的点击监听
-  private RecyclerViewItemClickListener mListener;
-
-  public RecyclerViewHolder(View itemView,  RecyclerViewItemClickListener mListener) {
+  public RecyclerViewHolder(View itemView) {
     super(itemView);
     textViewTaskStatus = (TextView) itemView.findViewById(R.id.parent_recyclerview_textview_taskstatus);
     textViewUserId = (TextView) itemView.findViewById(R.id.parent_recyclerview_textview_childid);
@@ -49,12 +44,5 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.
     textViewTaskContent = (TextView) itemView.findViewById(R.id.parent_recyclerview_textview_taskcontent);
     imageButtonClose = (ImageButton) itemView.findViewById(R.id.parent_recyclerview_imagebutten_close);
     imageButtonSubmit = (ImageButton) itemView.findViewById(R.id.parent_recyclerview_submit);
-    this.mListener = mListener;
-    itemView.setOnClickListener(this);
-  }
-
-  @Override
-  public void onClick(View v) {
-    if(mListener != null) mListener.onItemClick(v,getPosition());
   }
 }

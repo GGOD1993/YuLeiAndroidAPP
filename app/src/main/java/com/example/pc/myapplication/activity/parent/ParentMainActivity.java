@@ -102,22 +102,18 @@ public class ParentMainActivity extends FragmentActivity implements
     t.setToNow();
     int lastmonth = t.month + 1 ;
     nowTime =  t.year + "年" + lastmonth + "月" + t.monthDay + "日";
-
     initView();
     initEvents();
-
     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       //透明状态栏
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
       //透明导航栏
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
-
   }
 
   @Override
   public void onDynamicFragmentInteraction() {
-
   }
 
   @Override
@@ -166,8 +162,7 @@ public class ParentMainActivity extends FragmentActivity implements
 
   public void OpenRightMenu(){
     mDrawerLayout.openDrawer(Gravity.START);
-    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED,
-            Gravity.START);
+    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.START);
   }
 
   private void initEvents(){
@@ -232,20 +227,20 @@ public class ParentMainActivity extends FragmentActivity implements
     imageButtonEverydayTask.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                String everyDayTaskDoneTime = preferences.getString("everytaskdonetime","");
+                String everyDayTaskDoneTime = preferences.getString(AppConstant.EVERYDAY_TASK,"");
                 if (!nowTime.equals(everyDayTaskDoneTime)) {
                   imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_done);
-                  Toast.makeText(getApplicationContext(), "签到成功，奖励50金币O(∩_∩)O~~~", Toast.LENGTH_SHORT).show();
+                  Toast.makeText(getApplicationContext(), AppConstant.EVERYDAY_TASK_SUCCESS, Toast.LENGTH_SHORT).show();
                   textViewMoney.setText(String.valueOf(Integer.valueOf(textViewMoney.getText().toString()) + 50));
                   SharedPreferences.Editor editor = preferences.edit();
-                  editor.putBoolean("everydaytaskdone", true).apply();
-                  editor.putInt("leftmoney", Integer.valueOf(textViewMoney.getText().toString())).apply();
-                  editor.putString("everytaskdonetime", nowTime).apply();
-                } else Toast.makeText(getApplicationContext(), "您今天已经签到过咯~~~~(>_<)~~~~ ", Toast.LENGTH_SHORT).show();
+                  editor.putBoolean(AppConstant.EVERYDAY_TASK, true).apply();
+                  editor.putInt(AppConstant.LEFT_MONEY, Integer.valueOf(textViewMoney.getText().toString())).apply();
+                  editor.putString(AppConstant.EVERYDAY_TASK, nowTime).apply();
+                } else Toast.makeText(getApplicationContext(), AppConstant.EVERYDAY_TASK_FAILD, Toast.LENGTH_SHORT).show();
               }
             }
     );
-    fragmentList.add(ParentMsgFragment.newInstance(mQueue));
+    fragmentList.add(ParentMsgFragment.newInstance());
     fragmentList.add(ParentBabyFragment.newInstance());
     fragmentList.add(ParentDynamicFragment.newInstance());
     viewPager.setAdapter(new ParentViewPagerAdapter(ParentMainActivity.this, getSupportFragmentManager(), fragmentList));

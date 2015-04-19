@@ -94,7 +94,6 @@ public class ParentBabyFragment extends Fragment
     mPullRefresh = (SwipeRefreshLayout) v.findViewById(R.id.parent_babyfragment_swiperefreshlayout);
     LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
     recyclerViewAdapter = new ParentRecyclerViewAdapter(taskList, ParentBabyFragment.this, AppConstant.RECIVE_TASK_TYPE);
-    recyclerViewAdapter.setOnItemClickListener(this);
     mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(recyclerViewAdapter);
     scaleAdapter.setFirstOnly(false);

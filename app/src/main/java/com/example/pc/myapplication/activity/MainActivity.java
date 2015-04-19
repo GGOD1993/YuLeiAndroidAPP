@@ -1,5 +1,6 @@
 package com.example.pc.myapplication.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -33,7 +35,7 @@ import java.util.HashMap;
  * 初始Activity
  */
 public class MainActivity extends ActionBarActivity implements
-        HttpService.OnLoginRequestResponseListener {
+        HttpService.OnLoginRequestResponseListener, View.OnClickListener{
 
   //再次点击返回桌面
   private long exitTime = 0;
@@ -97,18 +99,13 @@ public class MainActivity extends ActionBarActivity implements
     checkBoxMemoryPassword = (CheckBox) findViewById(R.id.signin_checkbox_memorypassword);
     circularImage = (CircularImage) findViewById(R.id.signin_circularimage_userimage);
     root = (RelativeLayout) findViewById(R.id.signin_relativelayout_root);
+    root.setOnClickListener(this);
     circularImage.setImageResource(R.mipmap.ic_launcher);
     editTextUsername.setText(preferences.getString(AppConstant.AUTO_SIGNIN_USERNAME,""));
     editTextPassword.setText(preferences.getString(AppConstant.AUTO_SIGNIN_PASSWORD,""));
-    if (preferences.getBoolean("autosignin",false)) {
-      checkBoxAutoSignIn.setChecked(true);
-//            dealWithUserInfo();
-    }
-    if (preferences.getBoolean("memorypassword",false)) {
-      checkBoxMemoryPassword.setChecked(true);
-    }
-    root.setBackground(
-            new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.skin_bg_player_x)));
+    if (preferences.getBoolean(AppConstant.AUTO_SIGNIN,false)) checkBoxAutoSignIn.setChecked(true);
+    if (preferences.getBoolean(AppConstant.MEMORY_PASSWORD,false)) checkBoxMemoryPassword.setChecked(true);
+    root.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.skin_bg_player_x)));
     /**
      * 登陆按钮
      */
@@ -140,20 +137,19 @@ public class MainActivity extends ActionBarActivity implements
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-          preferences.edit().putBoolean("autosignin",true).apply();
+          preferences.edit().putBoolean(AppConstant.AUTO_SIGNIN,true).apply();
           checkBoxMemoryPassword.setChecked(true);
         } else {
-          preferences.edit().putBoolean("autosignin",false).apply();
+          preferences.edit().putBoolean(AppConstant.AUTO_SIGNIN,false).apply();
           checkBoxMemoryPassword.setChecked(false);
         }
       }
     });
-
     checkBoxMemoryPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) preferences.edit().putBoolean("memorypassword",true).apply();
-        else preferences.edit().putBoolean("memorypassword",false).apply();
+        if (isChecked) preferences.edit().putBoolean(AppConstant.MEMORY_PASSWORD, true).apply();
+        else preferences.edit().putBoolean(AppConstant.MEMORY_PASSWORD, false).apply();
       }
     });
   }
@@ -283,6 +279,11 @@ public class MainActivity extends ActionBarActivity implements
       return true;
     }
     return super.onKeyDown(keyCode, event);
+  }
+
+  @Override
+  public void onClick(View v) {
+    ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(),0);
   }
 
   private void showToast(String string) {

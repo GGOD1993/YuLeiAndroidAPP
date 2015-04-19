@@ -48,9 +48,13 @@ public class AppConstant {
   public static final int FINISH_TASK_SUCCESS = 1310;
   public static final int SIGNUP_SUCCESS = 1105;
 
+  public static final String AUTO_SIGNIN = "autosignin";
+  public static final String MEMORY_PASSWORD = "memorypassword";
   public static final String MONEY = "money";
   public static final String LEFT_MONEY = "leftmoney";
   public static final String EVERYDAY_TASK = "everytaskdonetime";
+  public static final String EVERYDAY_TASK_SUCCESS = "签到成功，奖励50金币O(∩_∩)O~~~";
+  public static final String EVERYDAY_TASK_FAILD = "您今天已经签到过咯~~~~(>_<)~~~~ ";
   public static final String RETURN_MSG = "msg";
   public static final String RETURN_CODE = "code";
   public static final String FROM_USERID = "from_userid";

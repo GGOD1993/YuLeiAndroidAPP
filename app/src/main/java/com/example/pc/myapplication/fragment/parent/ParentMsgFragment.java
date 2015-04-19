@@ -41,12 +41,8 @@ import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
 public class ParentMsgFragment extends Fragment implements
-        RecyclerViewItemClickListener,
         HttpService.OnGetSendDiyTaskRequestResponseListener,
         HttpService.OnFinishDiyTaskRequestResponseListener{
-
-  //从activity中获得的volley请求队列
-  private RequestQueue requestQueue;
 
   //用于显示任务的列表控件
   private RecyclerView recyclerView;
@@ -69,9 +65,8 @@ public class ParentMsgFragment extends Fragment implements
   //SharedPreference
   private SharedPreferences preferences;
 
-  public static ParentMsgFragment newInstance(RequestQueue requestQueue) {
+  public static ParentMsgFragment newInstance() {
     ParentMsgFragment fragment = new ParentMsgFragment();
-    fragment.requestQueue = requestQueue;
     Bundle args = new Bundle();
     fragment.setArguments(args);
     return fragment;
@@ -89,7 +84,6 @@ public class ParentMsgFragment extends Fragment implements
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-
     View w = inflater.inflate(R.layout.fragment_parent_msg, container, false);
     taskList = new ArrayList<>();
     preferences = getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
@@ -151,7 +145,6 @@ public class ParentMsgFragment extends Fragment implements
     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(layoutManager);
     parentRecyclerViewAdapter = new ParentRecyclerViewAdapter(taskList,ParentMsgFragment.this, AppConstant.SEND_TASK_TYPE);
-    parentRecyclerViewAdapter.setOnItemClickListener(this);
     recyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(parentRecyclerViewAdapter);
     scaleAdapter.setFirstOnly(false);
@@ -169,27 +162,8 @@ public class ParentMsgFragment extends Fragment implements
           if (recyclerView.findViewHolderForPosition(0) != null) mSwipefreshlayout.setEnabled(true);
           else mSwipefreshlayout.setEnabled(false);
         }
-
-//        Log.e("child0", recyclerView.getChildAt(0) + "");
-//        Log.e("tag", recyclerView.findViewWithTag(AppConstant.RECYCLERVIEW_FIRST_TAG) + "");
-//        if (recyclerView.getChildAt(0).equals(
-//                recyclerView.findViewWithTag(AppConstant.RECYCLERVIEW_FIRST_TAG)) && recyclerView.getChildAt(0).getY() < (float)0.5){
-//          Log.e("true", "true");
-//                      mSwipefreshlayout.setEnabled(true);
-//        } else {
-//          Log.e("false", "false");
-//                      mSwipefreshlayout.setEnabled(false);
-//        }
       }
     });
-  }
-
-  @Override
-  public void onItemClick(View view, int position) {
-    DiyTaskInfo clickTask = taskList.get(position);
-    Intent intent = new Intent(getActivity(), TaskInfoActivity.class);
-    intent.putExtra(AppConstant.CLICKED_SEND_TASK, clickTask);
-    startActivity(intent);
   }
 
   @Override
@@ -215,12 +189,10 @@ public class ParentMsgFragment extends Fragment implements
             taskInfo.setTaskStatus(AppConstant.STATUS_NEW);
             taskList.add(taskInfo);
             break;
-
           case AppConstant.STATUS_SUBMITTED:
             taskInfo.setTaskStatus(AppConstant.STATUS_SUBMITTED);
             submittedTask.add(taskInfo);
             break;
-
           case AppConstant.STATUS_FINISHED:
             taskInfo.setTaskStatus(AppConstant.STATUS_FINISHED);
             finishedTask.add(taskInfo);

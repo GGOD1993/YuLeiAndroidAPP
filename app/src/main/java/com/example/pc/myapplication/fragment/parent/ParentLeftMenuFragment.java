@@ -29,8 +29,8 @@ import java.util.HashMap;
 
 public class ParentLeftMenuFragment extends Fragment
         implements HttpService.OnUserInvitationRequestResponseListener,
-                   HttpService.OnGetInvitationRequestResponseListener,
-                   HttpService.OnAddFriendRequestResponseListener{
+        HttpService.OnGetInvitationRequestResponseListener,
+        HttpService.OnAddFriendRequestResponseListener {
 
   //存储数据的sharedPreferences
   private SharedPreferences preferences;
@@ -45,7 +45,7 @@ public class ParentLeftMenuFragment extends Fragment
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.fragment_parent_left_menu, container, false);
-    preferences = getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
+    preferences = getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
     initView(v);
     return v;
   }
@@ -64,7 +64,7 @@ public class ParentLeftMenuFragment extends Fragment
       public void onClick(View v) {
         HttpService.DoGetInvitationRequest(
                 Request.Method.GET,
-                AppConstant.GET_INVITATION_URL + "?" +AppConstant.USERID + "=" + preferences.getString(AppConstant.FROM_USERID, ""),
+                AppConstant.GET_INVITATION_URL + "?" + AppConstant.USERID + "=" + preferences.getString(AppConstant.FROM_USERID, ""),
                 null,
                 ParentLeftMenuFragment.this);
       }
@@ -78,7 +78,8 @@ public class ParentLeftMenuFragment extends Fragment
     final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
     final View view = layoutInflater.inflate(R.layout.layout_parent_leftmenu_dialog_userinvite, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-    builder.setTitle("添 加 宝 贝").setView(view);
+    builder.setView(view);
+    ((TextView) view.findViewById(R.id.parent_leftmenu_dialog_userinvite_textview_header)).setText("添 加 好 友");
     final AlertDialog dialog = builder.create();
     dialog.show();
     view.findViewById(R.id.parent_leftmenu_imagebutton_cancel)
@@ -97,7 +98,7 @@ public class ParentLeftMenuFragment extends Fragment
                   HashMap<String, String> map = new HashMap<>();
                   map.put(AppConstant.TO_USERID, editText.getText().toString());
                   map.put(AppConstant.USERID, getActivity().
-                          getSharedPreferences(AppConstant.PREFERENCE_NAME,0).getString(AppConstant.FROM_USERID,""));
+                          getSharedPreferences(AppConstant.PREFERENCE_NAME, 0).getString(AppConstant.FROM_USERID, ""));
                   HttpService.DoUserInvitationRequest(
                           Request.Method.POST,
                           AppConstant.USER_INVITATION_URL,
@@ -118,7 +119,8 @@ public class ParentLeftMenuFragment extends Fragment
     final LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
     final View view = layoutInflater.inflate(R.layout.layout_parent_leftmenu_dialog_getinvite, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-    builder.setTitle("用 户 请 求").setView(view);
+    builder.setView(view);
+    ((TextView) view.findViewById(R.id.parent_leftmenu_dialog_textview_header)).setText("好 友 请 求");
     ((TextView) view.findViewById(R.id.parent_leftmenu_dialog_textview_inviteinfo))
             .setText("用户名为: \"" + parent + "\" 的用户请求和您绑定");
     final AlertDialog dialog = builder.create();
@@ -138,7 +140,7 @@ public class ParentLeftMenuFragment extends Fragment
               public void onClick(View v) {
                 HashMap<String, String> map = new HashMap<>();
                 map.put(AppConstant.TO_USERID, parent);
-                map.put(AppConstant.USERID, preferences.getString(AppConstant.FROM_USERID,""));
+                map.put(AppConstant.USERID, preferences.getString(AppConstant.FROM_USERID, ""));
                 HttpService.DoAddFriendRequest(
                         Request.Method.POST,
                         AppConstant.ADD_FRIEND_URL,
@@ -164,6 +166,7 @@ public class ParentLeftMenuFragment extends Fragment
     }
 
   }
+
   @Override
   public void OnGetInvitationErrorResponse(String errorResult) {
     showToast(errorResult);
@@ -174,6 +177,7 @@ public class ParentLeftMenuFragment extends Fragment
   public void OnUserInvitationSuccessResponse(JSONArray jsonArray) {
     showToast(jsonArray.toString());
   }
+
   @Override
   public void OnUserInvitationErrorResponse(String errorResult) {
     showToast(errorResult);
@@ -183,6 +187,7 @@ public class ParentLeftMenuFragment extends Fragment
   public void OnAddFriendSuccessResponse(JSONArray jsonArray) {
     showToast(jsonArray.toString());
   }
+
   @Override
   public void OnAddFriendErrorResponse(String errorResult) {
     showToast(errorResult);

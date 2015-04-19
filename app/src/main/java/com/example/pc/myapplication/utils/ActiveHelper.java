@@ -76,7 +76,6 @@ public class ActiveHelper {
    * 移动开始前的准备工作
    */
   public void prepareMove() {
-
     task = new TimerTask() {
       @Override
       public void run() {
@@ -119,18 +118,10 @@ public class ActiveHelper {
    * @param child
    */
   private void checkWithChild(ActiveView child) {
-    if (child.getRight() > activeViewGroupWidth - child.getMoveXSpeed()) {
-      child.setMoveXDirection(AppConstant.LEFT_DIRECTION);
-    }
-    if (child.getLeft() < child.getMoveXSpeed()) {
-      child.setMoveXDirection(AppConstant.RIGHT_DIRECTION);
-    }
-    if (child.getTop() < child.getMoveYSpeed()) {
-      child.setMoveYDirection(AppConstant.DOWN_DIRECTION);
-    }
-    if (child.getBottom() > activeViewGroupHeight - child.getMoveYSpeed()) {
-      child.setMoveYDirection(AppConstant.UP_DIRECTION);
-    }
+    if (child.getRight() > activeViewGroupWidth - child.getMoveXSpeed()) child.setMoveXDirection(AppConstant.LEFT_DIRECTION);
+    if (child.getLeft() < child.getMoveXSpeed()) child.setMoveXDirection(AppConstant.RIGHT_DIRECTION);
+    if (child.getTop() < child.getMoveYSpeed()) child.setMoveYDirection(AppConstant.DOWN_DIRECTION);
+    if (child.getBottom() > activeViewGroupHeight - child.getMoveYSpeed()) child.setMoveYDirection(AppConstant.UP_DIRECTION);
   }
 
   /**
@@ -155,7 +146,6 @@ public class ActiveHelper {
       child.setLeft(childLeft - childXSpeed);
       child.setRight(childRight - childXSpeed);
     }
-
     if (AppConstant.UP_DIRECTION == child.getMoveYDirection()) {
       child.setTop(childTop - childYSpeed);
       child.setBottom(childBottom - childYSpeed);
@@ -163,20 +153,12 @@ public class ActiveHelper {
       child.setTop(childTop + childYSpeed);
       child.setBottom(childBottom + childYSpeed);
     }
-
     if (AppConstant.CLOCKSIDE_DIRECTION == childRotateDirection) {
-      if (childRotation < 360 - childRotateSpeed) {
-        child.setRotation(childRotation + childRotateSpeed);
-      } else {
-        child.setRotation(0);
-      }
+      if (childRotation < 360 - childRotateSpeed) child.setRotation(childRotation + childRotateSpeed);
+      else child.setRotation(0);
     } else {
-      if (childRotation > childRotateSpeed - 360) {
-        child.setRotation(childRotation - childRotateSpeed);
-      } else {
-        child.setRotation(0);
-      }
+      if (childRotation > childRotateSpeed - 360) child.setRotation(childRotation - childRotateSpeed);
+      else child.setRotation(0);
     }
-
   }
 }

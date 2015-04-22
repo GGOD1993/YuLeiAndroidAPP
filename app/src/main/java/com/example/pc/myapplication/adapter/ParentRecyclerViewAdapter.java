@@ -45,7 +45,7 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
   }
 
   @Override
-  public void onBindViewHolder(RecyclerViewHolder viewHolder,int i) {
+  public void onBindViewHolder(final RecyclerViewHolder viewHolder,int i) {
     // 绑定数据到ViewHolder上
     final DiyTaskInfo task = taskList.get(i);
     if (AppConstant.SEND_TASK_TYPE == type) viewHolder.textViewUserId.setText(task.getToUserId());

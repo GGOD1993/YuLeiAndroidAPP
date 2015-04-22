@@ -21,6 +21,7 @@ import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.activity.SubmitTaskActivity;
 import com.example.pc.myapplication.activity.parent.ParentMainActivity;
 import com.example.pc.myapplication.adapter.ParentRecyclerViewAdapter;
+import com.example.pc.myapplication.adapter.RecyclerViewHolder;
 import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
 import com.example.pc.myapplication.utils.HttpService;
 
@@ -179,10 +180,18 @@ public class ParentBabyFragment extends Fragment
   public void OnSubmitDiyTaskSuccessResponse(JSONArray jsonArray) {
     JSONObject codeObject;
     JSONObject msgObject;
+    JSONObject taskIdObject;
     try{
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
+      taskIdObject = (JSONObject) jsonArray.get(2);
       if (null != codeObject) {
+        if (AppConstant.FINISH_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
+          if (null != taskIdObject) {
+            int taskId = taskIdObject.getInt(AppConstant.TASK_ID);
+            changeStatusByTaskId(taskId);
+          }
+        }
       }
       if (null != msgObject) {
         showToast(msgObject.getString(AppConstant.RETURN_MSG));
@@ -191,6 +200,20 @@ public class ParentBabyFragment extends Fragment
       e.printStackTrace();
     }
   }
+  /**
+   * 根据taskid来改变任务的状态
+   * @param taskId
+   */
+  public void changeStatusByTaskId(int taskId) {
+    for (int i = 0; i < mRecyclerView.getChildCount(); i++) {
+      View v = mRecyclerView.getChildAt(i);
+      RecyclerViewHolder holder = (RecyclerViewHolder) mRecyclerView.getChildViewHolder(v);
+      if (holder.textViewTaskName.getText().toString().equals(String.valueOf(taskId))) {
+        holder.textViewTaskStatus.setText(AppConstant.STATUS_FINISHED_STRING);
+      }
+    }
+  }
+
 
   @Override
   public void OnSubmitDiyTaskErrorResponse(String errorResult) {

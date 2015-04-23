@@ -42,8 +42,11 @@ public class AppConstant {
 
   //网络请求返回code
   public static final int NEW_USER_SUCCESS = 1105;
+  public static final int USERNAME_PASSWORD_WRONG = 1200;
   public static final int LOGIN_SUCCESS = 1201;
+  public static final int LOGIN_FAILED = 1202;
   public static final int LOGOUT_SUCCESS = 1203;
+  public static final int LOGOUT_FAILED = 1204;
   public static final int SET_DIY_TASK_SUCCESS = 1302;
   public static final int SUBMIT_DIY_TASK_SUCCESS = 1306;
   public static final int FINISH_TASK_SUCCESS = 1310;

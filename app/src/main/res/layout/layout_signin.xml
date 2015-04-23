@@ -2,17 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/signin_relativelayout_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/material_blue_grey_800">
 
     <EditText
         android:id="@+id/signin_edittext_password"
         android:layout_width="250dip"
         android:layout_height="40dip"
         android:layout_margin="10dip"
+        android:paddingStart="10dip"
+        android:paddingEnd="10dip"
+        android:drawablePadding="10dip"
         android:layout_centerInParent="true"
         android:inputType="textPassword"
         android:background="@drawable/signin_edittext_style"
         android:hint="@string/password"
+        android:drawableStart="@mipmap/signin_username"
         android:textColorHint="@color/login_hint_color"/>
 
     <EditText
@@ -22,9 +27,13 @@
         android:layout_centerHorizontal="true"
         android:layout_above="@id/signin_edittext_password"
         android:layout_margin="10dip"
+        android:paddingStart="10dip"
+        android:paddingEnd="10dip"
+        android:drawablePadding="10dip"
         android:textSize="10pt"
         android:background="@drawable/signin_edittext_style"
         android:hint="@string/username"
+        android:drawableStart="@mipmap/image_parent_recyclerview_item_doing"
         android:textColorHint="@color/login_hint_color"/>
 
     <ImageView

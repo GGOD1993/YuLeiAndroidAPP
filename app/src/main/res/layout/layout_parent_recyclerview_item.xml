@@ -8,13 +8,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="225dip">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:id="@+id/parent_recyclerview_relativelayout_header"
             android:layout_width="match_parent"
             android:layout_height="40dip"
-            android:background="#dd87CEEB">
+            android:background="@drawable/recyclerview_item_header_style"
+            android:layout_alignParentTop="true">
 
 
             <ImageButton
@@ -63,7 +64,7 @@
         <LinearLayout
             android:id="@+id/parent_recyclerview_taskinfo"
             android:layout_width="match_parent"
-            android:layout_height="120dip"
+            android:layout_height="wrap_content"
             android:layout_below="@id/parent_recyclerview_relativelayout_header"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="150dip"
@@ -74,7 +75,7 @@
                 android:id="@+id/parent_taskinfoactivity_linearlayout_childid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dip">
+                android:layout_margin="3dip">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -97,7 +98,7 @@
                 android:id="@+id/parent_taskinfoactivity_linearlayout_taskname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dip">
+                android:layout_margin="3dip">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -120,7 +121,7 @@
                 android:id="@+id/parent_taskinfoactivity_linearlayout_award"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dip">
+                android:layout_margin="3dip">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -143,7 +144,7 @@
                 android:id="@+id/parent_recyclerview_linearlayout_taskcontent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dip">
+                android:layout_margin="3dip">
 
                 <TextView
                     android:layout_width="wrap_content"

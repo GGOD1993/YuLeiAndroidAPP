@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/wheat">
 
-
-
     <ImageButton
         android:id="@+id/imagebutton_child_access"
         android:layout_width="100dip"

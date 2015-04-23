@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
@@ -99,13 +102,14 @@ public class MainActivity extends ActionBarActivity implements
     checkBoxMemoryPassword = (CheckBox) findViewById(R.id.signin_checkbox_memorypassword);
     circularImage = (CircularImage) findViewById(R.id.signin_circularimage_userimage);
     root = (RelativeLayout) findViewById(R.id.signin_relativelayout_root);
+    startInitAnim();
     root.setOnClickListener(this);
     circularImage.setImageResource(R.mipmap.ic_launcher);
     editTextUsername.setText(preferences.getString(AppConstant.AUTO_SIGNIN_USERNAME,""));
     editTextPassword.setText(preferences.getString(AppConstant.AUTO_SIGNIN_PASSWORD,""));
     if (preferences.getBoolean(AppConstant.AUTO_SIGNIN,false)) checkBoxAutoSignIn.setChecked(true);
     if (preferences.getBoolean(AppConstant.MEMORY_PASSWORD,false)) checkBoxMemoryPassword.setChecked(true);
-    root.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.skin_bg_player_x)));
+//    root.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.skin_bg_player_x)));
     /**
      * 登陆按钮
      */
@@ -228,9 +232,11 @@ public class MainActivity extends ActionBarActivity implements
         hashMap.put(AppConstant.PASSWORD,editTextPassword.getText().toString());
         HttpService.DoLoginRequest(Request.Method.POST, AppConstant.LOGIN_IN_URL, hashMap, MainActivity.this);
       } else {
+        YoYo.with(Techniques.Shake).duration(800).playOn(editTextPassword);
         showToast("请输入正确的密码");
       }
     } else {
+      YoYo.with(Techniques.Shake).duration(800).playOn(editTextUsername);
       showToast("请输入正确的用户名");
     }
   }
@@ -241,12 +247,21 @@ public class MainActivity extends ActionBarActivity implements
   public void OnLoginSuccessResponse(JSONArray jsonArray){
     JSONObject codeObject;
     JSONObject msgObject;
-    JSONObject moneyObject;
+    JSONObject moneyObject = null;
     try{
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
-      moneyObject = (JSONObject) jsonArray.get(2);
       if (null != codeObject) {
+        switch (codeObject.getInt(AppConstant.RETURN_CODE)) {
+          case AppConstant.USERNAME_PASSWORD_WRONG:
+            YoYo.with(Techniques.Shake).duration(800).playOn(editTextPassword);
+            YoYo.with(Techniques.Shake).duration(800).playOn(editTextUsername);
+            break;
+          case AppConstant.LOGIN_SUCCESS:
+            moneyObject = (JSONObject) jsonArray.get(2);
+            chooseMode();
+            break;
+        }
       }
       if (null != msgObject) {
         showToast(msgObject.getString(AppConstant.RETURN_MSG));
@@ -257,7 +272,6 @@ public class MainActivity extends ActionBarActivity implements
     } catch (JSONException e) {
       e.printStackTrace();
     }
-    chooseMode();
   }
 
   public void OnLoginErrorResponse(String errorMsg) {
@@ -286,6 +300,19 @@ public class MainActivity extends ActionBarActivity implements
     ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(),0);
   }
 
+  /**
+   * 开场动画
+   */
+  private void startInitAnim() {
+    YoYo.with(Techniques.FadeIn).duration(1000).playOn(circularImage);
+    YoYo.with(Techniques.FadeIn).duration(1000).playOn(editTextUsername);
+    YoYo.with(Techniques.FadeIn).duration(1000).playOn(editTextPassword);
+    YoYo.with(Techniques.FadeIn).duration(1000).playOn(checkBoxAutoSignIn);
+    YoYo.with(Techniques.FadeInUp).duration(1000).playOn(checkBoxMemoryPassword);
+    YoYo.with(Techniques.FadeInUp).duration(1000).playOn(buttonSignIn);
+    YoYo.with(Techniques.FadeInUp).duration(1000).playOn(buttonSignUp);
+
+  }
   private void showToast(String string) {
     Toast.makeText(getApplicationContext(), string, Toast.LENGTH_SHORT).show();
   }

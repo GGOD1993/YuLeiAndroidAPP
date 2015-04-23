@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/parentactivity_leftmenu_relativelayout_userimage"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dip"
+        android:layout_marginTop="35dip"
         android:orientation="horizontal">
 
         <TextView
@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/parent_leftmenu_linearlayout_userimage"
-        android:layout_marginTop="30dip"
+        android:layout_marginTop="35dip"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -90,7 +90,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 
@@ -125,7 +125,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 
@@ -160,7 +160,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 
@@ -195,7 +195,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 
@@ -231,7 +231,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 

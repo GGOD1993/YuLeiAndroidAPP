@@ -210,9 +210,14 @@ public class ParentMainActivity extends FragmentActivity implements
     imageButtonOpenLeftMenu = (ImageButton) findViewById(R.id.parent_mainactivity_relativelayout_actionbar_openleftmenu);
     imageButtonEverydayTask = (ImageButton) findViewById(R.id.parent_mainactivity_relativelayout_actionbar_everydaytask);
     viewPager = (ViewPager) findViewById(R.id.parentactivity_viewpager);
-    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
-    mDrawerLayout.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.bg_slight_rain_night)));
     relativeLayoutViewPagerParent = (RelativeLayout) findViewById(R.id.parent_mainactivity_relativelayout_viewpager);
+    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+
+
+    mDrawerLayout.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.bg_slight_rain_night)));
+//    findViewById(R.id.parent_mainactivity_drawerlayout_root).setBackgroundColor(getResources().getColor(R.color.beige));
+//    mDrawerLayout.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
+
     textViewMoney.setText(String.valueOf(preferences.getInt(AppConstant.LEFT_MONEY, 0)));
     if (nowTime.equals(preferences.getString(AppConstant.EVERYDAY_TASK, ""))) {
       imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_done);

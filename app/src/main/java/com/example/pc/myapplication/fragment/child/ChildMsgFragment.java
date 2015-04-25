@@ -22,6 +22,7 @@ import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.ActiveView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
+import com.example.pc.myapplication.ViewStyle.ActiveWishView;
 import com.example.pc.myapplication.ViewStyle.RefreshableLinearLayout;
 import com.example.pc.myapplication.utils.ActiveHelper;
 import com.example.pc.myapplication.utils.HttpService;
@@ -131,7 +132,7 @@ public class ChildMsgFragment extends Fragment implements
   public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray) {
     refreshableLinearLayout.finishRefreshing();
     addActiveView(jsonArray);
-    activeViewGroup.setRefresh(true);
+    activeViewGroup.setMode(AppConstant.ONLAYOUT_MODE_RANDOM);
   }
 
   @Override
@@ -145,16 +146,16 @@ public class ChildMsgFragment extends Fragment implements
    */
   private void addActiveView(JSONArray jsonArray) {
     activeViewGroup.removeAllViews();
-    ActiveView activeView;
+    ActiveWishView activeWishView;
     JSONObject object;
     int count = jsonArray.length();
     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     for (int i = 0; i < count; i++) {
-      activeView = new ActiveView(getActivity());
-      activeView.setLayoutParams(layoutParams);
+      activeWishView = new ActiveWishView(getActivity());
+      activeWishView.setLayoutParams(layoutParams);
       try{
         object = jsonArray.getJSONObject(i);
-        activeView.setTaskInfo(new DiyTaskInfo(
+        activeWishView.setTaskInfo(new DiyTaskInfo(
                 object.getString(AppConstant.TO_USERID),
                 object.getString(AppConstant.TASK_ID),
                 object.getString(AppConstant.TASK_REGDATE),
@@ -162,19 +163,19 @@ public class ChildMsgFragment extends Fragment implements
                 object.getString(AppConstant.FROM_USERID)));
         switch (object.getInt(AppConstant.TASK_STATUS)) {
           case AppConstant.STATUS_NEW:
-            activeView.setBackgroundResource(R.mipmap.ic_launcher);
+            activeWishView.setBackgroundResource(R.mipmap.ic_launcher);
             break;
           case AppConstant.STATUS_SUBMITTED:
-            activeView .setBackgroundResource(R.mipmap.sun_loading_blue);
+            activeWishView .setBackgroundResource(R.mipmap.sun_loading_blue);
             break;
           case AppConstant.STATUS_FINISHED:
-            activeView.setBackgroundResource(R.mipmap.ic_tab_image);
+            activeWishView.setBackgroundResource(R.mipmap.ic_tab_image);
             break;
         }
       } catch (JSONException e) {
         e.printStackTrace();
       }
-      activeViewGroup.addActiveView(activeView);
+      activeViewGroup.addActiveView(activeWishView);
     }
     activeHelper.startMove();
   }

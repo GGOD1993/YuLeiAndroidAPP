@@ -72,6 +72,10 @@
             android:name=".activity.FinishTaskActivity"
             android:label="@string/title_activity_award_task" >
         </activity>
+        <activity
+            android:name=".activity.child.ChildWishListActivity"
+            android:label="@string/title_activity_child_wish_list" >
+        </activity>
     </application>
 
 </manifest>

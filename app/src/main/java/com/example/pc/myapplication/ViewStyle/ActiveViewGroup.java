@@ -2,7 +2,6 @@ package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,9 +11,9 @@ import com.example.pc.myapplication.R;
 import java.util.ArrayList;
 
 
-public class ActiveViewGroup extends ViewGroup{
+public class ActiveViewGroup extends ViewGroup {
 
-  private boolean isRefresh = true;
+  private int mode = AppConstant.ONLAYOUT_MODE_NONE;
 
   private ArrayList<ActiveView> arrayList = new ArrayList<>();
 
@@ -26,19 +25,19 @@ public class ActiveViewGroup extends ViewGroup{
     super(context, attrs);
   }
 
-  public boolean isRefresh() {
-    return isRefresh;
+  public int getMode() {
+    return mode;
   }
 
-  public void setRefresh(boolean isRefresh) {
-    this.isRefresh = isRefresh;
+  public void setMode(int mode) {
+    this.mode = mode;
   }
 
   /**
    * 计算所有ChildView的宽度和高度 然后根据ChildView的计算结果，设置自己的宽和高
    */
   @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     /**
      * 获得此ViewGroup上级容器为其推荐的宽和高，以及计算模式
      */
@@ -54,24 +53,31 @@ public class ActiveViewGroup extends ViewGroup{
   }
 
   @Override
-  protected void onLayout(boolean changed, int l, int t, int r, int b){
+  protected void onLayout(boolean changed, int l, int t, int r, int b) {
     int cCount = getChildCount();
     int mTotalHeight = 0;
     int cWidth;
     int cHeight;
+    switch (mode) {
+      case AppConstant.ONLAYOUT_MODE_NONE:
 
-    if (isRefresh) {
-      for (int i = 0; i < cCount; i++){
-        View childView = getChildAt(i);
-        cWidth = childView.getMeasuredWidth();
-        cHeight = childView.getMeasuredHeight();
-        if (mTotalHeight >= getMeasuredHeight() - cHeight) {
-          mTotalHeight = 0;
-          l += cWidth;
+        break;
+      case AppConstant.ONLAYOUT_MODE_RANDOM:
+        for (int i = 0; i < cCount; i++) {
+          View childView = getChildAt(i);
+          cWidth = childView.getMeasuredWidth();
+          cHeight = childView.getMeasuredHeight();
+          if (mTotalHeight >= getMeasuredHeight() - cHeight) {
+            mTotalHeight = 0;
+            l += cWidth;
+          }
+          childView.layout(l, mTotalHeight, l + cWidth, mTotalHeight + cHeight);
+          mTotalHeight += cHeight;
         }
-        childView.layout(l, mTotalHeight, l + cWidth, mTotalHeight + cHeight);
-        mTotalHeight += cHeight;
-      }
+        break;
+      case AppConstant.ONLAYOUT_MODE_FROM_DOWN:
+
+        break;
     }
   }
 
@@ -88,7 +94,7 @@ public class ActiveViewGroup extends ViewGroup{
   public void removeActiveViewByTaskId(String taskId) {
     int i = 0;
     ActiveView activeView;
-    for (;i<getChildCount();i++) {
+    for (; i < getChildCount(); i++) {
       activeView = (ActiveView) getChildAt(i);
       if (activeView.getTaskInfo().getTaskName().equals(taskId)) {
         break;
@@ -101,7 +107,7 @@ public class ActiveViewGroup extends ViewGroup{
   public void changeActiveViewBgByTask(String taskId) {
     int i = 0;
     ActiveView activeView;
-    for (;i<getChildCount();i++) {
+    for (; i < getChildCount(); i++) {
       activeView = (ActiveView) getChildAt(i);
       if (activeView.getTaskInfo().getTaskName().equals(taskId)) {
         break;
@@ -123,7 +129,7 @@ public class ActiveViewGroup extends ViewGroup{
 
   public ArrayList<ActiveView> getChildArrayList() {
     arrayList.clear();
-    for (int i=0; i < getChildCount() ; i ++) {
+    for (int i = 0; i < getChildCount(); i++) {
       arrayList.add((ActiveView) getChildAt(i));
     }
     return arrayList;

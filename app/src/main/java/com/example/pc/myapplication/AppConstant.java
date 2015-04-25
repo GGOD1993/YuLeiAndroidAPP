@@ -29,6 +29,9 @@ public class AppConstant {
 
 
   //孩子端控件漂浮参数
+  public static final int ONLAYOUT_MODE_NONE = 0;
+  public static final int ONLAYOUT_MODE_RANDOM = 1;
+  public static final int ONLAYOUT_MODE_FROM_DOWN = 2;
   public static final int START_MOVE = 10;
   public static final int STOP_MOVE = 11;
   public static final int MOVE_INTERVAL_TIME = 100;

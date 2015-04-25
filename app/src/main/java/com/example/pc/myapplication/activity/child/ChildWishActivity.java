@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.pc.myapplication.R;
+import com.example.pc.myapplication.ViewStyle.ActiveGameView;
 import com.example.pc.myapplication.ViewStyle.ActiveView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
 import com.example.pc.myapplication.utils.ActiveHelper;
@@ -107,13 +108,13 @@ public class ChildWishActivity extends SwipeBackActivity {
    */
   private void addActiveViews() {
     activeViewGroup.removeAllViews();
-    ActiveView activeView;
+    ActiveGameView activeGameView;
     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     for (int i = 0; i < 10; i++) {
-      activeView = new ActiveView(getApplicationContext());
-      activeView.setLayoutParams(layoutParams);
-      activeView.setImageResource(R.mipmap.ic_launcher);
-      activeViewGroup.addActiveView(activeView);
+      activeGameView = new ActiveGameView(getApplicationContext());
+      activeGameView.setLayoutParams(layoutParams);
+      activeGameView.setImageResource(R.mipmap.ic_launcher);
+      activeViewGroup.addActiveView(activeGameView);
     }
   }
 }

@@ -143,11 +143,9 @@ public class RefreshableLinearLayout extends LinearLayout implements View.OnTouc
 
   @Override
   public boolean onTouch(View v, MotionEvent event) {
-
-    if (activeViewGroup.isRefresh()) {
-      activeViewGroup.setRefresh(false);
+    if (AppConstant.ONLAYOUT_MODE_NONE != activeViewGroup.getMode()) {
+      activeViewGroup.setMode(AppConstant.ONLAYOUT_MODE_NONE);
     }
-
     switch (event.getAction()) {
       case MotionEvent.ACTION_DOWN:
         yDown = event.getRawY();

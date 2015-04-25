@@ -5,37 +5,47 @@
     <include layout="@layout/layout_child_mainactivity_header"
         android:id="@+id/child_wishactivity_header"/>
 
-    <ImageView
-        android:layout_width="100dip"
-        android:layout_height="100dip"
-        android:background="@mipmap/wish_1"
-        android:layout_below="@+id/child_wishactivity_header"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="49dp"
-        android:layout_marginTop="40dp" />
+    <com.example.pc.myapplication.ViewStyle.ActiveViewGroup
+        android:id="@+id/child_wishactivity_activeviewgroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/child_wishactivity_header"/>
 
-    <ImageView
-        android:layout_width="80dip"
-        android:layout_height="80dip"
-        android:background="@mipmap/wish_2"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="42dp" />
+    <ImageButton
+        android:id="@+id/child_wishactivity_imagebutton_start"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@mipmap/child_donateactivity_donate"
+        android:layout_centerInParent="true"/>
 
-    <ImageView
-        android:layout_width="60dip"
-        android:layout_height="60dip"
-        android:background="@mipmap/wish_3"
-        android:layout_alignParentBottom="true"
+    <TextView
+        android:id="@+id/child_wishactivity_textview_starttext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17pt"
+        android:text="心   愿   种   子"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="81dp" />
+        android:layout_above="@id/child_wishactivity_imagebutton_start"
+        android:layout_marginBottom="100dp"
+        android:textColor="@color/indianred"/>
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/child_wishactivity_imagebutton_back"
+        android:layout_below="@id/child_wishactivity_imagebutton_start"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@mipmap/child_donateactivity_back"/>
+
+    <ImageButton
+        android:id="@+id/child_wishactivity_imagebutton_wishbag"
         android:layout_width="60dip"
         android:layout_height="60dip"
         android:background="@mipmap/wish_bag"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:visibility="gone"
         android:layout_margin="20dip"/>
 
 </RelativeLayout>

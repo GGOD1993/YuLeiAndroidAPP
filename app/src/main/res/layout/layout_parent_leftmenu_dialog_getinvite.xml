@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dip"
+            android:layout_marginLeft="20dip"
             android:layout_marginTop="15dip"
             >
 
@@ -83,6 +84,7 @@
                 android:layout_width="50dip"
                 android:layout_height="50dip"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:background="@drawable/parent_addtaskactivity_imagebutton_submit_style"/>
         </RelativeLayout>
     </RelativeLayout>

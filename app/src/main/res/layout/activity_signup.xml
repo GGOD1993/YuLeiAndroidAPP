@@ -110,6 +110,7 @@
             <RadioButton
                 android:id="@+id/signupactivity_radiobutton_male"
                 android:layout_marginStart="50dip"
+                android:layout_marginLeft="50dip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/male"/>
@@ -117,6 +118,7 @@
             <RadioButton
                 android:id="@+id/signupactivity_radiobutton_female"
                 android:layout_marginStart="50dip"
+                android:layout_marginLeft="50dip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/female"/>
@@ -139,7 +141,9 @@
             android:text="@string/submmit"
             android:textColor="@color/login_hint_color"
             android:background="@drawable/signin_button_style"
-            android:layout_marginStart="10dip"/>
+            android:layout_marginStart="10dip"
+            android:layout_marginLeft="10dp"/>
+
 
         <Button
             android:id="@+id/signupactivity_button_cancel"
@@ -149,7 +153,9 @@
             android:textColor="@color/login_hint_color"
             android:background="@drawable/signin_button_style"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dip"/>
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="10dip"
+            android:layout_marginRight="10dp"/>
 
     </RelativeLayout>
 

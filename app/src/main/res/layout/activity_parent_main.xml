@@ -21,6 +21,7 @@
             android:layout_height="40dp"
             android:contentDescription="@null"
             android:layout_marginStart="5dip"
+            android:layout_marginLeft="5dp"
             android:layout_alignParentBottom="true"
             android:background="@mipmap/image_parentactivity_leftmenu"/>
 
@@ -30,7 +31,9 @@
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_marginEnd="5dip"
+            android:layout_marginRight="5dp"
             android:contentDescription="@null"
             />
 

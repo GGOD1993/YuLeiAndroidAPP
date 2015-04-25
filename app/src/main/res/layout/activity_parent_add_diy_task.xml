@@ -113,7 +113,9 @@
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:layout_marginEnd="20dip"
+            android:layout_marginRight="20dp"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:background="@drawable/parent_addtaskactivity_imagebutton_submit_style"
             android:contentDescription="@null"/>
 
@@ -122,6 +124,7 @@
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:layout_marginStart="20dip"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/parent_addtaskactivity_imagebutton_cancel_style"
             android:contentDescription="@null"/>
     </RelativeLayout>

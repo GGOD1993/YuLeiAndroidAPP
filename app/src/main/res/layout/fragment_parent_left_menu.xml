@@ -71,6 +71,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:src="@mipmap/ic_add_child"/>
 
@@ -79,8 +80,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toEndOf="@id/one"
+                android:layout_toRightOf="@id/one"
                 android:text="添 加 宝 贝"
                 android:textColor="#f0f0f0"
                 android:textSize="10pt"/>
@@ -89,8 +93,10 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 
@@ -107,6 +113,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:src="@mipmap/ic_add_task"/>
 
@@ -115,7 +122,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toEndOf="@id/two"
+                android:layout_toRightOf="@id/two"
                 android:text="布 置 任 务"
                 android:textColor="#f0f0f0"
                 android:textSize="10pt"/>
@@ -124,8 +133,10 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 
@@ -142,6 +153,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:src="@mipmap/ic_more_scan"/>
 
@@ -150,7 +162,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toEndOf="@id/three"
+                android:layout_toRightOf="@id/three"
                 android:text="我 不 知 道"
                 android:textColor="#f0f0f0"
                 android:textSize="10pt"/>
@@ -159,8 +173,10 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 
@@ -177,6 +193,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:src="@mipmap/ic_more_skin"/>
 
@@ -185,7 +202,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toEndOf="@id/four"
+                android:layout_toRightOf="@id/four"
                 android:text="更 多 皮 肤"
                 android:textColor="#f0f0f0"
                 android:textSize="10pt"/>
@@ -194,8 +213,10 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 
@@ -213,6 +234,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:src="@mipmap/ic_more_setting"/>
 
@@ -221,7 +243,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toEndOf="@id/five"
+                android:layout_toRightOf="@id/five"
                 android:text="更 多 设 置"
                 android:textColor="#f0f0f0"
                 android:textSize="10pt"/>
@@ -230,8 +254,10 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@mipmap/ic_arrow"
                 />
 

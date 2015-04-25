@@ -32,9 +32,6 @@ public class AppConstant {
   public static final int ONLAYOUT_MODE_NONE = 0;
   public static final int ONLAYOUT_MODE_RANDOM = 1;
   public static final int ONLAYOUT_MODE_FROM_DOWN = 2;
-  public static final int START_MOVE = 10;
-  public static final int STOP_MOVE = 11;
-  public static final int MOVE_INTERVAL_TIME = 100;
   public static final int LEFT_DIRECTION = 1;
   public static final int RIGHT_DIRECTION = -1;
   public static final int UP_DIRECTION = 2;

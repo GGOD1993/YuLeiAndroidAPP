@@ -177,7 +177,7 @@ public class ChildMsgFragment extends Fragment implements
       }
       activeViewGroup.addActiveView(activeWishView);
     }
-    activeHelper.startMove();
+    activeHelper.startWishModeMove();
   }
 
   /**

@@ -9,9 +9,12 @@ import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class ActiveViewGroup extends ViewGroup {
+
+  private Random random = new Random();
 
   private int mode = AppConstant.ONLAYOUT_MODE_NONE;
 
@@ -76,7 +79,16 @@ public class ActiveViewGroup extends ViewGroup {
         }
         break;
       case AppConstant.ONLAYOUT_MODE_FROM_DOWN:
-
+        for (int i = 0; i < cCount; i++) {
+          int parentHeight = getMeasuredHeight();
+          int parentWidth = getMeasuredWidth();
+          View childView = getChildAt(i);
+          cWidth = childView.getMeasuredWidth();
+          cHeight = childView.getMeasuredHeight();
+          l = random.nextInt(parentWidth - cWidth) + 1;
+          t = random.nextInt(parentHeight) + 1 + parentHeight;
+          childView.layout(l, t, l + cWidth, t + cHeight);
+        }
         break;
     }
   }

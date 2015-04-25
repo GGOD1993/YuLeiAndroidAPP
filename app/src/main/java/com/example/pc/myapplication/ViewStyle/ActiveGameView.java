@@ -98,12 +98,12 @@ public class ActiveGameView extends ActiveView implements View.OnClickListener{
   protected void initParams() {
     random = new Random();
     moveXSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
-    moveYSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
+    moveYSpeed = 10;
+//    moveYSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
     rotateSpeed = random.nextFloat() * 3;
     if (random.nextInt(100)%2 == 0) moveXDirection = AppConstant.RIGHT_DIRECTION;
     else moveXDirection = AppConstant.LEFT_DIRECTION;
-    if (random.nextInt(100)%2 == 0) moveYDirection = AppConstant.UP_DIRECTION;
-    else moveYDirection = AppConstant.DOWN_DIRECTION;
+    moveYDirection = AppConstant.UP_DIRECTION;
     if (random.nextInt(100)%2 == 0) rotateDirection = AppConstant.CLOCKSIDE_DIRECTION;
     else rotateDirection = AppConstant.ANTICLOCKSIDE_DIRECTION;
   }

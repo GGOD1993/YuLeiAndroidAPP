@@ -127,7 +127,7 @@ public class ChildWishFragment extends Fragment
       }
       activeViewGroup.addActiveView(activeWishView);
     }
-    activeHelper.startMove();
+    activeHelper.startWishModeMove();
   }
 
   @Override

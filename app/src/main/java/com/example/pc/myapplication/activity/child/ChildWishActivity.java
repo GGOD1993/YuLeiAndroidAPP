@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.ActiveGameView;
 import com.example.pc.myapplication.ViewStyle.ActiveView;
@@ -70,7 +71,7 @@ public class ChildWishActivity extends SwipeBackActivity {
       public void onClick(View v) {
         goneAnim();
         addActiveViews();
-        activeHelper.startMove();
+        activeHelper.startGameModeMove();
       }
     });
     imageButtonBack.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +108,7 @@ public class ChildWishActivity extends SwipeBackActivity {
    * 添加控件
    */
   private void addActiveViews() {
+    activeViewGroup.setMode(AppConstant.ONLAYOUT_MODE_FROM_DOWN);
     activeViewGroup.removeAllViews();
     ActiveGameView activeGameView;
     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

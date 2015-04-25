@@ -36,6 +36,14 @@ public class ActiveHelper {
   private int activeViewGroupHeight;
   private int activeViewGroupWidth;
 
+  //两种移动的模式
+  private static final int MODE_WISH = 1;
+  private static final int MODE_GAME = 2;
+  public static final int START_MODE_WISH_MOVE = 3;
+  public static final int START_MODE_GAME_MOVE = 4;
+  public static final int STOP_MOVE = 5;
+  public static final int MOVE_INTERVAL_TIME = 100;
+
   /**
    * 运行在主线程中的Handler
    */
@@ -43,10 +51,10 @@ public class ActiveHelper {
     @Override
     public void handleMessage(Message msg) {
       switch(msg.what) {
-        case AppConstant.START_MOVE:
+        case START_MODE_WISH_MOVE:
           list = activeViewGroup.getChildArrayList();
           for (ActiveView child : list) {
-            dealWithChild(child);
+            dealWithWishChild(child);
           }
           activeViewGroup.invalidate();
           if (!isSpecGet) {
@@ -55,7 +63,19 @@ public class ActiveHelper {
             isSpecGet = true;
           }
           break;
-        case AppConstant.STOP_MOVE:
+        case START_MODE_GAME_MOVE:
+          list = activeViewGroup.getChildArrayList();
+          for (ActiveView child : list) {
+            dealWithGameChild(child);
+          }
+          activeViewGroup.invalidate();
+          if (!isSpecGet) {
+            activeViewGroupHeight = activeViewGroup.getHeight();
+            activeViewGroupWidth = activeViewGroup.getWidth();
+            isSpecGet = true;
+          }
+          break;
+        case STOP_MOVE:
           if (null != task) {
             task.cancel();
             isTaskRun = false;
@@ -75,24 +95,50 @@ public class ActiveHelper {
   /**
    * 移动开始前的准备工作
    */
-  public void prepareMove() {
-    task = new TimerTask() {
-      @Override
-      public void run() {
-        Message message = new Message();
-        message.what = AppConstant.START_MOVE;
-        mHandler.sendMessage(message);
-      }
-    };
+  public void prepareMove(int mode) {
+    switch (mode) {
+      case MODE_WISH:
+        task = new TimerTask() {
+          @Override
+          public void run() {
+            Message message = new Message();
+            message.what = START_MODE_WISH_MOVE;
+            mHandler.sendMessage(message);
+          }
+        };
+        break;
+      case MODE_GAME:
+        task = new TimerTask() {
+          @Override
+          public void run() {
+            Message message = new Message();
+            message.what = START_MODE_GAME_MOVE;
+            mHandler.sendMessage(message);
+          }
+        };
+        break;
+    }
+
   }
 
   /**
-   * 开始移动
+   * 开始愿望模式移动
    */
-  public void startMove() {
+  public void startWishModeMove() {
     if (!isTaskRun) {
-      prepareMove();
-      timer.schedule(task, 1000, AppConstant.MOVE_INTERVAL_TIME);
+      prepareMove(MODE_WISH);
+      timer.schedule(task, 1000, MOVE_INTERVAL_TIME);
+      isTaskRun = true;
+    }
+  }
+
+  /**
+   * 开始游戏模式移动
+   */
+  public void startGameModeMove() {
+    if (!isTaskRun) {
+      prepareMove(MODE_GAME);
+      timer.schedule(task, 1000, MOVE_INTERVAL_TIME);
       isTaskRun = true;
     }
   }
@@ -101,17 +147,22 @@ public class ActiveHelper {
    * 停止控件的移动
    */
   public void stopMove() {
-    mHandler.sendEmptyMessage(AppConstant.STOP_MOVE);
+    mHandler.sendEmptyMessage(STOP_MOVE);
   }
 
   /**
-   * 处理控件的位置
+   * 处理WISH模式控件的位置
    * @param child
    */
-  private void dealWithChild(ActiveView child) {
+  private void dealWithWishChild(ActiveView child) {
     checkWithChild(child);
     moveWithChild(child);
   }
+
+  private void dealWithGameChild(ActiveView child) {
+    moveWithChild(child);
+  }
+
 
   /**
    * 检测移动方向

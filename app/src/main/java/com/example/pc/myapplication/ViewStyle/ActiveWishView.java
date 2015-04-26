@@ -99,7 +99,7 @@ public class ActiveWishView extends ActiveView implements View.OnClickListener{
   /**
    * 初始化view的移动参数
    */
-  protected void initParams() {
+  public void initParams() {
     random = new Random();
     moveXSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
     moveYSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;

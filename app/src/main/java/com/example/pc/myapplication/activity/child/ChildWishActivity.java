@@ -81,7 +81,6 @@ public class ChildWishActivity extends SwipeBackActivity {
       }
     });
     startInitAnim();
-
   }
 
   /**

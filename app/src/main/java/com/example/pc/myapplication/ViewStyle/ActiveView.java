@@ -99,6 +99,6 @@ public class ActiveView extends ImageView {
   /**
    * 初始化view的移动参数
    */
-  protected void initParams() {
+  public void initParams() {
   }
 }

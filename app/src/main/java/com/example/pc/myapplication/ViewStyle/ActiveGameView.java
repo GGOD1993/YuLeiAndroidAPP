@@ -95,7 +95,8 @@ public class ActiveGameView extends ActiveView implements View.OnClickListener{
   /**
    * 初始化view的移动参数
    */
-  protected void initParams() {
+  @Override
+  public void initParams() {
     random = new Random();
     moveXSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
     moveYSpeed = 10;

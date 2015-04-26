@@ -8,6 +8,7 @@ import android.view.animation.AnticipateInterpolator;
 import android.view.animation.RotateAnimation;
 
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.ViewStyle.ActiveGameView;
 import com.example.pc.myapplication.ViewStyle.ActiveView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
 
@@ -50,7 +51,7 @@ public class ActiveHelper {
   Handler mHandler = new Handler() {
     @Override
     public void handleMessage(Message msg) {
-      switch(msg.what) {
+      switch (msg.what) {
         case START_MODE_WISH_MOVE:
           list = activeViewGroup.getChildArrayList();
           for (ActiveView child : list) {
@@ -118,7 +119,6 @@ public class ActiveHelper {
         };
         break;
     }
-
   }
 
   /**
@@ -151,39 +151,62 @@ public class ActiveHelper {
   }
 
   /**
-   * 处理WISH模式控件的位置
+   * 处理Wish模式控件的位置
+   *
    * @param child
    */
   private void dealWithWishChild(ActiveView child) {
-    checkWithChild(child);
+    checkWithWishChild(child);
     moveWithChild(child);
   }
 
   private void dealWithGameChild(ActiveView child) {
+    checkWithGameChild(child);
     moveWithChild(child);
   }
 
 
   /**
-   * 检测移动方向
+   * 检测Wish模式控件移动方向
+   *
    * @param child
    */
-  private void checkWithChild(ActiveView child) {
-    if (child.getRight() > activeViewGroupWidth - child.getMoveXSpeed()) child.setMoveXDirection(AppConstant.LEFT_DIRECTION);
-    if (child.getLeft() < child.getMoveXSpeed()) child.setMoveXDirection(AppConstant.RIGHT_DIRECTION);
+  private void checkWithWishChild(ActiveView child) {
+    if (child.getRight() > activeViewGroupWidth - child.getMoveXSpeed())
+      child.setMoveXDirection(AppConstant.LEFT_DIRECTION);
+    if (child.getLeft() < child.getMoveXSpeed())
+      child.setMoveXDirection(AppConstant.RIGHT_DIRECTION);
     if (child.getTop() < child.getMoveYSpeed()) child.setMoveYDirection(AppConstant.DOWN_DIRECTION);
-    if (child.getBottom() > activeViewGroupHeight - child.getMoveYSpeed()) child.setMoveYDirection(AppConstant.UP_DIRECTION);
+    if (child.getBottom() > activeViewGroupHeight - child.getMoveYSpeed())
+      child.setMoveYDirection(AppConstant.UP_DIRECTION);
+  }
+
+  /**
+   * 检测Game模式控件的移动方向
+   *
+   * @param child
+   */
+  private void checkWithGameChild(ActiveView child) {
+    if (child.getRight() > activeViewGroupWidth - child.getMoveXSpeed())
+      child.setMoveXDirection(AppConstant.LEFT_DIRECTION);
+    if (child.getLeft() < child.getMoveXSpeed())
+      child.setMoveXDirection(AppConstant.RIGHT_DIRECTION);
+    if (child.getBottom() < 1) {
+      child.setTop(activeViewGroupHeight);
+      child.setBottom(activeViewGroupHeight + child.getMeasuredHeight());
+    }
   }
 
   /**
    * 改变控件位置
+   *
    * @param child
    */
   private void moveWithChild(ActiveView child) {
     int childLeft = child.getLeft();
     int childRight = child.getRight();
     int childTop = child.getTop();
-    int childBottom= child.getBottom();
+    int childBottom = child.getBottom();
     int childXSpeed = child.getMoveXSpeed();
     int childYSpeed = child.getMoveYSpeed();
     int childRotateDirection = child.getRotateDirection();
@@ -205,10 +228,12 @@ public class ActiveHelper {
       child.setBottom(childBottom + childYSpeed);
     }
     if (AppConstant.CLOCKSIDE_DIRECTION == childRotateDirection) {
-      if (childRotation < 360 - childRotateSpeed) child.setRotation(childRotation + childRotateSpeed);
+      if (childRotation < 360 - childRotateSpeed)
+        child.setRotation(childRotation + childRotateSpeed);
       else child.setRotation(0);
     } else {
-      if (childRotation > childRotateSpeed - 360) child.setRotation(childRotation - childRotateSpeed);
+      if (childRotation > childRotateSpeed - 360)
+        child.setRotation(childRotation - childRotateSpeed);
       else child.setRotation(0);
     }
   }

@@ -94,7 +94,6 @@ public class ActiveViewGroup extends ViewGroup {
   }
 
   public void addActiveView(ActiveView view) {
-
     addView(view);
     arrayList.add(view);
   }
@@ -116,6 +115,10 @@ public class ActiveViewGroup extends ViewGroup {
     arrayList.remove(i);
   }
 
+  /**
+   * 根据任务状态更换标示
+   * @param taskId
+   */
   public void changeActiveViewBgByTask(String taskId) {
     int i = 0;
     ActiveView activeView;

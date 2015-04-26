@@ -1,16 +1,27 @@
 package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
+import android.service.voice.AlwaysOnHotwordDetector;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class ActiveGameView extends ActiveView implements View.OnClickListener{
+public class ActiveGameView extends ActiveView implements View.OnClickListener, Serializable {
 
   //运动方向
   private int moveXDirection;
@@ -102,14 +113,56 @@ public class ActiveGameView extends ActiveView implements View.OnClickListener{
     moveYSpeed = 10;
 //    moveYSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
     rotateSpeed = random.nextFloat() * 3;
-    if (random.nextInt(100)%2 == 0) moveXDirection = AppConstant.RIGHT_DIRECTION;
+    if (random.nextInt(100) % 2 == 0) moveXDirection = AppConstant.RIGHT_DIRECTION;
     else moveXDirection = AppConstant.LEFT_DIRECTION;
     moveYDirection = AppConstant.UP_DIRECTION;
-    if (random.nextInt(100)%2 == 0) rotateDirection = AppConstant.CLOCKSIDE_DIRECTION;
+    if (random.nextInt(100) % 2 == 0) rotateDirection = AppConstant.CLOCKSIDE_DIRECTION;
     else rotateDirection = AppConstant.ANTICLOCKSIDE_DIRECTION;
   }
 
   @Override
-  public void onClick(View v) {
-    }
+  public void onClick(final View v) {
+    ((ActiveViewGroup) getParent()).setMode(AppConstant.ONLAYOUT_MODE_NONE);
+    AnimationSet animSet = new AnimationSet(true);
+    animSet.setInterpolator(new AccelerateDecelerateInterpolator());
+    animSet.setFillAfter(true);
+    TranslateAnimation transAnim = new TranslateAnimation(
+            Animation.RELATIVE_TO_PARENT, 0,
+            Animation.RELATIVE_TO_PARENT, 0.5f,
+            Animation.RELATIVE_TO_PARENT, 0,
+            Animation.RELATIVE_TO_PARENT, 0.5f);
+    transAnim.setDuration(2000);
+    ScaleAnimation scaleAnim = new ScaleAnimation(
+            1f, 0,
+            1f, 0,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+    );
+    scaleAnim.setDuration(2000);
+    AlphaAnimation alphaAnim = new AlphaAnimation(1f, 0);
+    alphaAnim.setDuration(2000);
+    RotateAnimation rotateAnim = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    rotateAnim.setDuration(2000);
+    animSet.addAnimation(rotateAnim);
+    animSet.addAnimation(alphaAnim);
+    animSet.addAnimation(scaleAnim);
+    animSet.addAnimation(transAnim);
+    animSet.setDuration(2000);
+    animSet.setAnimationListener(new Animation.AnimationListener() {
+      @Override
+      public void onAnimationStart(Animation animation) {
+
+      }
+
+      @Override
+      public void onAnimationEnd(Animation animation) {
+        ActiveGameView.this.setVisibility(GONE);
+      }
+
+      @Override
+      public void onAnimationRepeat(Animation animation) {
+      }
+    });
+    ActiveGameView.this.startAnimation(animSet);
+  }
 }

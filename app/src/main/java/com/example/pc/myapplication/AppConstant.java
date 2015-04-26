@@ -75,6 +75,7 @@ public class AppConstant {
   public static final String CLICKED_CHECK_TASK = "clickedCheckTask";
   public static final String CLICKED_SEND_TASK = "clickedSendTask";
   public static final String CLICKED_RECIVE_TASK = "clickedReciveTask";
+  public static final String CLICKED_GAME_WISH = "clickedGameWish";
   public static final String AUTO_SIGNIN_USERNAME = "auto_signin_username";
   public static final String AUTO_SIGNIN_PASSWORD = "auto_signin_password";
 
@@ -95,6 +96,7 @@ public class AppConstant {
 
   //发送广播的关键字
   public static final String BROADCAST_REMOVEVIEW = "broadcast_to_removeview";
+  public static final String BROADCAST_MOVE_TO_WISH_BAG = "broadcast_to_wish_bag";
 
   //网络请求URL
   public static final String HOST = "http://byhands.sinaapp.com";

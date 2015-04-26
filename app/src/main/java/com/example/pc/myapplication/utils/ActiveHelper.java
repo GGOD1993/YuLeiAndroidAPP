@@ -152,7 +152,6 @@ public class ActiveHelper {
 
   /**
    * 处理Wish模式控件的位置
-   *
    * @param child
    */
   private void dealWithWishChild(ActiveView child) {
@@ -160,15 +159,17 @@ public class ActiveHelper {
     moveWithChild(child);
   }
 
+  /**
+   * 处理Game模式控件的位置
+   * @param child
+   */
   private void dealWithGameChild(ActiveView child) {
     checkWithGameChild(child);
     moveWithChild(child);
   }
 
-
   /**
    * 检测Wish模式控件移动方向
-   *
    * @param child
    */
   private void checkWithWishChild(ActiveView child) {

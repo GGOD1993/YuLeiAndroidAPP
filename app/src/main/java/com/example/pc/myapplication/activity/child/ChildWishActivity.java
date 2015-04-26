@@ -99,6 +99,8 @@ public class ChildWishActivity extends SwipeBackActivity {
     YoYo.with(Techniques.FadeOut).duration(2000).playOn(title);
     YoYo.with(Techniques.FadeOut).duration(2000).playOn(imageButtonStart);
     YoYo.with(Techniques.FadeOut).duration(2000).playOn(imageButtonBack);
+    imageButtonStart.setClickable(false);
+    imageButtonBack.setClickable(false);
     imageButtonWishBag.setVisibility(View.VISIBLE);
     YoYo.with(Techniques.FadeIn).duration(2000).playOn(imageButtonWishBag);
   }

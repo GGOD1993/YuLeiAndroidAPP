@@ -5,13 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,9 +19,8 @@ import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.ActiveGameView;
-import com.example.pc.myapplication.ViewStyle.ActiveView;
+import com.example.pc.myapplication.ViewStyle.ActiveSeedView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
-import com.example.pc.myapplication.fragment.child.ChildMsgFragment;
 import com.example.pc.myapplication.utils.ActiveHelper;
 import com.example.pc.myapplication.utils.CountTimeAsyncTask;
 import com.example.pc.myapplication.utils.HttpService;
@@ -111,6 +106,7 @@ public class ChildWishActivity extends SwipeBackActivity
     imageButtonBack = ((ImageButton) findViewById(R.id.child_wishactivity_imagebutton_back));
     textViewHeaderTitle = (TextView) header.findViewById(R.id.child_mainactivity_header_textview);
     activeHelper = new ActiveHelper(activeViewGroup);
+    activeViewGroup.setFocusable(false);
 
     textViewHeaderTitle.setText("心 愿 种 子");
     imageButtonStart.setOnClickListener(new View.OnClickListener() {
@@ -222,10 +218,18 @@ public class ChildWishActivity extends SwipeBackActivity
 
   @Override
   public void asyncTaskComplete() {
+    final Context context = getApplicationContext();
     textViewHeaderTitle.setText("捕 获 到 的 种 子");
     activeHelper.stopMove();
-    YoYo.with(Techniques.FadeOut).duration(1000).playOn(activeViewGroup);
-    activeViewGroup.setFocusable(false);
+    activeViewGroup.removeAllViews();
+    activeViewGroup.setMode(AppConstant.ONLAYOUT_MODE_WISH_BAG);
+    for (DiyTaskInfo task : taskBag) {
+      ActiveSeedView view = new ActiveSeedView(context, task);
+      view.setBackgroundResource(R.mipmap.test1);
+      activeViewGroup.addActiveView(view);
+    }
+
+
   }
 
   private void showToast(String string) {
@@ -239,7 +243,7 @@ public class ChildWishActivity extends SwipeBackActivity
     @Override
     public void onReceive(Context context, Intent intent) {
       YoYo.with(Techniques.Shake).duration(500).playOn(imageButtonWishBag);
-      taskBag.add((DiyTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_GAME_WISH_TASK));
+      taskBag.add((DiyTaskInfo) intent.getParcelableExtra(AppConstant.CLICKED_GAME_WISH_TASK));
     }
   }
 }

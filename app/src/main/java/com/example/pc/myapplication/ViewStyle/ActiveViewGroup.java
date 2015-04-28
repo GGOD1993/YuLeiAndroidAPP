@@ -2,6 +2,8 @@ package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +15,8 @@ import java.util.Random;
 
 
 public class ActiveViewGroup extends ViewGroup {
+
+  private float mLastMotionY;
 
   private Random random = new Random();
 
@@ -90,6 +94,38 @@ public class ActiveViewGroup extends ViewGroup {
           childView.layout(l, t, l + cWidth, t + cHeight);
         }
         break;
+
+      case AppConstant.ONLAYOUT_MODE_WISH_BAG:
+        for (int i = 0; i < cCount; i++) {
+          View childView = getChildAt(i);
+          cWidth = childView.getMeasuredWidth();
+          cHeight = childView.getMeasuredHeight();
+          childView.layout(l, mTotalHeight, l + cWidth, mTotalHeight + cHeight);
+          mTotalHeight += cHeight;
+        }
+        break;
+    }
+  }
+
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    if (mode == AppConstant.ONLAYOUT_MODE_WISH_BAG) {
+      final float y = event.getY();
+      switch (event.getAction()) {
+        case MotionEvent.ACTION_DOWN:
+          mLastMotionY = y;
+          break;
+        case MotionEvent.ACTION_MOVE:
+          int detaY = (int) (mLastMotionY - y);
+          mLastMotionY = y;
+          scrollBy(0, detaY);
+          break;
+        case MotionEvent.ACTION_UP:
+          break;
+      }
+      return true;
+    } else {
+      return false;
     }
   }
 

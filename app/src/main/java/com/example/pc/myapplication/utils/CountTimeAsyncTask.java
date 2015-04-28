@@ -35,7 +35,7 @@ public class CountTimeAsyncTask extends AsyncTask<Void, Integer, Void> {
   @Override
   protected void onPreExecute() {
     super.onPreExecute();
-    resultTime = 30;
+    resultTime = 10;
     title.setText("剩余时间:" + resultTime);
   }
 

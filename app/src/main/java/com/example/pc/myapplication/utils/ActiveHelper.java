@@ -42,8 +42,9 @@ public class ActiveHelper {
   private static final int MODE_GAME = 2;
   public static final int START_MODE_WISH_MOVE = 3;
   public static final int START_MODE_GAME_MOVE = 4;
+  public static final int START_MODE_SEED_MOVE = 5;
   public static final int STOP_MOVE = 5;
-  public static final int MOVE_INTERVAL_TIME = 100;
+  public static final int MOVE_INTERVAL_TIME = 50;
 
   /**
    * 运行在主线程中的Handler
@@ -181,6 +182,8 @@ public class ActiveHelper {
     if (child.getBottom() > activeViewGroupHeight - child.getMoveYSpeed())
       child.setMoveYDirection(AppConstant.UP_DIRECTION);
   }
+
+
 
   /**
    * 检测Game模式控件的移动方向

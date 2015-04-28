@@ -32,6 +32,7 @@ public class AppConstant {
   public static final int ONLAYOUT_MODE_NONE = 0;
   public static final int ONLAYOUT_MODE_RANDOM = 1;
   public static final int ONLAYOUT_MODE_FROM_DOWN = 2;
+  public static final int ONLAYOUT_MODE_WISH_BAG = 3;
   public static final int LEFT_DIRECTION = 1;
   public static final int RIGHT_DIRECTION = -1;
   public static final int UP_DIRECTION = 2;

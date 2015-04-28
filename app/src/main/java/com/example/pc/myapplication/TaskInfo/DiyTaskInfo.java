@@ -1,8 +1,10 @@
 package com.example.pc.myapplication.TaskInfo;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class DiyTaskInfo implements Serializable {
+
+public class DiyTaskInfo implements Parcelable{
 
   private String award;
   private String taskName;
@@ -11,13 +13,13 @@ public class DiyTaskInfo implements Serializable {
   private String taskContent;
   private int taskStatus;
 
-  public DiyTaskInfo(String toUserId, String taskName, String award, String taskContent, String fromUserId) {
+  public DiyTaskInfo(String toUserId, String taskName, String award, String taskContent, String fromUserId, int taskStatus) {
     this.award = award;
     this.taskName = taskName;
     this.toUserId = toUserId;
     this.taskContent = taskContent;
     this.fromUserId = fromUserId;
-    this.taskStatus = 0;
+    this.taskStatus = taskStatus;
   }
 
   public int getTaskStatus() {
@@ -67,4 +69,32 @@ public class DiyTaskInfo implements Serializable {
   public void setTaskContent(String taskContent) {
     this.taskContent = taskContent;
   }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(toUserId);
+    dest.writeString(taskName);
+    dest.writeString(award);
+    dest.writeString(taskContent);
+    dest.writeString(fromUserId);
+    dest.writeInt(taskStatus);
+  }
+
+  public static final Parcelable.Creator<DiyTaskInfo> CREATOR = new Creator<DiyTaskInfo>() {
+
+    @Override
+    public DiyTaskInfo createFromParcel(Parcel source) {
+      return new DiyTaskInfo(source.readString(), source.readString(), source.readString(), source.readString(), source.readString(), source.readInt());
+    }
+
+    @Override
+    public DiyTaskInfo[] newArray(int size) {
+      return new DiyTaskInfo[size];
+    }
+  };
 }

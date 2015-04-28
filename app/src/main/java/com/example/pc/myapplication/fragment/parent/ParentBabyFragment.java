@@ -144,7 +144,8 @@ public class ParentBabyFragment extends Fragment
                 arrayTask.getString(AppConstant.TASK_ID),
                 arrayTask.getString(AppConstant.TASK_REGDATE),
                 arrayTask.getString(AppConstant.TASK_CONTENT),
-                arrayTask.getString(AppConstant.FROM_USERID)
+                arrayTask.getString(AppConstant.FROM_USERID),
+                0
         );
         switch (arrayTask.getInt(AppConstant.TASK_STATUS)) {
           case AppConstant.STATUS_NEW:

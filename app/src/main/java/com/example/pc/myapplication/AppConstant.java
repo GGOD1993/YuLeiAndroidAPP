@@ -75,7 +75,7 @@ public class AppConstant {
   public static final String CLICKED_CHECK_TASK = "clickedCheckTask";
   public static final String CLICKED_SEND_TASK = "clickedSendTask";
   public static final String CLICKED_RECIVE_TASK = "clickedReciveTask";
-  public static final String CLICKED_GAME_WISH = "clickedGameWish";
+  public static final String CLICKED_GAME_WISH_TASK = "clickedGameWishTask";
   public static final String AUTO_SIGNIN_USERNAME = "auto_signin_username";
   public static final String AUTO_SIGNIN_PASSWORD = "auto_signin_password";
 

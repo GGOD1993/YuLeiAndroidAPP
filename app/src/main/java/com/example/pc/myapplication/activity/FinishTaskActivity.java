@@ -51,7 +51,7 @@ public class FinishTaskActivity extends SwipeBackActivity
     setContentView(R.layout.activity_finish_task);
 
     Intent intent = getIntent();
-    clickTask = (DiyTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_SEND_TASK);
+    clickTask = intent.getParcelableExtra(AppConstant.CLICKED_SEND_TASK);
     initViews();
   }
 

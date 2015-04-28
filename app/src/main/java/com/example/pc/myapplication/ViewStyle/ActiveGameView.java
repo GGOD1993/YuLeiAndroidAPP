@@ -3,9 +3,7 @@ package com.example.pc.myapplication.ViewStyle;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.service.voice.AlwaysOnHotwordDetector;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -21,7 +19,7 @@ import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import java.io.Serializable;
 import java.util.Random;
 
-public class ActiveGameView extends ActiveView implements View.OnClickListener, Serializable {
+public class ActiveGameView extends ActiveView implements View.OnClickListener, Serializable{
 
   //运动方向
   private int moveXDirection;
@@ -110,8 +108,7 @@ public class ActiveGameView extends ActiveView implements View.OnClickListener, 
   public void initParams() {
     random = new Random();
     moveXSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
-    moveYSpeed = 10;
-//    moveYSpeed = random.nextInt(AppConstant.TOP_SPEED) + 1;
+    moveYSpeed = random.nextInt(AppConstant.TOP_SPEED) + 10;
     rotateSpeed = random.nextFloat() * 3;
     if (random.nextInt(100) % 2 == 0) moveXDirection = AppConstant.RIGHT_DIRECTION;
     else moveXDirection = AppConstant.LEFT_DIRECTION;
@@ -122,7 +119,10 @@ public class ActiveGameView extends ActiveView implements View.OnClickListener, 
 
   @Override
   public void onClick(final View v) {
-    ((ActiveViewGroup) getParent()).setMode(AppConstant.ONLAYOUT_MODE_NONE);
+    ActiveGameView.this.setClickable(false);
+    if (AppConstant.ONLAYOUT_MODE_NONE != ((ActiveViewGroup) getParent()).getMode()){
+      ((ActiveViewGroup) getParent()).setMode(AppConstant.ONLAYOUT_MODE_NONE);
+    }
     AnimationSet animSet = new AnimationSet(true);
     animSet.setInterpolator(new AccelerateDecelerateInterpolator());
     animSet.setFillAfter(true);
@@ -131,18 +131,14 @@ public class ActiveGameView extends ActiveView implements View.OnClickListener, 
             Animation.RELATIVE_TO_PARENT, 0.5f,
             Animation.RELATIVE_TO_PARENT, 0,
             Animation.RELATIVE_TO_PARENT, 0.5f);
-    transAnim.setDuration(2000);
     ScaleAnimation scaleAnim = new ScaleAnimation(
             1f, 0,
             1f, 0,
             Animation.RELATIVE_TO_SELF, 0.5f,
             Animation.RELATIVE_TO_SELF, 0.5f
     );
-    scaleAnim.setDuration(2000);
     AlphaAnimation alphaAnim = new AlphaAnimation(1f, 0);
-    alphaAnim.setDuration(2000);
     RotateAnimation rotateAnim = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-    rotateAnim.setDuration(2000);
     animSet.addAnimation(rotateAnim);
     animSet.addAnimation(alphaAnim);
     animSet.addAnimation(scaleAnim);
@@ -156,7 +152,11 @@ public class ActiveGameView extends ActiveView implements View.OnClickListener, 
 
       @Override
       public void onAnimationEnd(Animation animation) {
+        //发送广播,将任务加入任务袋
         ActiveGameView.this.setVisibility(GONE);
+        Intent intent = new Intent(AppConstant.BROADCAST_MOVE_TO_WISH_BAG);
+        intent.putExtra(AppConstant.CLICKED_GAME_WISH_TASK, ActiveGameView.this.getTaskInfo());
+        getContext().sendBroadcast(intent);
       }
 
       @Override

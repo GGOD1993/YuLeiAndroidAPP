@@ -160,7 +160,8 @@ public class ChildMsgFragment extends Fragment implements
                 object.getString(AppConstant.TASK_ID),
                 object.getString(AppConstant.TASK_REGDATE),
                 object.getString(AppConstant.TASK_CONTENT),
-                object.getString(AppConstant.FROM_USERID)));
+                object.getString(AppConstant.FROM_USERID),
+                0));
         switch (object.getInt(AppConstant.TASK_STATUS)) {
           case AppConstant.STATUS_NEW:
             activeWishView.setBackgroundResource(R.mipmap.ic_launcher);
@@ -191,7 +192,6 @@ public class ChildMsgFragment extends Fragment implements
     }
   }
   public interface OnChildMsgFragmentInteractionListener {
-    // TODO: Update argument type and name
     public void onChildMsgFragmentInteraction();
   }
 }

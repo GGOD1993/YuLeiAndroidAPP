@@ -52,6 +52,8 @@ public class SubmitTaskActivity extends SwipeBackActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_submit_task);
+    Intent intent = getIntent();
+    taskToBeSubmit = intent.getParcelableExtra(AppConstant.CLICKED_RECIVE_TASK);
     initViews();
   }
 
@@ -68,8 +70,6 @@ public class SubmitTaskActivity extends SwipeBackActivity
     imageButtonCancel = (ImageButton) findViewById(R.id.submittaskactivity_imagebutton_cancel);
 
     textViewHeader.setText("提 交 任 务");
-    Intent intent = getIntent();
-    taskToBeSubmit = (DiyTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_RECIVE_TASK);
     textViewToUserId.setText(taskToBeSubmit.getFromUserId());
     textViewTaskName.setText(taskToBeSubmit.getTaskName());
     textViewAward.setText(taskToBeSubmit.getAward());

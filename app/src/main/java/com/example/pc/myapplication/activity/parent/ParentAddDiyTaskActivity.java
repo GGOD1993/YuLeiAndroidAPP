@@ -114,7 +114,7 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity implements AbsLi
     imageButtonSubmit.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        diyTaskInfo = new DiyTaskInfo("", "", "", "", "");
+        diyTaskInfo = new DiyTaskInfo("", "", "", "", "", 0);
         if (selectedId.length() != 0) {
           showToast(selectedId);
           if (editTextTaskName.getText().length() != 0) {
@@ -127,7 +127,7 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity implements AbsLi
                 diyTaskInfo.setFromUserId(preferences.getString(AppConstant.FROM_USERID, ""));
                 Intent data = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(AppConstant.NEW_TASK, diyTaskInfo);
+                bundle.putParcelable(AppConstant.NEW_TASK, diyTaskInfo);
                 data.putExtras(bundle);
                 setResult(AppConstant.PARENT_ADDDIYTASK_RESULTCODE, data);
 

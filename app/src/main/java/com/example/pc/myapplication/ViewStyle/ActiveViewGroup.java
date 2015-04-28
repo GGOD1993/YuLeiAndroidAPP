@@ -2,7 +2,6 @@ package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,8 @@ public class ActiveViewGroup extends ViewGroup {
   private int mode = AppConstant.ONLAYOUT_MODE_NONE;
 
   private ArrayList<ActiveView> arrayList = new ArrayList<>();
+
+  private static int VIEW_MARGIN = 100;
 
   public ActiveViewGroup(Context context) {
     super(context);
@@ -63,6 +64,7 @@ public class ActiveViewGroup extends ViewGroup {
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
     int cCount = getChildCount();
     int mTotalHeight = 0;
+    int mTotalWidth = 0;
     int cWidth;
     int cHeight;
     switch (mode) {
@@ -100,8 +102,12 @@ public class ActiveViewGroup extends ViewGroup {
           View childView = getChildAt(i);
           cWidth = childView.getMeasuredWidth();
           cHeight = childView.getMeasuredHeight();
-          childView.layout(l, mTotalHeight, l + cWidth, mTotalHeight + cHeight);
-          mTotalHeight += cHeight;
+          if (mTotalWidth >= getMeasuredWidth() - cWidth + VIEW_MARGIN) {
+            mTotalWidth = 0;
+            t += cHeight;
+          }
+          childView.layout(mTotalWidth, t, mTotalWidth + cWidth, t + cHeight);
+          mTotalWidth += cWidth;
         }
         break;
     }

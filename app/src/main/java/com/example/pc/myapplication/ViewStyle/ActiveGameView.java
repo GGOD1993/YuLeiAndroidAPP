@@ -1,17 +1,12 @@
 package com.example.pc.myapplication.ViewStyle;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.RotateAnimation;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
@@ -19,7 +14,7 @@ import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import java.io.Serializable;
 import java.util.Random;
 
-public class ActiveGameView extends ActiveView implements View.OnClickListener, Serializable{
+public class ActiveGameView extends ActiveView implements View.OnClickListener, Serializable {
 
   //运动方向
   private int moveXDirection;
@@ -120,49 +115,37 @@ public class ActiveGameView extends ActiveView implements View.OnClickListener, 
   @Override
   public void onClick(final View v) {
     ActiveGameView.this.setClickable(false);
-    if (AppConstant.ONLAYOUT_MODE_NONE != ((ActiveViewGroup) getParent()).getMode()){
+    if (AppConstant.ONLAYOUT_MODE_NONE != ((ActiveViewGroup) getParent()).getMode()) {
       ((ActiveViewGroup) getParent()).setMode(AppConstant.ONLAYOUT_MODE_NONE);
     }
-    AnimationSet animSet = new AnimationSet(true);
-    animSet.setInterpolator(new AccelerateDecelerateInterpolator());
-    animSet.setFillAfter(true);
-    TranslateAnimation transAnim = new TranslateAnimation(
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, 0.5f,
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, 0.5f);
-    ScaleAnimation scaleAnim = new ScaleAnimation(
-            1f, 0,
-            1f, 0,
-            Animation.RELATIVE_TO_SELF, 0.5f,
-            Animation.RELATIVE_TO_SELF, 0.5f
-    );
-    AlphaAnimation alphaAnim = new AlphaAnimation(1f, 0);
-    RotateAnimation rotateAnim = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-    animSet.addAnimation(rotateAnim);
-    animSet.addAnimation(alphaAnim);
-    animSet.addAnimation(scaleAnim);
-    animSet.addAnimation(transAnim);
-    animSet.setDuration(2000);
-    animSet.setAnimationListener(new Animation.AnimationListener() {
-      @Override
-      public void onAnimationStart(Animation animation) {
+    ActiveGameView.this.animate()
+            .x(((ActiveViewGroup) getParent()).getWidth())
+            .y(((ActiveViewGroup) getParent()).getHeight())
+            .alpha(0).scaleX(0).scaleY(0).setDuration(1000)
+            .setInterpolator(new AccelerateDecelerateInterpolator())
+            .setListener(new Animator.AnimatorListener() {
+              @Override
+              public void onAnimationStart(Animator animation) {
 
-      }
+              }
 
-      @Override
-      public void onAnimationEnd(Animation animation) {
-        //发送广播,将任务加入任务袋
-        ActiveGameView.this.setVisibility(GONE);
-        Intent intent = new Intent(AppConstant.BROADCAST_MOVE_TO_WISH_BAG);
-        intent.putExtra(AppConstant.CLICKED_GAME_WISH_TASK, ActiveGameView.this.getTaskInfo());
-        getContext().sendBroadcast(intent);
-      }
+              @Override
+              public void onAnimationEnd(Animator animation) {
+                ActiveGameView.this.setVisibility(GONE);
+                Intent intent = new Intent(AppConstant.BROADCAST_MOVE_TO_WISH_BAG);
+                intent.putExtra(AppConstant.CLICKED_GAME_WISH_TASK, ActiveGameView.this.getTaskInfo());
+                getContext().sendBroadcast(intent);
+              }
 
-      @Override
-      public void onAnimationRepeat(Animation animation) {
-      }
-    });
-    ActiveGameView.this.startAnimation(animSet);
+              @Override
+              public void onAnimationCancel(Animator animation) {
+
+              }
+
+              @Override
+              public void onAnimationRepeat(Animator animation) {
+
+              }
+            });
   }
 }

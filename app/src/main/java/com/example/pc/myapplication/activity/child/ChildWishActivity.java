@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,12 +31,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public class ChildWishActivity extends SwipeBackActivity
         implements HttpService.OnGetDiyTaskRequestResponseListener,
         CountTimeAsyncTask.OnAsyncTaskCompleteListener{
+
+  //随机数发生器
+  private Random rand = new Random();
 
   //布局的header
   private RelativeLayout header;
@@ -226,10 +231,11 @@ public class ChildWishActivity extends SwipeBackActivity
     for (DiyTaskInfo task : taskBag) {
       ActiveSeedView view = new ActiveSeedView(context, task);
       view.setBackgroundResource(R.mipmap.test1);
+      int spec = rand.nextInt(200) + 400;
+      ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(spec, spec);
+      view.setLayoutParams(layoutParams);
       activeViewGroup.addActiveView(view);
     }
-
-
   }
 
   private void showToast(String string) {

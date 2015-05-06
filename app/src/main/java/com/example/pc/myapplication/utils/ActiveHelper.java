@@ -35,11 +35,12 @@ public class ActiveHelper {
   private static final int MODE_WISH = 1;
   private static final int MODE_GAME = 2;
   private static final int MODE_SEED = 3;
-  private static final int START_MODE_WISH_MOVE = 3;
-  private static final int START_MODE_GAME_MOVE = 4;
-  private static final int START_MODE_SEED_MOVE = 5;
-  private static final int STOP_MOVE = 5;
-  private final int MOVE_INTERVAL_TIME = 50;
+  private static final int START_MODE_WISH_MOVE = 4;
+  private static final int START_MODE_GAME_MOVE = 5;
+  private static final int START_MODE_SEED_MOVE = 6;
+  private static final int STOP_MOVE = 7;
+  private static final int MOVE_INTERVAL_TIME = 50;
+  private static final int MOVE_INTERVAL_TIME_SEED = 1000;
 
   /**
    * 运行在主线程中的Handler
@@ -47,31 +48,34 @@ public class ActiveHelper {
   Handler mHandler = new Handler() {
     @Override
     public void handleMessage(Message msg) {
+      list = activeViewGroup.getChildArrayList();
+      if (!isSpecGet) {
+        activeViewGroupHeight = activeViewGroup.getHeight();
+        activeViewGroupWidth = activeViewGroup.getWidth();
+        isSpecGet = true;
+      }
       switch (msg.what) {
         case START_MODE_WISH_MOVE:
-          list = activeViewGroup.getChildArrayList();
           for (ActiveView child : list) {
             dealWithWishChild(child);
           }
           activeViewGroup.invalidate();
-          if (!isSpecGet) {
-            activeViewGroupHeight = activeViewGroup.getHeight();
-            activeViewGroupWidth = activeViewGroup.getWidth();
-            isSpecGet = true;
-          }
           break;
+
         case START_MODE_GAME_MOVE:
-          list = activeViewGroup.getChildArrayList();
           for (ActiveView child : list) {
             dealWithGameChild(child);
           }
           activeViewGroup.invalidate();
-          if (!isSpecGet) {
-            activeViewGroupHeight = activeViewGroup.getHeight();
-            activeViewGroupWidth = activeViewGroup.getWidth();
-            isSpecGet = true;
-          }
           break;
+
+        case START_MODE_SEED_MOVE:
+          for (ActiveView child : list) {
+            dealWithSeedChild(child);
+          }
+          activeViewGroup.invalidate();
+          break;
+
         case STOP_MOVE:
           if (null != task) {
             task.cancel();
@@ -115,6 +119,14 @@ public class ActiveHelper {
         };
         break;
       case MODE_SEED:
+        task = new TimerTask() {
+          @Override
+          public void run() {
+            Message message = new Message();
+            message.what = START_MODE_SEED_MOVE;
+            mHandler.sendMessage(message);
+          }
+        };
         break;
     }
   }
@@ -141,8 +153,16 @@ public class ActiveHelper {
     }
   }
 
-  public void startChooseModeMove() {
-
+  public void startSeedModeMove() {
+    if (null != task) {
+      task.cancel();
+      isTaskRun = false;
+    }
+    if (!isTaskRun) {
+      prepareMove(MODE_SEED);
+      timer.schedule(task, 1000, MOVE_INTERVAL_TIME_SEED);
+      isTaskRun = true;
+    }
   }
 
   /**
@@ -154,6 +174,7 @@ public class ActiveHelper {
 
   /**
    * 处理Wish模式控件的位置
+   *
    * @param child
    */
   private void dealWithWishChild(ActiveView child) {
@@ -163,6 +184,7 @@ public class ActiveHelper {
 
   /**
    * 处理Game模式控件的位置
+   *
    * @param child
    */
   private void dealWithGameChild(ActiveView child) {
@@ -172,15 +194,17 @@ public class ActiveHelper {
 
   /**
    * 处理Float模式控件的位置
+   *
    * @param child
    */
-  private void dealWithFloatChild(ActiveView child) {
-    checkWithFloatChild(child);
+  private void dealWithSeedChild(ActiveView child) {
+    checkWithSeedChild(child);
     moveWithChild(child);
   }
 
   /**
    * 检测Wish模式控件移动方向
+   *
    * @param child
    */
   private void checkWithWishChild(ActiveView child) {
@@ -211,10 +235,12 @@ public class ActiveHelper {
 
   /**
    * 检测Float模式控件的移动方向
+   *
    * @param child
    */
-  private void checkWithFloatChild(ActiveView child) {
-    if (child.getMoveYDirection() == AppConstant.DOWN_DIRECTION) child.setMoveYDirection(AppConstant.UP_DIRECTION);
+  private void checkWithSeedChild(ActiveView child) {
+    if (child.getMoveYDirection() == AppConstant.DOWN_DIRECTION)
+      child.setMoveYDirection(AppConstant.UP_DIRECTION);
     else child.setMoveYDirection(AppConstant.DOWN_DIRECTION);
   }
 
@@ -223,6 +249,7 @@ public class ActiveHelper {
    *
    * @param child
    */
+
   private void moveWithChild(ActiveView child) {
     int childLeft = child.getLeft();
     int childRight = child.getRight();
@@ -234,13 +261,16 @@ public class ActiveHelper {
     float childRotateSpeed = child.getRotateSpeed();
     float childRotation = child.getRotation();
 
-    if (AppConstant.RIGHT_DIRECTION == child.getMoveXDirection()) {
-      child.setLeft(childLeft + childXSpeed);
-      child.setRight(childRight + childXSpeed);
-    } else {
-      child.setLeft(childLeft - childXSpeed);
-      child.setRight(childRight - childXSpeed);
+    if (childXSpeed != 0) {
+      if (AppConstant.RIGHT_DIRECTION == child.getMoveXDirection()) {
+        child.setLeft(childLeft + childXSpeed);
+        child.setRight(childRight + childXSpeed);
+      } else {
+        child.setLeft(childLeft - childXSpeed);
+        child.setRight(childRight - childXSpeed);
+      }
     }
+
     if (AppConstant.UP_DIRECTION == child.getMoveYDirection()) {
       child.setTop(childTop - childYSpeed);
       child.setBottom(childBottom - childYSpeed);
@@ -248,14 +278,17 @@ public class ActiveHelper {
       child.setTop(childTop + childYSpeed);
       child.setBottom(childBottom + childYSpeed);
     }
-    if (AppConstant.CLOCKSIDE_DIRECTION == childRotateDirection) {
-      if (childRotation < 360 - childRotateSpeed)
-        child.setRotation(childRotation + childRotateSpeed);
-      else child.setRotation(0);
-    } else {
-      if (childRotation > childRotateSpeed - 360)
-        child.setRotation(childRotation - childRotateSpeed);
-      else child.setRotation(0);
+
+    if (childRotateSpeed != 0) {
+      if (AppConstant.CLOCKSIDE_DIRECTION == childRotateDirection) {
+        if (childRotation < 360 - childRotateSpeed)
+          child.setRotation(childRotation + childRotateSpeed);
+        else child.setRotation(0);
+      } else {
+        if (childRotation > childRotateSpeed - 360)
+          child.setRotation(childRotation - childRotateSpeed);
+        else child.setRotation(0);
+      }
     }
   }
 }

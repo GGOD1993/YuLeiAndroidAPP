@@ -35,7 +35,7 @@ public class CountTimeAsyncTask extends AsyncTask<Void, Integer, Void> {
   @Override
   protected void onPreExecute() {
     super.onPreExecute();
-    resultTime = 20;
+    resultTime = 10;
     title.setText("剩余时间:" + resultTime);
   }
 
@@ -45,7 +45,7 @@ public class CountTimeAsyncTask extends AsyncTask<Void, Integer, Void> {
       try {
         Thread.sleep(1000);
       } catch (Exception e) {
-        e.printStackTrace();
+        break;
       }
       publishProgress(--resultTime);
     }

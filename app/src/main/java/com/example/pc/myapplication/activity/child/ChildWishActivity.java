@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -82,7 +84,6 @@ public class ChildWishActivity extends SwipeBackActivity
     initViews();
   }
 
-
   @Override
   protected void onStart() {
     broadcastReciver = new ActiveGameViewBroadcastReciver();
@@ -94,6 +95,8 @@ public class ChildWishActivity extends SwipeBackActivity
   @Override
   protected void onStop() {
     unregisterReceiver(broadcastReciver);
+    if (null != asyncTask) asyncTask.cancel(true);
+    activeHelper.stopMove();
     super.onStop();
   }
 
@@ -111,7 +114,6 @@ public class ChildWishActivity extends SwipeBackActivity
     imageButtonBack = ((ImageButton) findViewById(R.id.child_wishactivity_imagebutton_back));
     textViewHeaderTitle = (TextView) header.findViewById(R.id.child_mainactivity_header_textview);
     activeHelper = new ActiveHelper(activeViewGroup);
-    activeViewGroup.setFocusable(false);
 
     textViewHeaderTitle.setText("心 愿 种 子");
     imageButtonStart.setOnClickListener(new View.OnClickListener() {
@@ -225,7 +227,6 @@ public class ChildWishActivity extends SwipeBackActivity
   public void asyncTaskComplete() {
     final Context context = getApplicationContext();
     textViewHeaderTitle.setText("捕 获 到 的 种 子");
-    activeHelper.stopMove();
     activeViewGroup.removeAllViews();
     activeViewGroup.setMode(AppConstant.ONLAYOUT_MODE_WISH_BAG);
     for (DiyTaskInfo task : taskBag) {
@@ -234,8 +235,10 @@ public class ChildWishActivity extends SwipeBackActivity
       int spec = rand.nextInt(200) + 200;
       ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(spec, spec);
       view.setLayoutParams(layoutParams);
+      YoYo.with(Techniques.Pulse).interpolate(new AccelerateDecelerateInterpolator()).duration(1000).playOn(view);
       activeViewGroup.addActiveView(view);
     }
+    activeHelper.startSeedModeMove();
   }
 
   private void showToast(String string) {

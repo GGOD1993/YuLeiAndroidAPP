@@ -246,7 +246,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toEndOf="@id/five"
                 android:layout_toRightOf="@id/five"
-                android:text="更 多 设 置"
+                android:text="退 出 登 录"
                 android:textColor="#f0f0f0"
                 android:textSize="10pt"/>
 

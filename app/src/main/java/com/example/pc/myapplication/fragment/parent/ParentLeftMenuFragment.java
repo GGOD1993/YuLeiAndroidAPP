@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.activity.parent.ParentMoreSettingActivity;
+import com.example.pc.myapplication.activity.MainActivity;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;
@@ -30,7 +29,7 @@ import java.util.HashMap;
 public class ParentLeftMenuFragment extends Fragment
         implements HttpService.OnUserInvitationRequestResponseListener,
         HttpService.OnGetInvitationRequestResponseListener,
-        HttpService.OnAddFriendRequestResponseListener {
+        HttpService.OnAddFriendRequestResponseListener, HttpService.OnLogoutRequestResponseListener{
 
   //存储数据的sharedPreferences
   private SharedPreferences preferences;
@@ -55,7 +54,9 @@ public class ParentLeftMenuFragment extends Fragment
     relativeLayoutMoreSetting.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        startActivity(new Intent(getActivity(), ParentMoreSettingActivity.class));
+        preferences.edit().putInt(AppConstant.USER_MODE,0).apply();
+        HttpService.DoLogoutRequest(Request.Method.GET, AppConstant.LOGIN_OUT_URL, null, ParentLeftMenuFragment.this);
+//        startActivity(new Intent(getActivity(), ParentMoreSettingActivity.class));
       }
     });
     relativeLayoutAddFriends = (RelativeLayout) v.findViewById(R.id.parentactivity_leftmenu_relativelayout_addchild);
@@ -191,6 +192,27 @@ public class ParentLeftMenuFragment extends Fragment
   @Override
   public void OnAddFriendErrorResponse(String errorResult) {
     showToast(errorResult);
+  }
+
+  @Override
+  public void OnLogoutSuccessResponse(JSONArray successJsonArray) {
+    try {
+      JSONObject codeObject = (JSONObject) successJsonArray.get(0);
+      JSONObject msgObject = (JSONObject) successJsonArray.get(1);
+      int code= codeObject.getInt("code");
+      if (AppConstant.LOGOUT_SUCCESS == code) {
+        showToast(msgObject.getString("msg"));
+        startActivity(new Intent(getActivity(), MainActivity.class));
+        getActivity().finish();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void OnLogoutErrorResponse(String errorMsg) {
+    showToast(errorMsg);
   }
 
   private void showToast(String string) {

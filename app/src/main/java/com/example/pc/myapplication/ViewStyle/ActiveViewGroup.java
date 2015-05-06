@@ -2,6 +2,7 @@ package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class ActiveViewGroup extends ViewGroup {
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
     int cCount = getChildCount();
     int mTotalHeight = 0;
-    int mTotalWidth = 0;
+    int mTotalWidth = VIEW_MARGIN;
     int cWidth;
     int cHeight;
     switch (mode) {
@@ -102,12 +103,12 @@ public class ActiveViewGroup extends ViewGroup {
           View childView = getChildAt(i);
           cWidth = childView.getMeasuredWidth();
           cHeight = childView.getMeasuredHeight();
-          if (mTotalWidth >= getMeasuredWidth() - cWidth + VIEW_MARGIN) {
-            mTotalWidth = 0;
-            t += cHeight;
+          if (mTotalWidth >= getMeasuredWidth() - cWidth - VIEW_MARGIN) {
+            mTotalWidth = VIEW_MARGIN;
+            t = t + VIEW_MARGIN + cHeight;
           }
           childView.layout(mTotalWidth, t, mTotalWidth + cWidth, t + cHeight);
-          mTotalWidth += cWidth;
+          mTotalWidth += (VIEW_MARGIN + cWidth);
         }
         break;
     }
@@ -159,6 +160,7 @@ public class ActiveViewGroup extends ViewGroup {
 
   /**
    * 根据任务状态更换标示
+   *
    * @param taskId
    */
   public void changeActiveViewBgByTask(String taskId) {

@@ -2,18 +2,12 @@ package com.example.pc.myapplication.utils;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.animation.Animation;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.RotateAnimation;
 
 import com.example.pc.myapplication.AppConstant;
-import com.example.pc.myapplication.ViewStyle.ActiveGameView;
 import com.example.pc.myapplication.ViewStyle.ActiveView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,11 +34,12 @@ public class ActiveHelper {
   //两种移动的模式
   private static final int MODE_WISH = 1;
   private static final int MODE_GAME = 2;
-  public static final int START_MODE_WISH_MOVE = 3;
-  public static final int START_MODE_GAME_MOVE = 4;
-  public static final int START_MODE_SEED_MOVE = 5;
-  public static final int STOP_MOVE = 5;
-  public static final int MOVE_INTERVAL_TIME = 50;
+  private static final int MODE_SEED = 3;
+  private static final int START_MODE_WISH_MOVE = 3;
+  private static final int START_MODE_GAME_MOVE = 4;
+  private static final int START_MODE_SEED_MOVE = 5;
+  private static final int STOP_MOVE = 5;
+  private final int MOVE_INTERVAL_TIME = 50;
 
   /**
    * 运行在主线程中的Handler
@@ -119,6 +114,8 @@ public class ActiveHelper {
           }
         };
         break;
+      case MODE_SEED:
+        break;
     }
   }
 
@@ -142,6 +139,10 @@ public class ActiveHelper {
       timer.schedule(task, 1000, MOVE_INTERVAL_TIME);
       isTaskRun = true;
     }
+  }
+
+  public void startChooseModeMove() {
+
   }
 
   /**
@@ -170,6 +171,15 @@ public class ActiveHelper {
   }
 
   /**
+   * 处理Float模式控件的位置
+   * @param child
+   */
+  private void dealWithFloatChild(ActiveView child) {
+    checkWithFloatChild(child);
+    moveWithChild(child);
+  }
+
+  /**
    * 检测Wish模式控件移动方向
    * @param child
    */
@@ -182,8 +192,6 @@ public class ActiveHelper {
     if (child.getBottom() > activeViewGroupHeight - child.getMoveYSpeed())
       child.setMoveYDirection(AppConstant.UP_DIRECTION);
   }
-
-
 
   /**
    * 检测Game模式控件的移动方向
@@ -199,6 +207,15 @@ public class ActiveHelper {
       child.setTop(activeViewGroupHeight);
       child.setBottom(activeViewGroupHeight + child.getMeasuredHeight());
     }
+  }
+
+  /**
+   * 检测Float模式控件的移动方向
+   * @param child
+   */
+  private void checkWithFloatChild(ActiveView child) {
+    if (child.getMoveYDirection() == AppConstant.DOWN_DIRECTION) child.setMoveYDirection(AppConstant.UP_DIRECTION);
+    else child.setMoveYDirection(AppConstant.DOWN_DIRECTION);
   }
 
   /**

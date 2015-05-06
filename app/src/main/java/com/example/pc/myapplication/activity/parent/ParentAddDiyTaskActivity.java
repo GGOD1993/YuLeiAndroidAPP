@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -14,15 +13,23 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.TaskInfo.SystemTaskInfo;
 import com.example.pc.myapplication.adapter.StringPickerViewAdapter;
+import com.example.pc.myapplication.utils.HttpService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
-public class ParentAddDiyTaskActivity extends ActionBarActivity implements AbsListView.OnScrollListener{
+public class ParentAddDiyTaskActivity extends ActionBarActivity
+        implements AbsListView.OnScrollListener, HttpService.OnGetChildrenRequestResponseListener {
 
   //用于存放即将发布的任务
   private DiyTaskInfo diyTaskInfo;
@@ -54,10 +61,13 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity implements AbsLi
   //存放String的list
   private ArrayList<String> list;
 
-  //listview选中的item
+  //ListView选中的item
   private String selectedId = "";
 
-  //listview三种状态
+  //ListView的适配器
+  private StringPickerViewAdapter adapter;
+
+  //ListView三种状态
   private static final int SCROLL_STATE_FLING = 2;
   private static final int SCROLL_STATE_IDLE = 0;
   private static final int SCROLL_STATE_TOUCH_SCROLL = 1;
@@ -69,7 +79,7 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity implements AbsLi
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_parent_add_diy_task);
-    preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
+    preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
     initView();
   }
 
@@ -93,12 +103,10 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity implements AbsLi
     }
 
     list = new ArrayList<>();
-    for (int i = 0; i < 20; i ++) {
-      list.add("dada" + i);
-    }
+    initFromNetwork();
 
     listViewUserId = (ListView) findViewById(R.id.parent_addtaskactivity_listview_userid);
-    StringPickerViewAdapter adapter = new StringPickerViewAdapter(getApplicationContext(), list);
+    adapter = new StringPickerViewAdapter(getApplicationContext(), list);
     listViewUserId.setAdapter(adapter);
     listViewUserId.setOnScrollListener(ParentAddDiyTaskActivity.this);
 
@@ -133,14 +141,10 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity implements AbsLi
 
                 closeInputKeyBoard();
                 finish();
-              }
-              else showToast("请输入正确的任务内容");
-            }
-            else showToast("请输入正确的奖励金额");
-          }
-          else showToast("请输入正确的任务名称");
-        }
-        else showToast("请输入正确的对象名称");
+              } else showToast("请输入正确的任务内容");
+            } else showToast("请输入正确的奖励金额");
+          } else showToast("请输入正确的任务名称");
+        } else showToast("请输入正确的对象名称");
       }
     });
   }
@@ -162,6 +166,30 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity implements AbsLi
   public void onScroll(AbsListView absListView, int i, int i2, int i3) {
   }
 
+  /**
+   * 从网络获取
+   */
+  private void initFromNetwork() {
+    String url = AppConstant.GET_CHILDREN_URL + "?" + AppConstant.USERID+ "=" +
+            preferences.getString(AppConstant.FROM_USERID, "");
+    HttpService.DoGetChildrenRequest(Request.Method.GET, url, null, ParentAddDiyTaskActivity.this);
+  }
+
+  /**
+   * 从缓存读取
+   */
+  private void initFromCache() {
+    list.clear();
+    HashSet<String> set = (HashSet) preferences.getStringSet(AppConstant.PREFERENCE_STRING_PICKER, null);
+    for(String s : set) {
+      list.add(s);
+    }
+    adapter.notifyDataSetChanged();
+  }
+
+  /**
+   * StringPicker的回弹
+   */
   private void rebound() {
     View firstVisibleChild = listViewUserId.getChildAt(0);
     int childHeight = firstVisibleChild.getHeight();
@@ -176,8 +204,41 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity implements AbsLi
     }
   }
 
+
+  /**
+   * 网络请求的响应
+   */
+  @Override
+  public void OnGetChildrenSuccessResponse(JSONArray jsonArray) {
+    JSONObject object;
+    HashSet<String> set = new HashSet<>();
+    try {
+      for (int i = 0; i < jsonArray.length(); i++) {
+        object = (JSONObject) jsonArray.get(i);
+        if (null != object) {
+          String name = object.getString(AppConstant.CHILD);
+          list.add(name);
+          set.add(name);
+        }
+      }
+      adapter.notifyDataSetChanged();
+      preferences.edit().putStringSet(AppConstant.PREFERENCE_STRING_PICKER, set).apply();
+    } catch (JSONException e) {
+      e.printStackTrace();
+      initFromCache();
+    }
+  }
+
+  @Override
+  public void OnGetChildrenErrorResponse(String errorResult) {
+    initFromCache();
+  }
+
+  /**
+   * 关闭软键盘
+   */
   private void closeInputKeyBoard() {
-    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     if (imm.isActive()) imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
   }
 

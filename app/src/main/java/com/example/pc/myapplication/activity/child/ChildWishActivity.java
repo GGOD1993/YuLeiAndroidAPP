@@ -231,7 +231,7 @@ public class ChildWishActivity extends SwipeBackActivity
     for (DiyTaskInfo task : taskBag) {
       ActiveSeedView view = new ActiveSeedView(context, task);
       view.setBackgroundResource(R.mipmap.test1);
-      int spec = rand.nextInt(200) + 400;
+      int spec = rand.nextInt(200) + 200;
       ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(spec, spec);
       view.setLayoutParams(layoutParams);
       activeViewGroup.addActiveView(view);

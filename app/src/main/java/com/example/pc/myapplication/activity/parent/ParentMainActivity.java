@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -147,7 +146,7 @@ public class ParentMainActivity extends FragmentActivity implements
     switch (resultCode) {
       case AppConstant.PARENT_ADDDIYTASK_RESULTCODE:
         if (data != null) {
-          diyTaskInfo = (DiyTaskInfo) data.getSerializableExtra(AppConstant.NEW_TASK);
+          diyTaskInfo = data.getParcelableExtra(AppConstant.NEW_TASK);
           addNewTask(diyTaskInfo);
         }
         break;

@@ -33,10 +33,7 @@
             android:label="@string/title_activity_signup" >
         </activity>
         <activity
-            android:name=".activity.parent.ParentMoreSettingActivity"
-            android:label="@string/title_activity_parent_setting" >
-        </activity>
-        <activity
+            android:windowSoftInputMode="adjustResize"
             android:name=".activity.parent.ParentAddDiyTaskActivity"
             android:label="@string/title_activity_parent_add_task" >
         </activity>
@@ -71,10 +68,6 @@
         <activity
             android:name=".activity.FinishTaskActivity"
             android:label="@string/title_activity_award_task" >
-        </activity>
-        <activity
-            android:name=".activity.child.ChildWishListActivity"
-            android:label="@string/title_activity_child_wish_list" >
         </activity>
     </application>
 

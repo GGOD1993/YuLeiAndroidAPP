@@ -9,24 +9,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
-import com.example.pc.myapplication.activity.TaskInfoActivity;
 import com.example.pc.myapplication.activity.parent.ParentAddDiyTaskActivity;
 import com.example.pc.myapplication.activity.parent.ParentAddSystemTaskActivity;
 import com.example.pc.myapplication.adapter.ParentRecyclerViewAdapter;
 import com.example.pc.myapplication.adapter.RecyclerViewHolder;
-import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
 import com.example.pc.myapplication.utils.HttpService;
 import com.shamanland.fab.FloatingActionButton;
 import com.shamanland.fab.ShowHideOnScroll;
@@ -37,7 +33,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import jp.wasabeef.recyclerview.animators.FadeInRightAnimator;
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
@@ -266,7 +261,6 @@ public class ParentMsgFragment extends Fragment implements
   }
 
   public interface OnMsgFragmentInteractionListener {
-    // TODO: Update argument type and name
     public void onMsgFragmentInteraction(JSONArray jsonArray);
   }
 }

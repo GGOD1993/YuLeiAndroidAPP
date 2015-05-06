@@ -7,8 +7,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -53,10 +51,6 @@ public class StringPickerViewAdapter extends BaseAdapter {
     view = inflater.inflate(R.layout.layout_stringpicker_item, null);
     TextView textView = ((TextView) view.findViewById(R.id.textview));
     textView.setText(list.get(i % list.size()));
-//    Animation animationY = new TranslateAnimation(0, 0, viewGroup.getHeight()/4, 0);
-//    animationY.setDuration(300);
-//    view.startAnimation(animationY);
-//    animationY = null;
     return view;
   }
 }

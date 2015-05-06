@@ -1,17 +1,11 @@
 package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
-import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
-import com.example.pc.myapplication.activity.FinishTaskActivity;
-import com.example.pc.myapplication.activity.SubmitTaskActivity;
 
 import java.util.Random;
 
@@ -19,24 +13,24 @@ import java.util.Random;
 public class ActiveView extends ImageView {
 
   //运动方向
-  private int moveXDirection;
-  private int moveYDirection;
+  protected int moveXDirection;
+  protected int moveYDirection;
 
   //旋转方向
-  private int rotateDirection;
+  protected int rotateDirection;
 
   //运动速度
-  private int moveXSpeed;
-  private int moveYSpeed;
+  protected int moveXSpeed;
+  protected int moveYSpeed;
 
   //旋转的速度
-  private float rotateSpeed;
+  protected float rotateSpeed;
 
   //随机数发生器
-  private Random random;
+  protected Random random;
 
   //View携带的任务信息
-  private DiyTaskInfo taskInfo;
+  protected DiyTaskInfo taskInfo;
 
   public ActiveView(Context context) {
     super(context);

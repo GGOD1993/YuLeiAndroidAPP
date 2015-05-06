@@ -71,7 +71,7 @@ public class AppConstant {
   public static final String NICKNAME = "nickname";
   public static final String AWARD = "award";
   public static final String GENDER = "gender";
-  public static final String PREFERENCE_NAME = "yulei";
+  public static final String CHILD = "child";
   public static final String CLICKED_SYSTEM_TASK = "clickedSystemTask";
   public static final String CLICKED_CHECK_TASK = "clickedCheckTask";
   public static final String CLICKED_SEND_TASK = "clickedSendTask";
@@ -98,6 +98,10 @@ public class AppConstant {
   //发送广播的关键字
   public static final String BROADCAST_REMOVEVIEW = "broadcast_to_removeview";
   public static final String BROADCAST_MOVE_TO_WISH_BAG = "broadcast_to_wish_bag";
+
+  //preference关键字
+  public static final String PREFERENCE_NAME = "yulei";
+  public static final String PREFERENCE_STRING_PICKER = "stringpicker";
 
   //网络请求URL
   public static final String HOST = "http://byhands.sinaapp.com";

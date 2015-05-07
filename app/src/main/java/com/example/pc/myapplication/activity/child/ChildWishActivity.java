@@ -5,13 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +37,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public class ChildWishActivity extends SwipeBackActivity
         implements HttpService.OnGetDiyTaskRequestResponseListener,
-        CountTimeAsyncTask.OnAsyncTaskCompleteListener{
+        CountTimeAsyncTask.OnAsyncTaskCompleteListener {
 
   //随机数发生器
   private Random rand = new Random();
@@ -179,7 +176,7 @@ public class ChildWishActivity extends SwipeBackActivity
     for (int i = 0; i < count; i++) {
       activeGameView = new ActiveGameView(context);
       activeGameView.setLayoutParams(layoutParams);
-      try{
+      try {
         object = jsonArray.getJSONObject(i);
         activeGameView.setTaskInfo(new DiyTaskInfo(
                 object.getString(AppConstant.TO_USERID),
@@ -193,7 +190,7 @@ public class ChildWishActivity extends SwipeBackActivity
             activeGameView.setBackgroundResource(R.mipmap.ic_launcher);
             break;
           case AppConstant.STATUS_SUBMITTED:
-            activeGameView .setBackgroundResource(R.mipmap.sun_loading_blue);
+            activeGameView.setBackgroundResource(R.mipmap.sun_loading_blue);
             break;
           case AppConstant.STATUS_FINISHED:
             activeGameView.setBackgroundResource(R.mipmap.ic_tab_image);
@@ -232,8 +229,9 @@ public class ChildWishActivity extends SwipeBackActivity
     activeViewGroup.setMode(AppConstant.ONLAYOUT_MODE_WISH_BAG);
     for (DiyTaskInfo task : taskBag) {
       ActiveSeedView view = new ActiveSeedView(context, task);
-      Log.e("YSpeed",view.getMoveYSpeed() + "");
-      view.setBackgroundResource(R.mipmap.test1);
+      view.setBackgroundResource(R.drawable.child_seed_textview_style);
+      view.setText("我要大白");
+      view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
       int spec = rand.nextInt(200) + 200;
       ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(spec, spec);
       view.setLayoutParams(layoutParams);

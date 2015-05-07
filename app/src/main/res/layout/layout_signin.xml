@@ -3,7 +3,7 @@
     android:id="@+id/signin_relativelayout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_blue_grey_800">
+    android:background="@drawable/signin_bg_style">
 
     <EditText
         android:id="@+id/signin_edittext_password"

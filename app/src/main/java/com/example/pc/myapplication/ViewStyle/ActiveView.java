@@ -3,14 +3,14 @@ package com.example.pc.myapplication.ViewStyle;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 
 import java.util.Random;
 
 
-public class ActiveView extends ImageView {
+public class ActiveView extends TextView {
 
   //运动方向
   protected int moveXDirection;

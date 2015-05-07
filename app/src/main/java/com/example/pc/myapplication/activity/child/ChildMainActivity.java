@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.myapplication.AppConstant;
@@ -29,7 +30,7 @@ public class ChildMainActivity extends FragmentActivity
   //再按一次返回桌面
   private Long exitTime;
 
-  //sharedpreference
+  //SharedPreferences
   private SharedPreferences preferences;
 
   //viewpager
@@ -44,8 +45,17 @@ public class ChildMainActivity extends FragmentActivity
   //根布局
   private RelativeLayout relativeLayoutRoot;
 
+  //布局的Header
+  private RelativeLayout relativeLayoutHeader;
+
+  //Header上的TextView
+  private TextView textViewHeader;
+
   //fragment列表
   private ArrayList<Fragment> fragmentList;
+
+  //Indicator数组
+  private String[] strings = {"我 的 心 愿", "父 母 心 愿", "更 多 功 能"};
 
   @Override
   public void onChildMsgFragmentInteraction() {
@@ -72,6 +82,8 @@ public class ChildMainActivity extends FragmentActivity
     viewPager = (ViewPager) findViewById(R.id.child_mainactivity_viewpager);
     viewPagerIndicator = (UnderlinePageIndicator) findViewById(R.id.child_mainactivity_indicator);
     relativeLayoutRoot = (RelativeLayout) findViewById(R.id.child_mainactivity_relativelayout_root);
+    relativeLayoutHeader = (RelativeLayout) findViewById(R.id.child_mainactivity_header);
+    textViewHeader = (TextView) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_textview);
     fragmentList = new ArrayList<>();
     fragmentList.add(ChildWishFragment.newInstance());
     fragmentList.add(ChildMsgFragment.newInstance());
@@ -79,6 +91,21 @@ public class ChildMainActivity extends FragmentActivity
     mAdapter = new ChildViewpagerAdapter(getSupportFragmentManager(), ChildMainActivity.this, fragmentList);
     viewPager.setAdapter(mAdapter);
     viewPagerIndicator.setViewPager(viewPager, 0);
+    viewPagerIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+      @Override
+      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+      }
+
+      @Override
+      public void onPageSelected(int position) {
+        textViewHeader.setText(strings[position]);
+      }
+
+      @Override
+      public void onPageScrollStateChanged(int state) {
+      }
+    });
+    textViewHeader.setText(strings[0]);
     relativeLayoutRoot.setBackground(
             new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.child_mainactivity_background)));
   }

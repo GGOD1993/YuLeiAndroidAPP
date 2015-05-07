@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -231,6 +232,7 @@ public class ChildWishActivity extends SwipeBackActivity
     activeViewGroup.setMode(AppConstant.ONLAYOUT_MODE_WISH_BAG);
     for (DiyTaskInfo task : taskBag) {
       ActiveSeedView view = new ActiveSeedView(context, task);
+      Log.e("YSpeed",view.getMoveYSpeed() + "");
       view.setBackgroundResource(R.mipmap.test1);
       int spec = rand.nextInt(200) + 200;
       ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(spec, spec);

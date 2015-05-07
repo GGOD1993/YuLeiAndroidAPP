@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.ViewStyle.ActiveSeedView;
 import com.example.pc.myapplication.ViewStyle.ActiveView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
 
@@ -40,7 +41,7 @@ public class ActiveHelper {
   private static final int START_MODE_SEED_MOVE = 6;
   private static final int STOP_MOVE = 7;
   private static final int MOVE_INTERVAL_TIME = 50;
-  private static final int MOVE_INTERVAL_TIME_SEED = 1000;
+  private static final int MOVE_INTERVAL_TIME_SEED = 50;
 
   /**
    * 运行在主线程中的Handler
@@ -239,9 +240,15 @@ public class ActiveHelper {
    * @param child
    */
   private void checkWithSeedChild(ActiveView child) {
-    if (child.getMoveYDirection() == AppConstant.DOWN_DIRECTION)
-      child.setMoveYDirection(AppConstant.UP_DIRECTION);
-    else child.setMoveYDirection(AppConstant.DOWN_DIRECTION);
+    ActiveSeedView seedView = (ActiveSeedView) child;
+    int detaY = seedView.getDetaY();
+    int actualDetaY = seedView.actualDetaY;
+    if (actualDetaY >= detaY) {
+      seedView.actualDetaY = 0;
+      if (seedView.getMoveYDirection() == AppConstant.DOWN_DIRECTION)
+        seedView.setMoveYDirection(AppConstant.UP_DIRECTION);
+      else seedView.setMoveYDirection(AppConstant.DOWN_DIRECTION);
+    }
   }
 
   /**
@@ -269,17 +276,13 @@ public class ActiveHelper {
         child.setLeft(childLeft - childXSpeed);
         child.setRight(childRight - childXSpeed);
       }
-    }
-
-    if (AppConstant.UP_DIRECTION == child.getMoveYDirection()) {
-      child.setTop(childTop - childYSpeed);
-      child.setBottom(childBottom - childYSpeed);
-    } else {
-      child.setTop(childTop + childYSpeed);
-      child.setBottom(childBottom + childYSpeed);
-    }
-
-    if (childRotateSpeed != 0) {
+      if (AppConstant.UP_DIRECTION == child.getMoveYDirection()) {
+        child.setTop(childTop - childYSpeed);
+        child.setBottom(childBottom - childYSpeed);
+      } else {
+        child.setTop(childTop + childYSpeed);
+        child.setBottom(childBottom + childYSpeed);
+      }
       if (AppConstant.CLOCKSIDE_DIRECTION == childRotateDirection) {
         if (childRotation < 360 - childRotateSpeed)
           child.setRotation(childRotation + childRotateSpeed);
@@ -289,6 +292,16 @@ public class ActiveHelper {
           child.setRotation(childRotation - childRotateSpeed);
         else child.setRotation(0);
       }
+    } else {
+      ActiveSeedView seedView = (ActiveSeedView) child;
+      if (AppConstant.UP_DIRECTION == seedView.getMoveYDirection()) {
+        seedView.setTop(childTop - childYSpeed);
+        seedView.setBottom(childBottom - childYSpeed);
+      } else {
+        seedView.setTop(childTop + childYSpeed);
+        seedView.setBottom(childBottom + childYSpeed);
+      }
+      seedView.actualDetaY += childYSpeed;
     }
   }
 }

@@ -103,7 +103,7 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
     }
 
     list = new ArrayList<>();
-    initFromNetwork();
+    initChildFromNetwork();
 
     listViewUserId = (ListView) findViewById(R.id.parent_addtaskactivity_listview_userid);
     adapter = new StringPickerViewAdapter(getApplicationContext(), list);
@@ -138,7 +138,6 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
                 bundle.putParcelable(AppConstant.NEW_TASK, diyTaskInfo);
                 data.putExtras(bundle);
                 setResult(AppConstant.PARENT_ADDDIYTASK_RESULTCODE, data);
-
                 closeInputKeyBoard();
                 finish();
               } else showToast("请输入正确的任务内容");
@@ -169,7 +168,7 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
   /**
    * 从网络获取
    */
-  private void initFromNetwork() {
+  private void initChildFromNetwork() {
     String url = AppConstant.GET_CHILDREN_URL + "?" + AppConstant.USERID+ "=" +
             preferences.getString(AppConstant.FROM_USERID, "");
     HttpService.DoGetChildrenRequest(Request.Method.GET, url, null, ParentAddDiyTaskActivity.this);
@@ -178,9 +177,9 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
   /**
    * 从缓存读取
    */
-  private void initFromCache() {
+  private void initChildFromCache() {
     list.clear();
-    HashSet<String> set = (HashSet) preferences.getStringSet(AppConstant.PREFERENCE_STRING_PICKER, null);
+    HashSet<String> set = (HashSet) preferences.getStringSet(AppConstant.PREFERENCE_LINKED_CHILDREN, null);
     for(String s : set) {
       list.add(s);
     }
@@ -222,16 +221,16 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
         }
       }
       adapter.notifyDataSetChanged();
-      preferences.edit().putStringSet(AppConstant.PREFERENCE_STRING_PICKER, set).apply();
+      preferences.edit().putStringSet(AppConstant.PREFERENCE_LINKED_CHILDREN, set).apply();
     } catch (JSONException e) {
       e.printStackTrace();
-      initFromCache();
+      initChildFromCache();
     }
   }
 
   @Override
   public void OnGetChildrenErrorResponse(String errorResult) {
-    initFromCache();
+    initChildFromCache();
   }
 
   /**

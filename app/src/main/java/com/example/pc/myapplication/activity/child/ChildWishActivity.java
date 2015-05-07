@@ -1,10 +1,14 @@
 package com.example.pc.myapplication.activity.child;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -21,6 +25,7 @@ import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.ActiveGameView;
 import com.example.pc.myapplication.ViewStyle.ActiveSeedView;
+import com.example.pc.myapplication.ViewStyle.ActiveView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
 import com.example.pc.myapplication.utils.ActiveHelper;
 import com.example.pc.myapplication.utils.CountTimeAsyncTask;
@@ -31,12 +36,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public class ChildWishActivity extends SwipeBackActivity
         implements HttpService.OnGetDiyTaskRequestResponseListener,
+        HttpService.OnSetDiyTaskRequestResponseListener,
+        HttpService.OnGetParentRequestResponseListener,
         CountTimeAsyncTask.OnAsyncTaskCompleteListener {
 
   //随机数发生器
@@ -72,6 +82,9 @@ public class ChildWishActivity extends SwipeBackActivity
   //任务袋
   private ArrayList<DiyTaskInfo> taskBag;
 
+  //preference
+  private SharedPreferences preferences;
+
   //接受ActiveGameView发送来的广播
   private ActiveGameViewBroadcastReciver broadcastReciver;
 
@@ -102,6 +115,7 @@ public class ChildWishActivity extends SwipeBackActivity
    * 初始化控件
    */
   private void initViews() {
+    preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
     header = (RelativeLayout) findViewById(R.id.child_wishactivity_header);
     textViewTitle = (TextView) findViewById(R.id.child_wishactivity_textview_starttext);
     imageButtonStart = (ImageButton) findViewById(R.id.child_wishactivity_imagebutton_start);
@@ -114,6 +128,7 @@ public class ChildWishActivity extends SwipeBackActivity
     activeHelper = new ActiveHelper(activeViewGroup);
 
     textViewHeaderTitle.setText("心 愿 种 子");
+    imageButtonWishBag.setBackgroundResource(R.mipmap.wish_bag);
     imageButtonStart.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -205,6 +220,7 @@ public class ChildWishActivity extends SwipeBackActivity
 
   /**
    * 网络清求响应
+   *
    * @param jsonArray
    */
   @Override
@@ -230,15 +246,132 @@ public class ChildWishActivity extends SwipeBackActivity
     for (DiyTaskInfo task : taskBag) {
       ActiveSeedView view = new ActiveSeedView(context, task);
       view.setBackgroundResource(R.drawable.child_seed_textview_style);
-      view.setText("我要大白");
-      view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+      view.setText(task.getTaskContent());
+      view.setTextColor(getResources().getColor(R.color.indianred));
+      view.setGravity(Gravity.CENTER);
       int spec = rand.nextInt(200) + 200;
+      view.setTextSize(TypedValue.COMPLEX_UNIT_PX, 70 * spec / 400);
       ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(spec, spec);
       view.setLayoutParams(layoutParams);
       YoYo.with(Techniques.Pulse).interpolate(new AccelerateDecelerateInterpolator()).duration(1000).playOn(view);
       activeViewGroup.addActiveView(view);
     }
     activeHelper.startSeedModeMove();
+
+    imageButtonWishBag.setBackgroundResource(R.drawable.parent_addtaskactivity_imagebutton_submit_style);
+    imageButtonWishBag.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        initParentFromNetwork();
+      }
+    });
+  }
+
+  /**
+   * 从网络获取关系
+   */
+  private void initParentFromNetwork() {
+    String url = AppConstant.GET_PARENT_URL + "?" + AppConstant.USERID + "=" +
+            preferences.getString(AppConstant.FROM_USERID, "");
+    HttpService.DoGetParentRequest(Request.Method.GET, url, null, ChildWishActivity.this);
+  }
+
+  /**
+   * 从缓存获取关系
+   */
+  private void initParentFromCache() {
+    HashSet<String> set = ((HashSet) preferences.getStringSet(AppConstant.PREFERENCE_LINKED_PARENT, null));
+    if (null != set) showChooseToUserDialog(set);
+    else showToast("貌似出了点问题诶.....");
+  }
+
+  /**
+   * 弹出选择发送对象的对话框
+   *
+   * @param set
+   */
+  private void showChooseToUserDialog(HashSet<String> set) {
+    Iterator<String> iterator = set.iterator();
+    String mom = iterator.next();
+    String father = iterator.next();
+    View v = getLayoutInflater().inflate(R.layout.layout_child_choose_parent, null);
+    AlertDialog.Builder builder = new AlertDialog.Builder(ChildWishActivity.this);
+    builder.setView(v);
+    ((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_father)).setText(father);
+    ((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_mom)).setText(mom);
+
+    v.findViewById(R.id.child_wishactivity_dialog_relativelayout_mom).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        sendDiyTasks(((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_mom)).getText().toString());
+      }
+    });
+
+    v.findViewById(R.id.child_wishactivity_dialog_relativelayout_father).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        sendDiyTasks(((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_father)).getText().toString());
+      }
+    });
+    builder.show();
+  }
+
+  /**
+   * 发送自定义任务
+   *
+   * @param toUserId
+   */
+  private void sendDiyTasks(String toUserId) {
+    DiyTaskInfo task;
+    HashMap<String,String> map;
+    String fromUserId = preferences.getString(AppConstant.FROM_USERID, "");
+    for (ActiveView view : activeViewGroup.getChildArrayList()) {
+      if (view.isSelected()) {
+        task = view.getTaskInfo();
+        map = new HashMap<>();
+        map.put(AppConstant.FROM_USERID, fromUserId);
+        map.put(AppConstant.TASK_CONTENT, task.getTaskContent());
+        map.put(AppConstant.AWARD, task.getAward());
+        map.put(AppConstant.TO_USERID, toUserId);
+        HttpService.DoSetDiyTaskRequest(Request.Method.POST, AppConstant.SET_DIY_TASK_URL, map, ChildWishActivity.this);
+      }
+    }
+  }
+
+  @Override
+  public void OnGetParentSuccessResponse(JSONArray jsonArray) {
+    JSONObject object;
+    HashSet<String> set = new HashSet<>();
+    try {
+      for (int i = 0; i < jsonArray.length(); i++) {
+        object = (JSONObject) jsonArray.get(i);
+        if (null != object) {
+          String name = object.getString(AppConstant.PARENT);
+          set.add(name);
+        }
+      }
+      showChooseToUserDialog(set);
+      preferences.edit().putStringSet(AppConstant.PREFERENCE_LINKED_PARENT, set).apply();
+    } catch (JSONException e) {
+      e.printStackTrace();
+      initParentFromCache();
+    }
+  }
+
+  @Override
+  public void OnGetParentErrorResponse(String errorResult) {
+    initParentFromCache();
+  }
+
+  @Override
+  public void OnSetDiyTaskErrorResponse(String errorMsg) {
+
+  }
+
+  @Override
+  public void OnSetDiyTaskSuccessResponse(JSONArray jsonArray) {
+    showToast(jsonArray.toString());
+    finish();
   }
 
   private void showToast(String string) {

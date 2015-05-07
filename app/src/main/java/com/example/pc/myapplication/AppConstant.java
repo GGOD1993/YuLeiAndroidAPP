@@ -72,6 +72,7 @@ public class AppConstant {
   public static final String AWARD = "award";
   public static final String GENDER = "gender";
   public static final String CHILD = "child";
+  public static final String PARENT = "parent";
   public static final String CLICKED_SYSTEM_TASK = "clickedSystemTask";
   public static final String CLICKED_CHECK_TASK = "clickedCheckTask";
   public static final String CLICKED_SEND_TASK = "clickedSendTask";
@@ -101,7 +102,8 @@ public class AppConstant {
 
   //preference关键字
   public static final String PREFERENCE_NAME = "yulei";
-  public static final String PREFERENCE_STRING_PICKER = "stringpicker";
+  public static final String PREFERENCE_LINKED_CHILDREN = "preference_linked_children";
+  public static final String PREFERENCE_LINKED_PARENT = "preference_linked_parent";
 
   //网络请求URL
   public static final String HOST = "http://byhands.sinaapp.com";

@@ -42,7 +42,6 @@
         android:id="@+id/child_wishactivity_imagebutton_wishbag"
         android:layout_width="60dip"
         android:layout_height="60dip"
-        android:background="@mipmap/wish_bag"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:visibility="gone"

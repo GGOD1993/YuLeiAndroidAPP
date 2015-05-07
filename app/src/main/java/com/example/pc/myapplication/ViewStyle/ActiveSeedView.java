@@ -2,7 +2,6 @@ package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.example.pc.myapplication.AppConstant;
@@ -11,7 +10,7 @@ import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import java.util.Random;
 
 
-public class ActiveSeedView extends ActiveView implements View.OnClickListener{
+public class ActiveSeedView extends ActiveView implements View.OnClickListener {
 
   //控件最大偏移量
   private int detaY;
@@ -51,6 +50,8 @@ public class ActiveSeedView extends ActiveView implements View.OnClickListener{
 
   @Override
   public void onClick(View v) {
-    Log.e("dada",ActiveSeedView.this.getTaskInfo().toString());
+    ActiveSeedView view = ActiveSeedView.this;
+    if (view.isSelected()) view.setSelected(false);
+    else view.setSelected(true);
   }
 }

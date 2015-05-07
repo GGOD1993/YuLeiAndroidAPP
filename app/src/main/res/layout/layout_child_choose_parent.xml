@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:card_view="http://schemas.android.com/tools"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:orientation="vertical"
+                                    card_view:cardBackgroundColor="#ddFFDEDD"
+                                    card_view:cardCornerRadius="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/honeydew">
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/image_parent_recyclerview_item_done"/>
+
+        <RelativeLayout
+            android:id="@+id/child_wishactivity_dialog_relativelayout_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@mipmap/recyclerview_cancel"
+                android:contentDescription="@null"/>
+
+            <TextView
+                android:id="@+id/child_wishactivity_dialog_textview_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="选 择 发 送 对 象"
+                android:textColor="@color/indianred"
+                android:textSize="8pt"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/child_wishactivity_dialog_relativelayout_header">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/child_wishactivity_dialog_relativelayout_father"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="15dp"
+                    android:padding="5dp"
+                    android:background="@drawable/child_dialog_father_bg_style">
+
+                    <RelativeLayout
+                        android:id="@+id/child_wishactivity_dialog_relativelayout_userimage_father"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <ImageView
+                            android:id="@+id/child_wishactivity_dialog_imageview_userimage_father"
+                            android:layout_width="50dip"
+                            android:layout_height="50dip"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/circle_mask_style"
+                            />
+
+                        <com.example.pc.myapplication.ViewStyle.CircularImage
+                            android:id="@+id/child_wishactivity_dialog_circularimage_userimage_father"
+                            android:layout_width="45dip"
+                            android:layout_height="45dip"
+                            android:layout_centerInParent="true"
+                            android:background="@mipmap/ic_launcher"
+                            />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/child_wishactivity_dialog_relativelayout_userimage_father"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="粑 粑"/>
+
+                        <TextView
+                            android:id="@+id/child_wishactivity_dialog_textview_username_father"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="5dp"
+                            android:text="dada666"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:id="@+id/child_wishactivity_dialog_relativelayout_mom"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="15dp"
+                    android:padding="5dp"
+                    android:background="@drawable/child_dialog_mom_bg_style">
+
+                    <RelativeLayout
+                        android:id="@+id/child_wishactivity_dialog_relativelayout_userimage_mom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <ImageView
+                            android:id="@+id/child_wishactivity_dialog_imageview_userimage_mom"
+                            android:layout_width="50dip"
+                            android:layout_height="50dip"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/circle_mask_style"
+                            />
+
+                        <com.example.pc.myapplication.ViewStyle.CircularImage
+                            android:id="@+id/child_wishactivity_dialog_circularimage_userimage_mom"
+                            android:layout_width="45dip"
+                            android:layout_height="45dip"
+                            android:layout_centerInParent="true"
+                            android:background="@mipmap/ic_launcher"
+                            />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/child_wishactivity_dialog_relativelayout_userimage_mom"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="麻 麻"/>
+
+                        <TextView
+                            android:id="@+id/child_wishactivity_dialog_textview_username_mom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="5dp"
+                            android:text="dada666"/>
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

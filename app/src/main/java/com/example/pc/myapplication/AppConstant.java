@@ -97,7 +97,7 @@ public class AppConstant {
   public static final String NEW_TASK = "newTask";
 
   //发送广播的关键字
-  public static final String BROADCAST_REMOVEVIEW = "broadcast_to_removeview";
+  public static final String BROADCAST_CHANGE_VIEW_BG= "broadcast_change_view_bg";
   public static final String BROADCAST_MOVE_TO_WISH_BAG = "broadcast_to_wish_bag";
 
   //preference关键字

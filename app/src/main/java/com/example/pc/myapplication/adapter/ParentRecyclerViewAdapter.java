@@ -1,7 +1,6 @@
 package com.example.pc.myapplication.adapter;
 
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -113,5 +112,4 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
   private void showToast(String string) {
     Toast.makeText(fragment.getActivity(), string, Toast.LENGTH_SHORT).show();
   }
-
 }

@@ -107,7 +107,7 @@ public class ParentMsgFragment extends Fragment implements
       @Override
       public void onClick(View v) {
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        View view = layoutInflater.inflate(R.layout.layout_msgfragment_choosetasktype,null);
+        View view = layoutInflater.inflate(R.layout.layout_msgfragment_choosetasktype, null);
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setTitle("任 务 模 式").setView(view).show();
         /**
          * 系统任务
@@ -146,6 +146,7 @@ public class ParentMsgFragment extends Fragment implements
     scaleAdapter.setFirstOnly(false);
     AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
     alphaAdapter.setFirstOnly(false);
+
     recyclerView.setAdapter(alphaAdapter);
     recyclerView.setOnTouchListener(new ShowHideOnScroll(floatingActionButton));
     recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {

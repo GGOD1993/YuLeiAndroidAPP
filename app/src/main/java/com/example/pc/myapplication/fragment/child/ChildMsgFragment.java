@@ -8,19 +8,14 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
-import com.example.pc.myapplication.ViewStyle.ActiveView;
 import com.example.pc.myapplication.ViewStyle.ActiveViewGroup;
 import com.example.pc.myapplication.ViewStyle.ActiveWishView;
 import com.example.pc.myapplication.ViewStyle.RefreshableLinearLayout;
@@ -50,7 +45,7 @@ public class ChildMsgFragment extends Fragment implements
   private OnChildMsgFragmentInteractionListener mListener;
 
   //广播接收器
-  private RemoveViewReciver reciver;
+  private ChangeViewBgReciver reciver;
 
   public static ChildMsgFragment newInstance() {
     ChildMsgFragment fragment = new ChildMsgFragment();
@@ -67,9 +62,9 @@ public class ChildMsgFragment extends Fragment implements
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    reciver = new RemoveViewReciver();
+    reciver = new ChangeViewBgReciver();
     IntentFilter intentFilter = new IntentFilter();
-    intentFilter.addAction(AppConstant.BROADCAST_REMOVEVIEW);
+    intentFilter.addAction(AppConstant.BROADCAST_CHANGE_VIEW_BG);
     getActivity().registerReceiver(reciver, intentFilter);
 
   }
@@ -184,7 +179,7 @@ public class ChildMsgFragment extends Fragment implements
   /**
    * 广播接收器类
    */
-  class RemoveViewReciver extends BroadcastReceiver {
+  class ChangeViewBgReciver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
       String taskId = intent.getStringExtra(AppConstant.TASK_ID);

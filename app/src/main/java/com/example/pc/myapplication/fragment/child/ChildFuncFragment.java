@@ -59,13 +59,11 @@ public class ChildFuncFragment extends Fragment {
   }
 
   public ChildFuncFragment() {
-    // Required empty public constructor
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
   }
 
   @Override
@@ -76,28 +74,6 @@ public class ChildFuncFragment extends Fragment {
     return view;
   }
 
-  @Override
-  public void onAttach(Activity activity) {
-    super.onAttach(activity);
-    try {
-      mListener = (OnChildFuncFragmentInteractionListener) activity;
-    } catch (ClassCastException e) {
-      throw new ClassCastException(activity.toString()
-              + " must implement OnFragmentInteractionListener");
-    }
-  }
-
-  @Override
-  public void onDetach() {
-    super.onDetach();
-    mListener = null;
-  }
-
-  public interface OnChildFuncFragmentInteractionListener {
-    // TODO: Update argument type and name
-    public void onChildFuncFragmentInteraction();
-  }
-
   private void initView(View w) {
 
     circularImageUserImage= (CircularImage) w.findViewById(R.id.child_funcfragment_circularimage_userimage);
@@ -105,9 +81,10 @@ public class ChildFuncFragment extends Fragment {
     circularImageUserImage.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME,0)
+        getActivity().getSharedPreferences(AppConstant.PREFERENCE_NAME, 0)
                 .edit().putInt(AppConstant.USER_MODE, 0).apply();
-        Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();;
+        Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
+        getActivity().finish();
       }
     });
 
@@ -115,6 +92,8 @@ public class ChildFuncFragment extends Fragment {
     textViewUsername.setText(preferences.getString(AppConstant.FROM_USERID, ""));
     textViewMoney = (TextView) w.findViewById(R.id.child_funcfragment_textview_money);
     imageButtonWish = (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_wish);
+
+    textViewMoney.setText(String.valueOf(preferences.getInt(AppConstant.LEFT_MONEY, 0)));
     imageButtonWish.setBackground(
             new BitmapDrawable(AppConstant.readBitMap(getActivity(), R.mipmap.child_funcfragment_wish)));
     imageButtonWish.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +103,6 @@ public class ChildFuncFragment extends Fragment {
         startActivity(intent);
       }
     });
-
     imageButtonDiary= (ImageButton) w.findViewById(R.id.child_funcfragment_imagebutton_diary);
     imageButtonDiary.setBackground(
             new BitmapDrawable(AppConstant.readBitMap(getActivity(), R.mipmap.child_funcfragment_diary)));
@@ -157,6 +135,27 @@ public class ChildFuncFragment extends Fragment {
         startActivity(intent);
       }
     });
+  }
+
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    try {
+      mListener = (OnChildFuncFragmentInteractionListener) activity;
+    } catch (ClassCastException e) {
+      throw new ClassCastException(activity.toString()
+              + " must implement OnFragmentInteractionListener");
+    }
+  }
+
+  @Override
+  public void onDetach() {
+    mListener = null;
+    super.onDetach();
+  }
+
+  public interface OnChildFuncFragmentInteractionListener {
+    public void onChildFuncFragmentInteraction();
   }
 
 }

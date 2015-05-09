@@ -115,7 +115,7 @@ public class SubmitTaskActivity extends SwipeBackActivity
     } catch (JSONException e) {
       e.printStackTrace();
     }
-    Intent broadcastIntent = new Intent(AppConstant.BROADCAST_REMOVEVIEW);
+    Intent broadcastIntent = new Intent(AppConstant.BROADCAST_CHANGE_VIEW_BG);
     broadcastIntent.putExtra(AppConstant.TASK_ID, taskToBeSubmit.getTaskName());
     sendBroadcast(broadcastIntent);
     finish();

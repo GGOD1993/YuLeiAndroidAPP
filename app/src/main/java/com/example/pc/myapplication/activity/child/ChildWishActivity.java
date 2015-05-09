@@ -292,8 +292,14 @@ public class ChildWishActivity extends SwipeBackActivity
    */
   private void showChooseToUserDialog(HashSet<String> set) {
     Iterator<String> iterator = set.iterator();
-    String mom = iterator.next();
-    String father = iterator.next();
+    String mom = "暂时还木有绑定噢~";
+    String father = mom;
+    if (iterator.hasNext()) {
+      mom = iterator.next();
+      if (iterator.hasNext()) {
+      father = iterator.next();
+      }
+    }
     View v = getLayoutInflater().inflate(R.layout.layout_child_choose_parent, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(ChildWishActivity.this);
     builder.setView(v);
@@ -303,14 +309,18 @@ public class ChildWishActivity extends SwipeBackActivity
     v.findViewById(R.id.child_wishactivity_dialog_relativelayout_mom).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        sendDiyTasks(((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_mom)).getText().toString());
+        if (((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_mom)).getText().toString().contains("木有"))
+          showToast("暂时还木有和麻麻绑定噢~");
+        else sendDiyTasks(((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_mom)).getText().toString());
       }
     });
 
     v.findViewById(R.id.child_wishactivity_dialog_relativelayout_father).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        sendDiyTasks(((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_father)).getText().toString());
+        if (((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_father)).getText().toString().contains("木有"))
+          showToast("暂时还木有和粑粑绑定噢~");
+        else sendDiyTasks(((TextView) v.findViewById(R.id.child_wishactivity_dialog_textview_username_father)).getText().toString());
       }
     });
     builder.show();
@@ -318,7 +328,6 @@ public class ChildWishActivity extends SwipeBackActivity
 
   /**
    * 发送自定义任务
-   *
    * @param toUserId
    */
   private void sendDiyTasks(String toUserId) {
@@ -365,7 +374,6 @@ public class ChildWishActivity extends SwipeBackActivity
 
   @Override
   public void OnSetDiyTaskErrorResponse(String errorMsg) {
-
   }
 
   @Override

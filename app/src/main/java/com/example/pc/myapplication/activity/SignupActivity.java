@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -30,10 +31,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
 public class SignupActivity extends ActionBarActivity
-        implements HttpService.OnSignupRequestResponseListener{
+        implements HttpService.OnSignupRequestResponseListener,
+        HttpService.OnUpLoadImageRequestResponseListener{
 
   //上下文引用
   private Context context;
@@ -188,7 +188,9 @@ public class SignupActivity extends ActionBarActivity
   }
 
   private void dealWithUserInfo() {
-    int gender;
+    circularImageUserImage.setDrawingCacheEnabled(true);
+    HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE, circularImageUserImage.getDrawingCache(true), SignupActivity.this);
+    /*int gender;
     if (editTextUsername.getText().length() != 0) {
       if (editTextNickname.getText().length() != 0) {
         if (editTextEmail.getText().length() != 0) {
@@ -205,6 +207,7 @@ public class SignupActivity extends ActionBarActivity
               map.put(AppConstant.EMAIL, editTextEmail.getText().toString());
               map.put(AppConstant.GENDER, String.valueOf(gender));
               HttpService.DoSignupRequest(Request.Method.POST, AppConstant.NEW_USER_URL, map, SignupActivity.this);
+
             }else {
               showToast("两次密码输入不相同");
             }
@@ -220,6 +223,7 @@ public class SignupActivity extends ActionBarActivity
     } else {
       showToast("请输入正确的用户名");
     }
+    */
   }
 
   @Override
@@ -231,7 +235,7 @@ public class SignupActivity extends ActionBarActivity
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
         if (AppConstant.SIGNUP_SUCCESS == codeObject.getInt("code")) {
-          finish();
+//          finish();
         }
       }
       if (null != msgObject) {
@@ -245,6 +249,16 @@ public class SignupActivity extends ActionBarActivity
   @Override
   public void OnSignupErrorResponse(String errorResult) {
     showToast(errorResult);
+  }
+
+  @Override
+  public void OnUpLoadImageSuccessResponse(JSONArray jsonArray) {
+    Log.e("dada", jsonArray.toString());
+  }
+
+  @Override
+  public void OnUpLoadImageErrorResponse(String errorResult) {
+    Log.e("dda",errorResult);
   }
 
   private void showToast(String string) {

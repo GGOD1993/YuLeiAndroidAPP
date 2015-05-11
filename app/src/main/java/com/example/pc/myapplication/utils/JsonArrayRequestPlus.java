@@ -30,12 +30,7 @@ public class JsonArrayRequestPlus extends Request<JSONArray>{
   @Override
   public Map<String, String> getHeaders() throws AuthFailureError {
     Map<String, String> headers = super.getHeaders();
-
-    if(headers == null || headers.equals(Collections.emptyMap())) {
-
-      headers = new HashMap<>();
-    }
-
+    if(headers == null || headers.equals(Collections.emptyMap())) headers = new HashMap<>();
     RequestQueueController.get().addSessionCookie(headers);
     return headers;
   }
@@ -47,9 +42,7 @@ public class JsonArrayRequestPlus extends Request<JSONArray>{
 
   @Override
   protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
-
     RequestQueueController.get().checkSessionCookie(response.headers);
-
     try {
       String jsonString =
               new String(response.data, HttpHeaderParser.parseCharset(response.headers));

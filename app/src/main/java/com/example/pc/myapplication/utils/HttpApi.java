@@ -1,7 +1,11 @@
 package com.example.pc.myapplication.utils;
 
+import android.graphics.Bitmap;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.example.pc.myapplication.AppConstant;
+
 import org.json.JSONArray;
 
 import java.util.HashMap;
@@ -18,7 +22,7 @@ public class HttpApi {
    * 返回JsonArray的网络请求Api
    * @param method
    * @param url
-   * @param requestBody
+   * @param hashMap
    * @param listener
    * @param errorListener
    */
@@ -29,22 +33,35 @@ public class HttpApi {
                                         Response.Listener<JSONArray> listener,
                                         Response.ErrorListener errorListener) {
     final HashMap<String,String> map = hashMap;
-
     try{
-      JsonArrayRequestPlus jsonArrayRequestPlus = new JsonArrayRequestPlus(
-              method,
-              url,
-              listener,
-              errorListener){
+      JsonArrayRequestPlus jsonArrayRequestPlus = new JsonArrayRequestPlus(method, url, listener, errorListener){
         @Override
         protected Map<String, String> getParams() throws AuthFailureError {
           return map;
         }
       };
       RequestQueueController.get().getRequestQueue().add(jsonArrayRequestPlus);
-
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * 图片上传Api
+   * @param method
+   * @param url
+   * @param bitmap
+   * @param listener
+   * @param errorListener
+   */
+  public static void DoMultipartRequest(int method,
+                                        String url,
+                                        Bitmap bitmap,
+                                        Response.Listener<JSONArray> listener,
+                                        Response.ErrorListener errorListener) {
+    MultipartRequest multipartRequest = new MultipartRequest(method, url, listener, errorListener);
+    MultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
+    multipartEntity.addBinaryPart(AppConstant.USER_IMAGE, AppConstant.bitmapToBytes(bitmap));
+    RequestQueueController.get().getRequestQueue().add(multipartRequest);
   }
 }

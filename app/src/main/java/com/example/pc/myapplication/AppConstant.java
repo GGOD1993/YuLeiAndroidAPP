@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 public class AppConstant {
@@ -73,6 +74,7 @@ public class AppConstant {
   public static final String GENDER = "gender";
   public static final String CHILD = "child";
   public static final String PARENT = "parent";
+  public static final String USER_IMAGE = "user_image";
   public static final String CLICKED_SYSTEM_TASK = "clickedSystemTask";
   public static final String CLICKED_CHECK_TASK = "clickedCheckTask";
   public static final String CLICKED_SEND_TASK = "clickedSendTask";
@@ -126,6 +128,7 @@ public class AppConstant {
   public static final String GET_PARENT_URL = HOST + "/Users/GetParent.php";
   public static final String GET_USER_INFO_URL = HOST + "/Users/GetUserInfo.php";
   public static final String SUBMIT_DIY_TASK_URL = HOST + "/Users/SubmitDiyTask.php";
+  public static final String UPLOAD_USER_IMAGE = HOST + "/Users/UploadUserImage.php";
 
   /**
    * 流弊的一个函数
@@ -141,5 +144,16 @@ public class AppConstant {
     opt.inInputShareable = true;
     InputStream is = context.getResources().openRawResource(resId);
     return BitmapFactory.decodeStream(is,null,opt);
+  }
+
+  /**
+   * Bitmap转字节数组的方法
+   * @param bm
+   * @return
+   */
+  public static byte[] bitmapToBytes(Bitmap bm){
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+    return baos.toByteArray();
   }
 }

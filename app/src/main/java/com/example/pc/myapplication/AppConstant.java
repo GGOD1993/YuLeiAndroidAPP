@@ -53,6 +53,8 @@ public class AppConstant {
   public static final int SUBMIT_DIY_TASK_SUCCESS = 1306;
   public static final int FINISH_TASK_SUCCESS = 1310;
   public static final int SIGNUP_SUCCESS = 1105;
+  public static final int UPLOAD_USER_IMAGE_SUCCESS = 1501;
+  public static final int UPLOAD_USER_IMAGE_FAILED = 1502;
 
   public static final String AUTO_SIGNIN = "autosignin";
   public static final String MEMORY_PASSWORD = "memorypassword";

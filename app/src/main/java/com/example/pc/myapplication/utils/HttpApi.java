@@ -57,11 +57,13 @@ public class HttpApi {
   public static void DoMultipartRequest(int method,
                                         String url,
                                         Bitmap bitmap,
+                                        final String userId,
                                         Response.Listener<JSONArray> listener,
                                         Response.ErrorListener errorListener) {
     MultipartRequest multipartRequest = new MultipartRequest(method, url, listener, errorListener);
     MultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
     multipartEntity.addBinaryPart(AppConstant.USER_IMAGE, AppConstant.bitmapToBytes(bitmap));
+    multipartEntity.addStringPart(AppConstant.USERID, userId);
     RequestQueueController.get().getRequestQueue().add(multipartRequest);
   }
 }

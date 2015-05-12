@@ -695,6 +695,7 @@ public class HttpService {
   public static void DoUpLoadImageRequest(int method,
                                           String url,
                                           Bitmap bitmap,
+                                          String userId,
                                           OnUpLoadImageRequestResponseListener listener) {
     mUpLoadRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
@@ -709,6 +710,6 @@ public class HttpService {
         mUpLoadRequestListener.OnUpLoadImageErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoMultipartRequest(method, url, bitmap, responseListener, errorListener);
+    HttpApi.DoMultipartRequest(method, url, bitmap, userId, responseListener, errorListener);
   }
 }

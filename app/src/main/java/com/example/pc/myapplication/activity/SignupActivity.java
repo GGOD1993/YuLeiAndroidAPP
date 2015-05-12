@@ -33,7 +33,7 @@ import org.json.JSONObject;
 
 public class SignupActivity extends ActionBarActivity
         implements HttpService.OnSignupRequestResponseListener,
-        HttpService.OnUpLoadImageRequestResponseListener{
+        HttpService.OnUpLoadImageRequestResponseListener {
 
   //上下文引用
   private Context context;
@@ -111,7 +111,7 @@ public class SignupActivity extends ActionBarActivity
       @Override
       public void onClick(View v) {
         LayoutInflater layoutInflater = LayoutInflater.from(SignupActivity.this);
-        View viewAddEmplyee = layoutInflater.inflate(R.layout.layout_signup_imagechooser,null);
+        View viewAddEmplyee = layoutInflater.inflate(R.layout.layout_signup_imagechooser, null);
         new AlertDialog.Builder(SignupActivity.this).setTitle("选 择 头 像").setView(viewAddEmplyee).show();
         viewAddEmplyee.findViewById(R.id.signup_imagechooser_textview_shot).setOnClickListener(
                 new View.OnClickListener() {
@@ -170,7 +170,7 @@ public class SignupActivity extends ActionBarActivity
         case AppConstant.SELECT_PIC:
         case AppConstant.SELECT_PIC_KITKAT:
           ImageSize targetSize = new ImageSize(USERIMAGE_WIDTH, USERIMAGE_HEIGHT);
-          imageLoader.loadImage(intent.getData().toString(), targetSize, new SimpleImageLoadingListener(){
+          imageLoader.loadImage(intent.getData().toString(), targetSize, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
               circularImageUserImage.setImageBitmap(loadedImage);
@@ -179,7 +179,7 @@ public class SignupActivity extends ActionBarActivity
           break;
 
         case AppConstant.CAMERA_RESULTCODE:
-          Bundle bundle= intent.getExtras();
+          Bundle bundle = intent.getExtras();
           Bitmap bitmap = (Bitmap) bundle.get(AppConstant.CAMERA_DATA);
           circularImageUserImage.setImageBitmap(bitmap);
           break;
@@ -189,8 +189,10 @@ public class SignupActivity extends ActionBarActivity
 
   private void dealWithUserInfo() {
     circularImageUserImage.setDrawingCacheEnabled(true);
-    HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE, circularImageUserImage.getDrawingCache(true), SignupActivity.this);
-    /*int gender;
+    HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE, circularImageUserImage.getDrawingCache(true), editTextUsername.getText().toString(), SignupActivity.this);
+    circularImageUserImage.setDrawingCacheEnabled(false);
+    /*
+    int gender;
     if (editTextUsername.getText().length() != 0) {
       if (editTextNickname.getText().length() != 0) {
         if (editTextEmail.getText().length() != 0) {
@@ -207,14 +209,13 @@ public class SignupActivity extends ActionBarActivity
               map.put(AppConstant.EMAIL, editTextEmail.getText().toString());
               map.put(AppConstant.GENDER, String.valueOf(gender));
               HttpService.DoSignupRequest(Request.Method.POST, AppConstant.NEW_USER_URL, map, SignupActivity.this);
-
-            }else {
+            } else {
               showToast("两次密码输入不相同");
             }
           } else {
             showToast("请输入正确的密码");
           }
-        }else {
+        } else {
           showToast("请输入正确的邮箱");
         }
       } else {
@@ -230,11 +231,11 @@ public class SignupActivity extends ActionBarActivity
   public void OnSignupSuccessResponse(JSONArray jsonArray) {
     JSONObject codeObject;
     JSONObject msgObject;
-    try{
+    try {
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
-        if (AppConstant.SIGNUP_SUCCESS == codeObject.getInt("code")) {
+        if (AppConstant.SIGNUP_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
 //          finish();
         }
       }
@@ -253,12 +254,30 @@ public class SignupActivity extends ActionBarActivity
 
   @Override
   public void OnUpLoadImageSuccessResponse(JSONArray jsonArray) {
+
     Log.e("dada", jsonArray.toString());
+
+    JSONObject codeObject;
+    JSONObject msgObject;
+    try {
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      if (null != codeObject) {
+        if (AppConstant.UPLOAD_USER_IMAGE_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
+//          finish();
+        }
+      }
+      if (null != msgObject) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void OnUpLoadImageErrorResponse(String errorResult) {
-    Log.e("dda",errorResult);
+    showToast(errorResult);
   }
 
   private void showToast(String string) {

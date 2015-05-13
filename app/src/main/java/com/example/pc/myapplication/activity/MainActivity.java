@@ -3,7 +3,6 @@ package com.example.pc.myapplication.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -38,7 +37,7 @@ import java.util.HashMap;
  * 初始Activity
  */
 public class MainActivity extends ActionBarActivity implements
-        HttpService.OnLoginRequestResponseListener, View.OnClickListener{
+        HttpService.OnLoginRequestResponseListener, View.OnClickListener {
 
   //再次点击返回桌面
   private long exitTime = 0;
@@ -93,9 +92,9 @@ public class MainActivity extends ActionBarActivity implements
    */
   private void initActivity() {
     setContentView(R.layout.layout_signin);
-    preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
+    preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
     buttonSignIn = (Button) findViewById(R.id.signin_button_signin);
-    buttonSignUp= (Button) findViewById(R.id.signin_button_signup);
+    buttonSignUp = (Button) findViewById(R.id.signin_button_signup);
     editTextUsername = (EditText) findViewById(R.id.signin_edittext_username);
     editTextPassword = (EditText) findViewById(R.id.signin_edittext_password);
     checkBoxAutoSignIn = (CheckBox) findViewById(R.id.signin_checkbox_autosignin);
@@ -105,10 +104,11 @@ public class MainActivity extends ActionBarActivity implements
     startInitAnim();
     root.setOnClickListener(this);
     circularImage.setImageResource(R.mipmap.ic_launcher);
-    editTextUsername.setText(preferences.getString(AppConstant.AUTO_SIGNIN_USERNAME,""));
-    editTextPassword.setText(preferences.getString(AppConstant.AUTO_SIGNIN_PASSWORD,""));
-    if (preferences.getBoolean(AppConstant.AUTO_SIGNIN,false)) checkBoxAutoSignIn.setChecked(true);
-    if (preferences.getBoolean(AppConstant.MEMORY_PASSWORD,false)) checkBoxMemoryPassword.setChecked(true);
+    editTextUsername.setText(preferences.getString(AppConstant.AUTO_SIGNIN_USERNAME, ""));
+    editTextPassword.setText(preferences.getString(AppConstant.AUTO_SIGNIN_PASSWORD, ""));
+    if (preferences.getBoolean(AppConstant.AUTO_SIGNIN, false)) checkBoxAutoSignIn.setChecked(true);
+    if (preferences.getBoolean(AppConstant.MEMORY_PASSWORD, false))
+      checkBoxMemoryPassword.setChecked(true);
 //    root.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.skin_bg_player_x)));
     /**
      * 登陆按钮
@@ -117,8 +117,8 @@ public class MainActivity extends ActionBarActivity implements
       @Override
       public void onClick(View v) {
         if (checkBoxMemoryPassword.isChecked()) {
-          preferences.edit().putString(AppConstant.AUTO_SIGNIN_USERNAME,editTextUsername.getText().toString()).apply();
-          preferences.edit().putString(AppConstant.AUTO_SIGNIN_PASSWORD,editTextPassword.getText().toString()).apply();
+          preferences.edit().putString(AppConstant.AUTO_SIGNIN_USERNAME, editTextUsername.getText().toString()).apply();
+          preferences.edit().putString(AppConstant.AUTO_SIGNIN_PASSWORD, editTextPassword.getText().toString()).apply();
         }
         dealWithUserInfo();
       }
@@ -127,7 +127,7 @@ public class MainActivity extends ActionBarActivity implements
     /**
      * 注册按钮
      */
-   buttonSignUp.setOnClickListener(new View.OnClickListener() {
+    buttonSignUp.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         startActivity(new Intent(MainActivity.this, SignupActivity.class));
@@ -141,10 +141,10 @@ public class MainActivity extends ActionBarActivity implements
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-          preferences.edit().putBoolean(AppConstant.AUTO_SIGNIN,true).apply();
+          preferences.edit().putBoolean(AppConstant.AUTO_SIGNIN, true).apply();
           checkBoxMemoryPassword.setChecked(true);
         } else {
-          preferences.edit().putBoolean(AppConstant.AUTO_SIGNIN,false).apply();
+          preferences.edit().putBoolean(AppConstant.AUTO_SIGNIN, false).apply();
           checkBoxMemoryPassword.setChecked(false);
         }
       }
@@ -162,7 +162,7 @@ public class MainActivity extends ActionBarActivity implements
    * 根据不同的用户对象(mode变量)来初始化activity
    */
   private void chooseMode() {
-    mode = preferences.getInt(AppConstant.USER_MODE,0);
+    mode = preferences.getInt(AppConstant.USER_MODE, 0);
     if (mode == 0) {
       setContentView(R.layout.activity_main);
       imageButtonParentAccess = (ImageButton) findViewById(R.id.imagebutton_parent_access);
@@ -174,9 +174,9 @@ public class MainActivity extends ActionBarActivity implements
           mode = AppConstant.MODE_CHILD;
           editor.putInt(AppConstant.USER_MODE, mode);
           editor.apply();
-          Intent intent = new Intent(MainActivity.this,ChildMainActivity.class);
-          intent.putExtra(AppConstant.FROM_USERID,fromUserId);
-          editor.putString(AppConstant.FROM_USERID,fromUserId).apply();
+          Intent intent = new Intent(MainActivity.this, ChildMainActivity.class);
+          intent.putExtra(AppConstant.FROM_USERID, fromUserId);
+          editor.putString(AppConstant.FROM_USERID, fromUserId).apply();
           startActivity(intent);
           finish();
         }
@@ -188,31 +188,28 @@ public class MainActivity extends ActionBarActivity implements
           mode = AppConstant.MODE_PARENT;
           editor.putInt(AppConstant.USER_MODE, mode);
           editor.apply();
-          Intent intent = new Intent(MainActivity.this,ParentMainActivity.class);
-          intent.putExtra(AppConstant.FROM_USERID,fromUserId);
-          editor.putString(AppConstant.FROM_USERID,fromUserId).apply();
+          Intent intent = new Intent(MainActivity.this, ParentMainActivity.class);
+          intent.putExtra(AppConstant.FROM_USERID, fromUserId);
+          editor.putString(AppConstant.FROM_USERID, fromUserId).apply();
           startActivity(intent);
           finish();
         }
       });
-    }
-    else {
-      int mode = preferences.getInt(AppConstant.USER_MODE,0);
+    } else {
+      int mode = preferences.getInt(AppConstant.USER_MODE, 0);
       if (AppConstant.MODE_CHILD == mode) {
-        Intent intent = new Intent(MainActivity.this,ChildMainActivity.class);
-        intent.putExtra(AppConstant.FROM_USERID,fromUserId);
-        preferences.edit().putString(AppConstant.FROM_USERID,fromUserId).apply();
+        Intent intent = new Intent(MainActivity.this, ChildMainActivity.class);
+        intent.putExtra(AppConstant.FROM_USERID, fromUserId);
+        preferences.edit().putString(AppConstant.FROM_USERID, fromUserId).apply();
         startActivity(intent);
         finish();
-      }
-      else if (AppConstant.MODE_PARENT == mode) {
-        Intent intent = new Intent(MainActivity.this,ParentMainActivity.class);
-        intent.putExtra(AppConstant.FROM_USERID,fromUserId);
-        preferences.edit().putString(AppConstant.FROM_USERID,fromUserId).apply();
+      } else if (AppConstant.MODE_PARENT == mode) {
+        Intent intent = new Intent(MainActivity.this, ParentMainActivity.class);
+        intent.putExtra(AppConstant.FROM_USERID, fromUserId);
+        preferences.edit().putString(AppConstant.FROM_USERID, fromUserId).apply();
         startActivity(intent);
         finish();
-      }
-      else {
+      } else {
         //模式出错
       }
     }
@@ -226,10 +223,10 @@ public class MainActivity extends ActionBarActivity implements
     if (editTextUsername.getText().length() != 0) {
       if (editTextPassword.getText().length() != 0) {
         fromUserId = editTextUsername.getText().toString();
-        preferences.edit().putString(AppConstant.FROM_USERID,fromUserId).apply();
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put(AppConstant.USERNAME,editTextUsername.getText().toString());
-        hashMap.put(AppConstant.PASSWORD,editTextPassword.getText().toString());
+        preferences.edit().putString(AppConstant.FROM_USERID, fromUserId).apply();
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put(AppConstant.USERNAME, editTextUsername.getText().toString());
+        hashMap.put(AppConstant.PASSWORD, editTextPassword.getText().toString());
         HttpService.DoLoginRequest(Request.Method.POST, AppConstant.LOGIN_IN_URL, hashMap, MainActivity.this);
       } else {
         YoYo.with(Techniques.Shake).duration(800).playOn(editTextPassword);
@@ -244,11 +241,13 @@ public class MainActivity extends ActionBarActivity implements
   /**
    * 登录请求的信息处理
    */
-  public void OnLoginSuccessResponse(JSONArray jsonArray){
+  public void OnLoginSuccessResponse(JSONArray jsonArray) {
     JSONObject codeObject;
     JSONObject msgObject;
     JSONObject moneyObject = null;
-    try{
+    JSONObject imgUrlObject = null;
+    Log.e("dada", jsonArray.toString());
+    try {
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
@@ -259,16 +258,14 @@ public class MainActivity extends ActionBarActivity implements
             break;
           case AppConstant.LOGIN_SUCCESS:
             moneyObject = (JSONObject) jsonArray.get(2);
+            imgUrlObject = (JSONObject) jsonArray.get(3);
             chooseMode();
             break;
         }
       }
-      if (null != msgObject) {
-        showToast(msgObject.getString(AppConstant.RETURN_MSG));
-      }
-      if (null != moneyObject) {
-        preferences.edit().putInt(AppConstant.LEFT_MONEY, moneyObject.getInt(AppConstant.MONEY)).apply();
-      }
+      if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      if (null != moneyObject) preferences.edit().putInt(AppConstant.LEFT_MONEY, moneyObject.getInt(AppConstant.MONEY)).apply();
+      if (null != imgUrlObject) preferences.edit().putString(AppConstant.IMG_URL, imgUrlObject.getString(AppConstant.IMG_URL).replaceAll("\\\\", "")).apply();
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -280,8 +277,8 @@ public class MainActivity extends ActionBarActivity implements
 
   @Override
   public boolean onKeyDown(int keyCode, KeyEvent event) {
-    if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-      if((System.currentTimeMillis()-exitTime) > 2000){
+    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+      if ((System.currentTimeMillis() - exitTime) > 2000) {
         showToast("亲~再点一次返回桌面");
         exitTime = System.currentTimeMillis();
       } else {
@@ -297,7 +294,7 @@ public class MainActivity extends ActionBarActivity implements
 
   @Override
   public void onClick(View v) {
-    ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(),0);
+    ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
   }
 
   /**
@@ -311,8 +308,8 @@ public class MainActivity extends ActionBarActivity implements
     YoYo.with(Techniques.FadeInUp).duration(1000).playOn(checkBoxMemoryPassword);
     YoYo.with(Techniques.FadeInUp).duration(1000).playOn(buttonSignIn);
     YoYo.with(Techniques.FadeInUp).duration(1000).playOn(buttonSignUp);
-
   }
+
   private void showToast(String string) {
     Toast.makeText(getApplicationContext(), string, Toast.LENGTH_SHORT).show();
   }

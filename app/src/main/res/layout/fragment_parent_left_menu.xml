@@ -223,7 +223,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/parentactivity_leftmenu_relativelayout_moresetting"
+            android:id="@+id/parentactivity_leftmenu_relativelayout_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp">

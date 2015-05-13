@@ -15,7 +15,7 @@
         android:layout_marginTop="20dip">
 
         <RelativeLayout
-            android:id="@+id/addFriend"
+            android:id="@+id/child_settingactivity_relativelayout_addParent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dip">
@@ -179,7 +179,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/parentactivity_moresetting_relativelayout_signout"
+            android:id="@+id/child_settingactivity_relativelayout_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dip">

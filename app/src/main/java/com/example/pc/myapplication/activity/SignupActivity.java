@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +29,8 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class SignupActivity extends ActionBarActivity
         implements HttpService.OnSignupRequestResponseListener,
@@ -80,12 +81,16 @@ public class SignupActivity extends ActionBarActivity
   //用户头像的宽度
   private static final int USERIMAGE_WIDTH = 70;
 
+  //是否可以结束该Activity
+  private boolean isAbleFinish;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_signup);
     context = getApplicationContext();
     imageLoader = ImageLoader.getInstance();
+    isAbleFinish = false;
     initViews();
   }
 
@@ -188,10 +193,6 @@ public class SignupActivity extends ActionBarActivity
   }
 
   private void dealWithUserInfo() {
-    circularImageUserImage.setDrawingCacheEnabled(true);
-    HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE, circularImageUserImage.getDrawingCache(true), editTextUsername.getText().toString(), SignupActivity.this);
-    circularImageUserImage.setDrawingCacheEnabled(false);
-    /*
     int gender;
     if (editTextUsername.getText().length() != 0) {
       if (editTextNickname.getText().length() != 0) {
@@ -209,6 +210,9 @@ public class SignupActivity extends ActionBarActivity
               map.put(AppConstant.EMAIL, editTextEmail.getText().toString());
               map.put(AppConstant.GENDER, String.valueOf(gender));
               HttpService.DoSignupRequest(Request.Method.POST, AppConstant.NEW_USER_URL, map, SignupActivity.this);
+              circularImageUserImage.setDrawingCacheEnabled(true);
+              HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE, circularImageUserImage.getDrawingCache(true), editTextUsername.getText().toString(), SignupActivity.this);
+              circularImageUserImage.setDrawingCacheEnabled(false);
             } else {
               showToast("两次密码输入不相同");
             }
@@ -224,7 +228,6 @@ public class SignupActivity extends ActionBarActivity
     } else {
       showToast("请输入正确的用户名");
     }
-    */
   }
 
   @Override
@@ -236,7 +239,8 @@ public class SignupActivity extends ActionBarActivity
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
         if (AppConstant.SIGNUP_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
-//          finish();
+          if (isAbleFinish) finish();
+          else isAbleFinish = true;
         }
       }
       if (null != msgObject) {
@@ -254,9 +258,6 @@ public class SignupActivity extends ActionBarActivity
 
   @Override
   public void OnUpLoadImageSuccessResponse(JSONArray jsonArray) {
-
-    Log.e("dada", jsonArray.toString());
-
     JSONObject codeObject;
     JSONObject msgObject;
     try {
@@ -264,7 +265,8 @@ public class SignupActivity extends ActionBarActivity
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
         if (AppConstant.UPLOAD_USER_IMAGE_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
-//          finish();
+          if (isAbleFinish) finish();
+          else isAbleFinish = true;
         }
       }
       if (null != msgObject) {

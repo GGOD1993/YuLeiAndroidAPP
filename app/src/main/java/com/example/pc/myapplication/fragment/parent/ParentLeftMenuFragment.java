@@ -140,9 +140,9 @@ public class ParentLeftMenuFragment extends Fragment
                   @Override
                   public void onClick(View v) {
                     //打开手机自带的图库，选择图片后将URI返回到onActivityResult
-                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("image/jpeg");
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT)
                       startActivityForResult(intent, AppConstant.SELECT_PIC_KITKAT);
                     else startActivityForResult(intent, AppConstant.SELECT_PIC);
@@ -245,7 +245,7 @@ public class ParentLeftMenuFragment extends Fragment
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
               userImage = loadedImage;
               HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE,
-                      userImage, preferences.getString(AppConstant.USERID, ""), ParentLeftMenuFragment.this);
+                      userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentLeftMenuFragment.this);
             }
           });
           break;
@@ -254,12 +254,8 @@ public class ParentLeftMenuFragment extends Fragment
           Bundle bundle = intent.getExtras();
           userImage = (Bitmap) bundle.get(AppConstant.CAMERA_DATA);
           HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE,
-                  userImage, preferences.getString(AppConstant.USERID, ""), ParentLeftMenuFragment.this);
+                  userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentLeftMenuFragment.this);
           break;
-
-//        default:
-//          HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE,
-//                  userImage, preferences.getString(AppConstant.USERID, ""), ParentLeftMenuFragment.this);
       }
     }
   }

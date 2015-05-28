@@ -15,7 +15,7 @@ public class AppConstant {
   public static final int GENDER_MALE = 1;
   public static final int GENDER_FEMALE = 0;
 
-  public static final int SELECT_PIC_KITKAT = 3;
+  public static final int SELECT_PIC_KITKAT = 2;
   public static final int SELECT_PIC = 4;
 
   public static final int CAMERA_RESULTCODE = 5;

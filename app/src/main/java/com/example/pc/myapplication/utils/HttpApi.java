@@ -60,7 +60,14 @@ public class HttpApi {
                                         final String userId,
                                         Response.Listener<JSONArray> listener,
                                         Response.ErrorListener errorListener) {
-    MultipartRequest multipartRequest = new MultipartRequest(method, url, listener, errorListener);
+    MultipartRequest multipartRequest = new MultipartRequest(method, url, listener, errorListener) {
+      @Override
+      protected Map<String, String> getParams() throws AuthFailureError {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(AppConstant.USERID, userId);
+        return map;
+      }
+    };
     MultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
     multipartEntity.addBinaryPart(AppConstant.USER_IMAGE, AppConstant.bitmapToBytes(bitmap));
     multipartEntity.addStringPart(AppConstant.USERID, userId);

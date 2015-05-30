@@ -2,6 +2,7 @@ package com.example.pc.myapplication.activity.child;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,12 +13,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
+import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.adapter.ChildViewpagerAdapter;
 import com.example.pc.myapplication.fragment.child.ChildFuncFragment;
 import com.example.pc.myapplication.fragment.child.ChildMsgFragment;
 import com.example.pc.myapplication.fragment.child.ChildWishFragment;
+import com.example.pc.myapplication.utils.RequestQueueController;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 import java.util.ArrayList;
@@ -29,6 +33,9 @@ public class ChildMainActivity extends FragmentActivity
 
   //再按一次返回桌面
   private Long exitTime;
+
+  //ImageLoader
+  private ImageLoader imageLoader;
 
   //SharedPreferences
   private SharedPreferences preferences;
@@ -47,15 +54,13 @@ public class ChildMainActivity extends FragmentActivity
 
   //布局的Header
   private RelativeLayout relativeLayoutHeader;
-
+  //Header上的CircularImage
+  private CircularImage imageViewHeader;
   //Header上的TextView
   private TextView textViewHeader;
 
   //fragment列表
   private ArrayList<Fragment> fragmentList;
-
-  //Indicator数组
-  private String[] strings = {"我 的 心 愿", "父 母 心 愿", "更 多 功 能"};
 
   @Override
   public void onChildMsgFragmentInteraction() {
@@ -84,30 +89,29 @@ public class ChildMainActivity extends FragmentActivity
     relativeLayoutRoot = (RelativeLayout) findViewById(R.id.child_mainactivity_relativelayout_root);
     relativeLayoutHeader = (RelativeLayout) findViewById(R.id.child_mainactivity_header);
     textViewHeader = (TextView) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_textview);
+    imageViewHeader = (CircularImage) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_circularimage);
     fragmentList = new ArrayList<>();
+    imageLoader = new ImageLoader(RequestQueueController.get().getRequestQueue(), new ImageLoader.ImageCache() {
+      @Override
+      public Bitmap getBitmap(String s) {
+        return null;
+      }
+      @Override
+      public void putBitmap(String s, Bitmap bitmap) {
+      }
+    });
+
+    ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(imageViewHeader, R.mipmap.child_funcfragment_setting, R.mipmap.ic_launcher);
+    imageLoader.get(preferences.getString(AppConstant.IMG_URL, ""), imageListener);
     fragmentList.add(ChildWishFragment.newInstance());
     fragmentList.add(ChildMsgFragment.newInstance());
     fragmentList.add(ChildFuncFragment.newInstance(preferences));
     mAdapter = new ChildViewpagerAdapter(getSupportFragmentManager(), ChildMainActivity.this, fragmentList);
     viewPager.setAdapter(mAdapter);
     viewPagerIndicator.setViewPager(viewPager, 0);
-    viewPagerIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-      }
-
-      @Override
-      public void onPageSelected(int position) {
-        textViewHeader.setText(strings[position]);
-      }
-
-      @Override
-      public void onPageScrollStateChanged(int state) {
-      }
-    });
-    textViewHeader.setText(strings[0]);
-    relativeLayoutRoot.setBackground(
-            new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.child_mainactivity_background)));
+    viewPagerIndicator.setSelectedColor(getResources().getColor(R.color.indianred));
+    viewPagerIndicator.setFadingEdgeLength(2);
+    relativeLayoutRoot.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.child_mainactivity_background)));
   }
 
   @Override

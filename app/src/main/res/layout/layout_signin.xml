@@ -1,68 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/signin_relativelayout_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/signin_bg_style">
+<RelativeLayout android:id="@+id/signin_relativelayout_root"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/signin_bg_style">
 
     <EditText
         android:id="@+id/signin_edittext_password"
         android:layout_width="250dip"
         android:layout_height="40dip"
+        android:layout_centerInParent="true"
         android:layout_margin="10dip"
+        android:background="@drawable/signin_edittext_style"
+        android:drawableLeft="@mipmap/signin_username"
+        android:drawablePadding="10dip"
+        android:drawableStart="@mipmap/signin_username"
+        android:hint="@string/password"
+        android:inputType="textPassword"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
-        android:drawablePadding="10dip"
-        android:layout_centerInParent="true"
-        android:inputType="textPassword"
-        android:background="@drawable/signin_edittext_style"
-        android:hint="@string/password"
-        android:drawableStart="@mipmap/signin_username"
-        android:drawableLeft="@mipmap/signin_username"
         android:textColorHint="@color/login_hint_color"/>
 
     <EditText
         android:id="@+id/signin_edittext_username"
         android:layout_width="250dip"
         android:layout_height="40dip"
-        android:layout_centerHorizontal="true"
         android:layout_above="@id/signin_edittext_password"
+        android:layout_centerHorizontal="true"
         android:layout_margin="10dip"
+        android:background="@drawable/signin_edittext_style"
+        android:drawableLeft="@mipmap/image_parent_recyclerview_item_doing"
+        android:drawablePadding="10dip"
+        android:drawableStart="@mipmap/image_parent_recyclerview_item_doing"
+        android:hint="@string/username"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
-        android:drawablePadding="10dip"
-        android:textSize="10pt"
-        android:background="@drawable/signin_edittext_style"
-        android:hint="@string/username"
-        android:drawableLeft="@mipmap/image_parent_recyclerview_item_doing"
-        android:drawableStart="@mipmap/image_parent_recyclerview_item_doing"
-        android:textColorHint="@color/login_hint_color"/>
+        android:textColorHint="@color/login_hint_color"
+        android:textSize="10pt"/>
 
-    <ImageView
-        android:id="@+id/signin_imageview_userimage"
-        android:layout_width="80dip"
-        android:layout_height="80dip"
-        android:layout_centerHorizontal="true"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@id/signin_edittext_username"
-        android:layout_marginBottom="60dip"
-        android:src="@drawable/circle_mask_style"
-        />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dip">
 
-    <com.example.pc.myapplication.ViewStyle.CircularImage
-        android:id="@+id/signin_circularimage_userimage"
-        android:layout_width="70dip"
-        android:layout_height="70dip"
-        android:layout_above="@id/signin_edittext_username"
-        android:layout_marginBottom="60dip"
-        android:layout_centerHorizontal="true"
-        />
+
+        <ImageView
+            android:id="@+id/signin_imageview_userimage"
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_mask_style"
+            />
+
+        <com.example.pc.myapplication.ViewStyle.CircularImage
+            android:id="@+id/signin_circularimage_userimage"
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/signin_linearlayout_checkboxs"
         android:layout_width="250dip"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/signin_edittext_password"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dip">
 
         <CheckBox
@@ -77,42 +83,40 @@
             android:id="@+id/signin_checkbox_autosignin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/autosignin"
-            android:textColor="@color/login_hint_color"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginEnd="10dip"
-            android:layout_marginRight="10dip"/>
+            android:layout_marginRight="10dip"
+            android:text="@string/autosignin"
+            android:textColor="@color/login_hint_color"/>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/signin_button_signin"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
+        android:layout_below="@id/signin_linearlayout_checkboxs"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/signin_button_style"
         android:text="@string/login"
         android:textColor="@color/login_hint_color"
-        android:background="@drawable/signin_button_style"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/signin_linearlayout_checkboxs"
-        android:layout_marginTop="10dip"
         />
 
     <Button
         android:id="@+id/signin_button_signup"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
+        android:layout_below="@id/signin_button_signin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="50dip"
+        android:layout_marginStart="50dip"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/signin_button_style"
         android:text="@string/signup"
         android:textColor="@color/login_hint_color"
-        android:background="@drawable/signin_button_style"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/signin_button_signin"
-        android:layout_marginTop="10dip"
-        android:layout_marginStart="50dip"
-        android:layout_marginEnd="50dip"
         />
-
-
 
 
 </RelativeLayout>

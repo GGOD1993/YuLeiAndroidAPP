@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">育 蕾orz</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="username">用 户 名</string>
@@ -31,14 +31,15 @@
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
 
+    <string name="child_header_text">育 蕾</string>
+    <string name="child_task_module">玩 转 任 务</string>
+    <string name="child_task_history_module">历 史 战 绩</string>
+    <string name="child_donate_project_module">公 益 项 目</string>
+
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_parent_main">ParentMainActivity</string>
     <string name="title_activity_child_main">ChildMainActivity</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

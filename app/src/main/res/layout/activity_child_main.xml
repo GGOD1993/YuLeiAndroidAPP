@@ -13,21 +13,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/child_mainactivity_header">
         <TextView
-            android:text="我的心愿"
+            android:text="@string/child_task_module"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"/>
         <TextView
-            android:text="父母心愿"
+            android:text="@string/child_task_history_module"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"/>
         <TextView
-            android:text="更多功能"
+            android:text="@string/child_donate_project_module"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -40,6 +40,7 @@
         android:id="@+id/child_mainactivity_indicator"
         android:layout_width="wrap_content"
         android:layout_height="5dip"
+
         android:layout_below="@id/child_mainactivity_linearlayout_top"/>
 
     <android.support.v4.view.ViewPager

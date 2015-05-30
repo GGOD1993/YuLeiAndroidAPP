@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="45dip"
-    android:background="@color/indianred">
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@color/indianred">
 
-    <ImageView
-        android:id="@+id/child_mainactivity_header_imageview"
-        android:layout_width="20dip"
-        android:layout_height="20dip"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="10dip"
         android:layout_marginLeft="10dip"
-        android:background="@mipmap/image_parent_recyclerview_item_doing"
-        />
+        android:layout_marginStart="10dip">
+
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_mask_style"
+            />
+
+        <com.example.pc.myapplication.ViewStyle.CircularImage
+            android:id="@+id/child_mainactivity_header_circularimage"
+            android:layout_width="35dip"
+            android:layout_height="35dip"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/child_mainactivity_header_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/hello_world"
-        android:textSize="10pt"
-        android:textColor="@color/lightblue"/>
+        android:text="@string/child_header_text"
+        android:textColor="@color/lightblue"
+        android:textSize="10pt"/>
+
+    <ImageButton
+        android:id="@+id/child_mainactivity_header_imagebutton"
+        android:layout_width="45dip"
+        android:layout_height="45dip"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dip"
+        android:layout_marginRight="8dip"
+        android:background="@mipmap/image_parentactivity_leftmenu"/>
 
 </RelativeLayout>

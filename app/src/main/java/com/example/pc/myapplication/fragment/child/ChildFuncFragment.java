@@ -242,6 +242,7 @@ public class ChildFuncFragment extends Fragment implements
       if (null != codeObject) {
         if (AppConstant.UPLOAD_USER_IMAGE_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
           circularImageUserImage.setImageBitmap(userImage);
+
         }
       }
       if (null != msgObject) {

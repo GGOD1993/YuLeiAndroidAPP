@@ -2,18 +2,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- 状态栏颜色 -->
-        <item name="android:windowIsTranslucent">true</item>
-
     </style>
 
-    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/slideinleft</item>
-        <item name="android:activityOpenExitAnimation">@anim/slideoutleft</item>
-        <item name="android:activityCloseEnterAnimation">@anim/slideinright</item>
-        <item name="android:activityCloseExitAnimation">@anim/slideoutright</item>
-    </style>
-    
     <style name="mProgress_circle">
         <item name="android:indeterminateDrawable">@drawable/progressbar_style</item>
         <item name="android:minWidth">25dp</item>

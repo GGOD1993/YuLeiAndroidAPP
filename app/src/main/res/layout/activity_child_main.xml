@@ -1,52 +1,64 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/child_mainactivity_relativelayout_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout android:id="@+id/child_mainactivity_relativelayout_root"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
     >
 
-    <include layout="@layout/layout_child_mainactivity_header"
-        android:id="@+id/child_mainactivity_header"/>
+    <include
+        android:id="@+id/child_mainactivity_header"
+        layout="@layout/layout_child_mainactivity_header"/>
 
     <LinearLayout
         android:id="@+id/child_mainactivity_linearlayout_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/indianred"
         android:layout_below="@id/child_mainactivity_header">
+
         <TextView
-            android:text="@string/child_task_module"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/child_task_module"/>
+
         <TextView
-            android:text="@string/child_task_history_module"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/child_task_history_module"/>
+
         <TextView
-            android:text="@string/child_donate_project_module"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/child_donate_project_module"/>
 
     </LinearLayout>
 
-    <com.viewpagerindicator.UnderlinePageIndicator
-        android:id="@+id/child_mainactivity_indicator"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="5dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/child_mainactivity_linearlayout_top">
 
-        android:layout_below="@id/child_mainactivity_linearlayout_top"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/child_mainactivity_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/child_mainactivity_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/child_mainactivity_indicator"/>
+        <com.viewpagerindicator.UnderlinePageIndicator
+            android:id="@+id/child_mainactivity_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="3dip"
+           />
+
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

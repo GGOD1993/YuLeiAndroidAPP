@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity implements
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    setContentView(R.layout.layout_signin);
     initActivity();
   }
 
@@ -91,7 +91,6 @@ public class MainActivity extends ActionBarActivity implements
    * 初始化登陆界面
    */
   private void initActivity() {
-    setContentView(R.layout.layout_signin);
     preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
     buttonSignIn = (Button) findViewById(R.id.signin_button_signin);
     buttonSignUp = (Button) findViewById(R.id.signin_button_signup);
@@ -109,7 +108,6 @@ public class MainActivity extends ActionBarActivity implements
     if (preferences.getBoolean(AppConstant.AUTO_SIGNIN, false)) checkBoxAutoSignIn.setChecked(true);
     if (preferences.getBoolean(AppConstant.MEMORY_PASSWORD, false))
       checkBoxMemoryPassword.setChecked(true);
-//    root.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.skin_bg_player_x)));
     /**
      * 登陆按钮
      */

@@ -12,16 +12,16 @@
         android:layout_marginStart="10dip">
 
         <ImageView
-            android:layout_width="40dip"
-            android:layout_height="40dip"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
             android:layout_centerInParent="true"
             android:src="@drawable/circle_mask_style"
             />
 
         <com.example.pc.myapplication.ViewStyle.CircularImage
             android:id="@+id/child_mainactivity_header_circularimage"
-            android:layout_width="35dip"
-            android:layout_height="35dip"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
             android:layout_centerInParent="true"
             />
 

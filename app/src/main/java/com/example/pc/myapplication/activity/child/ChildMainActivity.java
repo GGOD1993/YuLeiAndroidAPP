@@ -3,7 +3,6 @@ package com.example.pc.myapplication.activity.child;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,16 +18,16 @@ import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.adapter.ChildViewpagerAdapter;
 import com.example.pc.myapplication.fragment.child.ChildFuncFragment;
-import com.example.pc.myapplication.fragment.child.ChildMsgFragment;
-import com.example.pc.myapplication.fragment.child.ChildWishFragment;
+import com.example.pc.myapplication.fragment.child.ChildHistoryFragment;
+import com.example.pc.myapplication.fragment.child.ChildTaskFragment;
 import com.example.pc.myapplication.utils.RequestQueueController;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 import java.util.ArrayList;
 
 public class ChildMainActivity extends FragmentActivity
-        implements ChildWishFragment.onChildWishFragmentInteractionListener,
-        ChildMsgFragment.OnChildMsgFragmentInteractionListener,
+        implements ChildTaskFragment.onChildTaskFragmentInteractionListener,
+        ChildHistoryFragment.OnChildHistoryFragmentInteractionListener,
         ChildFuncFragment.OnChildFuncFragmentInteractionListener{
 
   //再按一次返回桌面
@@ -63,11 +62,11 @@ public class ChildMainActivity extends FragmentActivity
   private ArrayList<Fragment> fragmentList;
 
   @Override
-  public void onChildMsgFragmentInteraction() {
+  public void onChildHistoryFragmentInteraction() {
   }
 
   @Override
-  public void onChildWishFragmentInteraction() {
+  public void onChildTaskFragmentInteraction() {
   }
 
   @Override
@@ -103,15 +102,14 @@ public class ChildMainActivity extends FragmentActivity
 
     ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(imageViewHeader, R.mipmap.child_funcfragment_setting, R.mipmap.ic_launcher);
     imageLoader.get(preferences.getString(AppConstant.IMG_URL, ""), imageListener);
-    fragmentList.add(ChildWishFragment.newInstance());
-    fragmentList.add(ChildMsgFragment.newInstance());
+    fragmentList.add(ChildTaskFragment.newInstance());
+    fragmentList.add(ChildHistoryFragment.newInstance());
     fragmentList.add(ChildFuncFragment.newInstance(preferences));
     mAdapter = new ChildViewpagerAdapter(getSupportFragmentManager(), ChildMainActivity.this, fragmentList);
     viewPager.setAdapter(mAdapter);
     viewPagerIndicator.setViewPager(viewPager, 0);
-    viewPagerIndicator.setSelectedColor(getResources().getColor(R.color.indianred));
+    viewPagerIndicator.setSelectedColor(getResources().getColor(R.color.skyblue));
     viewPagerIndicator.setFadingEdgeLength(2);
-    relativeLayoutRoot.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.child_mainactivity_background)));
   }
 
   @Override

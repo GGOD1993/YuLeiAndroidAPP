@@ -3,7 +3,6 @@ package com.example.pc.myapplication.activity.parent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,7 +12,6 @@ import android.text.format.Time;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -103,12 +101,6 @@ public class ParentMainActivity extends FragmentActivity implements
     nowTime =  t.year + "年" + lastmonth + "月" + t.monthDay + "日";
     initView();
     initEvents();
-    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      //透明状态栏
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-      //透明导航栏
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-    }
   }
 
   @Override

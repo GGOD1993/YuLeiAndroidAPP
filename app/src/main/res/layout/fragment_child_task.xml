@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/bg_child_task_fragment">
+
+    <ImageButton
+        android:id="@+id/child_taskfragment_imagebutton_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="79dp"
+        android:background="@mipmap/img_child_taskfragment_imagebutton_parent"/>
+
+    <ImageButton
+        android:id="@+id/child_taskfragment_imagebutton_science"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@mipmap/img_child_taskfragment_imagebutton_science"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="69dp"
+        android:layout_alignTop="@+id/child_taskfragment_imagebutton_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <ImageButton
+        android:id="@+id/child_taskfragment_imagebutton_music"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@mipmap/img_child_taskfragment_imagebutton_music"
+        android:layout_marginTop="28dp"
+        android:layout_below="@+id/child_taskfragment_imagebutton_science"
+        android:layout_alignRight="@+id/child_taskfragment_imagebutton_science"
+        android:layout_alignEnd="@+id/child_taskfragment_imagebutton_science"/>
+
+
+    <ImageButton
+        android:id="@+id/child_taskfragment_imagebutton_random"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@mipmap/img_child_taskfragment_imagebutton_random"
+        android:layout_below="@+id/child_taskfragment_imagebutton_science"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageButton
+        android:id="@+id/child_taskfragment_imagebutton_book"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@mipmap/img_child_taskfragment_imagebutton_book"
+        android:layout_below="@+id/child_taskfragment_imagebutton_music"
+        android:layout_alignLeft="@+id/child_taskfragment_imagebutton_random"
+        android:layout_alignStart="@+id/child_taskfragment_imagebutton_random"/>
+
+</RelativeLayout>

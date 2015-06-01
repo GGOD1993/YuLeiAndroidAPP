@@ -23,7 +23,7 @@ import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.adapter.ChildViewpagerAdapter;
-import com.example.pc.myapplication.fragment.child.ChildFuncFragment;
+import com.example.pc.myapplication.fragment.child.ChildDonateFragment;
 import com.example.pc.myapplication.fragment.child.ChildHistoryFragment;
 import com.example.pc.myapplication.fragment.child.ChildTaskFragment;
 import com.example.pc.myapplication.utils.HttpService;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 public class ChildMainActivity extends FragmentActivity
         implements ChildTaskFragment.onChildTaskFragmentInteractionListener,
         ChildHistoryFragment.OnChildHistoryFragmentInteractionListener,
-        ChildFuncFragment.OnChildFuncFragmentInteractionListener,
+        ChildDonateFragment.OnChildFuncFragmentInteractionListener,
         HttpService.OnUpLoadImageRequestResponseListener {
 
   //再按一次返回桌面
@@ -131,7 +131,7 @@ public class ChildMainActivity extends FragmentActivity
     imageLoader.get(preferences.getString(AppConstant.IMG_URL, ""), imageListener);
     fragmentList.add(ChildTaskFragment.newInstance());
     fragmentList.add(ChildHistoryFragment.newInstance());
-    fragmentList.add(ChildFuncFragment.newInstance(preferences));
+    fragmentList.add(ChildDonateFragment.newInstance(preferences));
     mAdapter = new ChildViewpagerAdapter(getSupportFragmentManager(), ChildMainActivity.this, fragmentList);
     viewPager.setAdapter(mAdapter);
     viewPagerIndicator.setViewPager(viewPager, 0);

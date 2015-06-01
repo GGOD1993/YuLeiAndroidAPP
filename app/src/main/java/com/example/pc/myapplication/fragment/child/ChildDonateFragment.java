@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.pc.myapplication.R;
 
-public class ChildFuncFragment extends Fragment {
+public class ChildDonateFragment extends Fragment {
 
   //sharedPreference
   private SharedPreferences preferences;
@@ -19,14 +19,14 @@ public class ChildFuncFragment extends Fragment {
   //回调的监听
   private OnChildFuncFragmentInteractionListener mListener;
 
-  public static ChildFuncFragment newInstance(SharedPreferences preferences) {
-    ChildFuncFragment fragment = new ChildFuncFragment();
+  public static ChildDonateFragment newInstance(SharedPreferences preferences) {
+    ChildDonateFragment fragment = new ChildDonateFragment();
     fragment.preferences = preferences;
     Bundle args = new Bundle();
     fragment.setArguments(args);
     return fragment;
   }
-  public ChildFuncFragment() {
+  public ChildDonateFragment() {
   }
 
   @Override

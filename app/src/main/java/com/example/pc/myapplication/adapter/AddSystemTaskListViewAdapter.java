@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.SystemTaskInfo;
+import com.example.pc.myapplication.Infos.SystemTaskInfo;
 
 import java.util.ArrayList;
 

@@ -17,11 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.adapter.ParentViewPagerAdapter;
 import com.example.pc.myapplication.fragment.parent.ParentBabyFragment;
 import com.example.pc.myapplication.fragment.parent.ParentDynamicFragment;
@@ -253,7 +252,7 @@ public class ParentMainActivity extends FragmentActivity implements
     map.put(AppConstant.TASK_CONTENT, newTask.getTaskContent());
     map.put(AppConstant.TO_USERID, newTask.getToUserId());
     map.put(AppConstant.AWARD, newTask.getAward());
-    HttpService.DoSetDiyTaskRequest(Request.Method.POST, AppConstant.SET_DIY_TASK_URL, map, ParentMainActivity.this);
+    HttpService.DoSetDiyTaskRequest(map, ParentMainActivity.this);
   }
 
   @Override
@@ -267,7 +266,7 @@ public class ParentMainActivity extends FragmentActivity implements
         if (AppConstant.SET_DIY_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
           ParentMsgFragment parentMsgFragment = (ParentMsgFragment) fragmentList.get(0);
           parentMsgFragment.taskList.add(diyTaskInfo);
-          parentMsgFragment.recyclerViewAdapter.notifyDataSetChanged();
+          parentMsgFragment.taskRecyclerViewAdapter.notifyDataSetChanged();
         }
       }
       if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));

@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 

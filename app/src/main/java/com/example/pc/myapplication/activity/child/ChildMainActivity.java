@@ -13,15 +13,16 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
+import com.example.pc.myapplication.activity.MainActivity;
 import com.example.pc.myapplication.adapter.ChildViewpagerAdapter;
 import com.example.pc.myapplication.fragment.child.ChildDonateFragment;
 import com.example.pc.myapplication.fragment.child.ChildHistoryFragment;
@@ -67,6 +68,8 @@ public class ChildMainActivity extends FragmentActivity
   private RelativeLayout relativeLayoutHeader;
   //Header上的TextView
   private TextView textViewHeader;
+  //Header上的菜单栏
+  private ImageButton imageButtonHeader;
   //Header上的CircularImage
   private CircularImage imageViewHeader;
   //存储用户更换的头像
@@ -126,17 +129,28 @@ public class ChildMainActivity extends FragmentActivity
     relativeLayoutHeader = (RelativeLayout) findViewById(R.id.child_mainactivity_header);
     textViewHeader = (TextView) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_textview);
     imageViewHeader = (CircularImage) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_circularimage);
+    imageButtonHeader = ((ImageButton) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_imagebutton));
 
     ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(imageViewHeader, R.mipmap.child_funcfragment_setting, R.mipmap.ic_launcher);
     imageLoader.get(preferences.getString(AppConstant.IMG_URL, ""), imageListener);
     fragmentList.add(ChildTaskFragment.newInstance());
     fragmentList.add(ChildHistoryFragment.newInstance());
-    fragmentList.add(ChildDonateFragment.newInstance(preferences));
+    fragmentList.add(ChildDonateFragment.newInstance());
     mAdapter = new ChildViewpagerAdapter(getSupportFragmentManager(), ChildMainActivity.this, fragmentList);
     viewPager.setAdapter(mAdapter);
     viewPagerIndicator.setViewPager(viewPager, 0);
     viewPagerIndicator.setSelectedColor(getResources().getColor(R.color.skyblue));
     viewPagerIndicator.setFadingEdgeLength(2);
+
+    imageButtonHeader.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        //实际是菜单,临时用作登出
+        preferences.edit().putInt(AppConstant.USER_MODE, 0).apply();
+        startActivity(new Intent(ChildMainActivity.this, MainActivity.class));
+        finish();
+      }
+    });
 
     imageViewHeader.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -183,7 +197,7 @@ public class ChildMainActivity extends FragmentActivity
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
               userImage = loadedImage;
-              HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE,
+              HttpService.DoUpLoadImageRequest(
                       userImage, preferences.getString(AppConstant.FROM_USERID, ""), ChildMainActivity.this);
             }
           });
@@ -192,8 +206,7 @@ public class ChildMainActivity extends FragmentActivity
         case AppConstant.CAMERA_RESULTCODE:
           Bundle bundle = intent.getExtras();
           userImage = (Bitmap) bundle.get(AppConstant.CAMERA_DATA);
-          HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE,
-                  userImage, preferences.getString(AppConstant.FROM_USERID, ""), ChildMainActivity.this);
+          HttpService.DoUpLoadImageRequest(userImage, preferences.getString(AppConstant.FROM_USERID, ""), ChildMainActivity.this);
           break;
       }
     }

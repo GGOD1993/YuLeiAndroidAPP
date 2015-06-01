@@ -7,10 +7,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;
@@ -95,7 +94,7 @@ public class SubmitTaskActivity extends SwipeBackActivity
     HashMap<String, String> map = new HashMap<>(2);
     map.put(AppConstant.TASK_ID, taskToBeSubmit.getTaskName());
     map.put(AppConstant.TO_USERID, taskToBeSubmit.getToUserId());
-    HttpService.DoSubmitDiyTaskRequest(Request.Method.POST, AppConstant.SUBMIT_DIY_TASK_URL, map, SubmitTaskActivity.this);
+    HttpService.DoSubmitDiyTaskRequest(map, SubmitTaskActivity.this);
   }
 
   /**

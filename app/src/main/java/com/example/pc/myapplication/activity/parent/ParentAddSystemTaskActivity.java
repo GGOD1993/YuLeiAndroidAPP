@@ -1,21 +1,18 @@
 package com.example.pc.myapplication.activity.parent;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.Infos.SystemTaskInfo;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.SystemTaskInfo;
 import com.example.pc.myapplication.adapter.AddSystemTaskListViewAdapter;
 import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
@@ -82,7 +79,7 @@ public class ParentAddSystemTaskActivity extends ActionBarActivity
             new SwipeRefreshLayout.OnRefreshListener() {
               @Override
               public void onRefresh() {
-                HttpService.DoGetSysTaskRequest(Request.Method.GET, AppConstant.GET_SYS_TASK_URL, null, ParentAddSystemTaskActivity.this);
+                HttpService.DoGetSysTaskRequest(null, ParentAddSystemTaskActivity.this);
               }
             }
     );

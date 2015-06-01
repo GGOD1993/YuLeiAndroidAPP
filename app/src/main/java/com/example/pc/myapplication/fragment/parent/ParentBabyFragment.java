@@ -13,16 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.activity.SubmitTaskActivity;
 import com.example.pc.myapplication.activity.parent.ParentMainActivity;
-import com.example.pc.myapplication.adapter.RecyclerViewAdapter;
-import com.example.pc.myapplication.adapter.RecyclerViewHolder;
 import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
+import com.example.pc.myapplication.adapter.TaskRecyclerViewAdapter;
+import com.example.pc.myapplication.adapter.TaskRecyclerViewHolder;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;
@@ -55,7 +54,7 @@ public class ParentBabyFragment extends Fragment
   private SharedPreferences preferences;
 
   //recyclerview适配器
-  public RecyclerViewAdapter recyclerViewAdapter;
+  public TaskRecyclerViewAdapter taskRecyclerViewAdapter;
 
   //和activity通信的回调接口
   private OnBabyFragmentInteractionListener mListener;
@@ -94,9 +93,9 @@ public class ParentBabyFragment extends Fragment
     mRecyclerView = (RecyclerView) v.findViewById(R.id.parent_babyfragment_recyclerview);
     mPullRefresh = (SwipeRefreshLayout) v.findViewById(R.id.parent_babyfragment_swiperefreshlayout);
     LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
-    recyclerViewAdapter = new RecyclerViewAdapter(taskList, ParentBabyFragment.this, AppConstant.RECIVE_TASK_TYPE);
+    taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(taskList, ParentBabyFragment.this, AppConstant.RECIVE_TASK_TYPE);
     mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
-    ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(recyclerViewAdapter);
+    ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(taskRecyclerViewAdapter);
     scaleAdapter.setFirstOnly(false);
     AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
     alphaAdapter.setFirstOnly(false);
@@ -107,7 +106,7 @@ public class ParentBabyFragment extends Fragment
       public void onRefresh() {
         String url = AppConstant.GET_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
                 preferences.getString(AppConstant.FROM_USERID, "");
-        HttpService.DoGetDiyTaskRequest(Request.Method.GET, url, null, ParentBabyFragment.this);
+        HttpService.DoGetDiyTaskRequest(url, null, ParentBabyFragment.this);
       }
     });
   }
@@ -167,7 +166,7 @@ public class ParentBabyFragment extends Fragment
     }
     taskList.addAll(submittedTask);
     taskList.addAll(finishedTask);
-    recyclerViewAdapter.notifyDataSetChanged();
+    taskRecyclerViewAdapter.notifyDataSetChanged();
     submittedTask = null;
     finishedTask = null;
   }
@@ -208,7 +207,7 @@ public class ParentBabyFragment extends Fragment
   public void changeStatusByTaskId(int taskId) {
     for (int i = 0; i < mRecyclerView.getChildCount(); i++) {
       View v = mRecyclerView.getChildAt(i);
-      RecyclerViewHolder holder = (RecyclerViewHolder) mRecyclerView.getChildViewHolder(v);
+      TaskRecyclerViewHolder holder = (TaskRecyclerViewHolder) mRecyclerView.getChildViewHolder(v);
       if (holder.textViewTaskName.getText().toString().equals(String.valueOf(taskId))) {
         holder.textViewTaskStatus.setText(AppConstant.STATUS_FINISHED_STRING);
       }

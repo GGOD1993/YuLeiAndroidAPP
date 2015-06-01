@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.pc.myapplication.AppConstant;
@@ -225,7 +224,7 @@ public class MainActivity extends ActionBarActivity implements
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put(AppConstant.USERNAME, editTextUsername.getText().toString());
         hashMap.put(AppConstant.PASSWORD, editTextPassword.getText().toString());
-        HttpService.DoLoginRequest(Request.Method.POST, AppConstant.LOGIN_IN_URL, hashMap, MainActivity.this);
+        HttpService.DoLoginRequest(hashMap, MainActivity.this);
       } else {
         YoYo.with(Techniques.Shake).duration(800).playOn(editTextPassword);
         showToast("请输入正确的密码");

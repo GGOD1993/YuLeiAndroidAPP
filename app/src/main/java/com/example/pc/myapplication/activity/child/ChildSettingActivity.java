@@ -55,19 +55,13 @@ public class ChildSettingActivity extends SwipeBackActivity
     relativeLayoutAddFriend.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        HttpService.DoGetInvitationRequest(
-                Request.Method.GET,
-                AppConstant.GET_INVITATION_URL + "?userid=" + preferences.getString(AppConstant.FROM_USERID, ""),
-                null,
-                ChildSettingActivity.this);
-      }
+        HttpService.DoGetInvitationRequest(AppConstant.GET_INVITATION_URL + "?userid=" + preferences.getString(AppConstant.FROM_USERID, ""), null, ChildSettingActivity.this); }
     });
-
     relativeLayoutLogOut.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         preferences.edit().putInt(AppConstant.USER_MODE, 0).apply();
-        HttpService.DoLogoutRequest(Request.Method.GET, AppConstant.LOGIN_OUT_URL, null, ChildSettingActivity.this);
+        HttpService.DoLogoutRequest(null, ChildSettingActivity.this);
       }
     });
   }
@@ -99,12 +93,7 @@ public class ChildSettingActivity extends SwipeBackActivity
                   HashMap<String, String> map = new HashMap<>();
                   map.put(AppConstant.TO_USERID, editText.getText().toString());
                   map.put(AppConstant.USERID, preferences.getString(AppConstant.FROM_USERID, ""));
-                  HttpService.DoUserInvitationRequest(
-                          Request.Method.POST,
-                          AppConstant.USER_INVITATION_URL,
-                          map,
-                          ChildSettingActivity.this
-                  );
+                  HttpService.DoUserInvitationRequest(map, ChildSettingActivity.this);
                 } else {
                   showToast("请输入正确的用户名");
                 }
@@ -141,12 +130,7 @@ public class ChildSettingActivity extends SwipeBackActivity
                 HashMap<String, String> map = new HashMap<>();
                 map.put(AppConstant.TO_USERID, parent);
                 map.put(AppConstant.USERID, preferences.getString(AppConstant.FROM_USERID, ""));
-                HttpService.DoAddFriendRequest(
-                        Request.Method.POST,
-                        AppConstant.ADD_FRIEND_URL,
-                        map,
-                        ChildSettingActivity.this
-                );
+                HttpService.DoAddFriendRequest(map, ChildSettingActivity.this );
               }
             });
   }

@@ -150,5 +150,5 @@
     <color name="transparent_background">#807FFFD4</color>
     <color name="black_overlay">#66000000</color>
     <color name="login_hint_color">#8898FB98</color>
-
+    <color name="colorPrimaryColor">#f0CD5C5C</color>
 </resources>

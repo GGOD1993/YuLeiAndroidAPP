@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
-import com.example.pc.myapplication.adapter.RecyclerViewAdapter;
+import com.example.pc.myapplication.adapter.TaskRecyclerViewAdapter;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;
@@ -45,7 +45,7 @@ public class ChildHistoryFragment extends Fragment implements
   private SwipeRefreshLayout refreshLayout;
 
   //RecyclerView的Adapter
-  private RecyclerViewAdapter adapter;
+  private TaskRecyclerViewAdapter adapter;
 
   //activity中实现的回调接口
   private OnChildHistoryFragmentInteractionListener mListener;
@@ -83,7 +83,7 @@ public class ChildHistoryFragment extends Fragment implements
 
     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(layoutManager);
-    adapter = new RecyclerViewAdapter(historyTaskList, ChildHistoryFragment.this, AppConstant.RECIVE_TASK_TYPE);
+    adapter = new TaskRecyclerViewAdapter(historyTaskList, ChildHistoryFragment.this, AppConstant.RECIVE_TASK_TYPE);
     recyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(adapter);
     scaleAdapter.setFirstOnly(false);

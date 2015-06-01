@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.fragment.parent.ParentBabyFragment;
 import com.example.pc.myapplication.fragment.parent.ParentMsgFragment;
 import com.example.pc.myapplication.utils.HttpService;
@@ -18,7 +17,7 @@ import com.example.pc.myapplication.utils.HttpService;
 import java.util.HashMap;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
+public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewHolder> {
 
   //上下文的引用
   private Fragment fragment;
@@ -29,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
   //用来区别是发出的任务还是接受到的任务
   private int type;
 
-  public RecyclerViewAdapter(List<DiyTaskInfo> taskList, Fragment fragment, int type) {
+  public TaskRecyclerViewAdapter(List<DiyTaskInfo> taskList, Fragment fragment, int type) {
     super();
     this.taskList = taskList;
     this.fragment = fragment;
@@ -37,14 +36,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
   }
 
   @Override
-  public RecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+  public TaskRecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
     View view = View.inflate(viewGroup.getContext(), R.layout.layout_parent_recyclerview_item, null);
-    RecyclerViewHolder holder = new RecyclerViewHolder(view);
+    TaskRecyclerViewHolder holder = new TaskRecyclerViewHolder(view);
     return holder;
   }
 
   @Override
-  public void onBindViewHolder(final RecyclerViewHolder viewHolder,int i) {
+  public void onBindViewHolder(final TaskRecyclerViewHolder viewHolder,int i) {
     // 绑定数据到ViewHolder上
     final DiyTaskInfo task = taskList.get(i);
     if (AppConstant.SEND_TASK_TYPE == type) viewHolder.textViewUserId.setText(task.getToUserId());
@@ -77,7 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                HashMap<String, String> map = new HashMap<>();
                map.put(AppConstant.TASK_ID, task.getTaskName());
                map.put(AppConstant.FROM_USERID, task.getFromUserId());
-               HttpService.DoFinishDiyTaskRequest(Request.Method.POST, AppConstant.FINISH_DIY_TASK_URL, map, (ParentMsgFragment) fragment);
+               HttpService.DoFinishDiyTaskRequest(map, (ParentMsgFragment) fragment);
                break;
 
              case AppConstant.STATUS_FINISHED:
@@ -90,7 +89,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                HashMap<String, String> map = new HashMap<>();
                map.put(AppConstant.TASK_ID, task.getTaskName());
                map.put(AppConstant.TO_USERID, task.getToUserId());
-               HttpService.DoSubmitDiyTaskRequest(Request.Method.POST, AppConstant.SUBMIT_DIY_TASK_URL, map, (ParentBabyFragment) fragment);
+               HttpService.DoSubmitDiyTaskRequest(map, (ParentBabyFragment) fragment);
                break;
              case AppConstant.STATUS_SUBMITTED:
                showToast("该心愿已经提交,请耐心等待~~~");

@@ -22,7 +22,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.ActiveGameView;
 import com.example.pc.myapplication.ViewStyle.ActiveSeedView;
 import com.example.pc.myapplication.ViewStyle.ActiveView;
@@ -135,7 +135,7 @@ public class ChildWishActivity extends SwipeBackActivity
         String url = AppConstant.GET_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
                 getApplicationContext().getSharedPreferences(AppConstant.PREFERENCE_NAME, 0)
                         .getString(AppConstant.FROM_USERID, "");
-        HttpService.DoGetDiyTaskRequest(Request.Method.GET, url, null, ChildWishActivity.this);
+        HttpService.DoGetDiyTaskRequest(url, null, ChildWishActivity.this);
       }
     });
     imageButtonBack.setOnClickListener(new View.OnClickListener() {
@@ -273,7 +273,7 @@ public class ChildWishActivity extends SwipeBackActivity
   private void initParentFromNetwork() {
     String url = AppConstant.GET_PARENT_URL + "?" + AppConstant.USERID + "=" +
             preferences.getString(AppConstant.FROM_USERID, "");
-    HttpService.DoGetParentRequest(Request.Method.GET, url, null, ChildWishActivity.this);
+    HttpService.DoGetParentRequest(url, null, ChildWishActivity.this);
   }
 
   /**
@@ -342,7 +342,7 @@ public class ChildWishActivity extends SwipeBackActivity
         map.put(AppConstant.TASK_CONTENT, task.getTaskContent());
         map.put(AppConstant.AWARD, task.getAward());
         map.put(AppConstant.TO_USERID, toUserId);
-        HttpService.DoSetDiyTaskRequest(Request.Method.POST, AppConstant.SET_DIY_TASK_URL, map, ChildWishActivity.this);
+        HttpService.DoSetDiyTaskRequest(map, ChildWishActivity.this);
       }
     }
   }

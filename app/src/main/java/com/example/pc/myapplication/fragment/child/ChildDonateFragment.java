@@ -1,27 +1,45 @@
 package com.example.pc.myapplication.fragment.child;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.pc.myapplication.Infos.DonateProjectInfo;
 import com.example.pc.myapplication.R;
+import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
+import com.example.pc.myapplication.adapter.ProjectRecyclerViewAdapter;
+
+import java.util.ArrayList;
+
+import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
 public class ChildDonateFragment extends Fragment {
 
-  //sharedPreference
-  private SharedPreferences preferences;
+  //列表
+  private RecyclerView recyclerView;
+
+  //下拉刷新
+  private SwipeRefreshLayout refreshLayout;
+
+  //RecyclerView的Adapter
+  private ProjectRecyclerViewAdapter adapter;
+
+  //捐赠项目的列表
+  private ArrayList<DonateProjectInfo> projectList;
 
   //回调的监听
   private OnChildFuncFragmentInteractionListener mListener;
 
-  public static ChildDonateFragment newInstance(SharedPreferences preferences) {
+  public static ChildDonateFragment newInstance() {
     ChildDonateFragment fragment = new ChildDonateFragment();
-    fragment.preferences = preferences;
     Bundle args = new Bundle();
     fragment.setArguments(args);
     return fragment;
@@ -37,13 +55,32 @@ public class ChildDonateFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_child_func, container, false);
+    View view = inflater.inflate(R.layout.fragment_child_donate, container, false);
+
+    projectList = new ArrayList<>();
     initView(view);
     return view;
   }
 
-  private void initView(View w) {
+  private void initView(View v) {
+    recyclerView = ((RecyclerView) v.findViewById(R.id.child_donatefragment_recyclerview));
+    refreshLayout = ((SwipeRefreshLayout) v.findViewById(R.id.child_donatefragment_swiperefreshlayout));
 
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+    recyclerView.setLayoutManager(linearLayoutManager);
+    adapter = new ProjectRecyclerViewAdapter(projectList, ChildDonateFragment.this);
+    recyclerView.addItemDecoration(new SpaceItemDecoration(30));
+    ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(adapter);
+    scaleAdapter.setFirstOnly(false);
+    AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
+    alphaAdapter.setFirstOnly(false);
+    recyclerView.setAdapter(alphaAdapter);
+    refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+//        HttpService.DoGet
+      }
+    });
   }
 
 

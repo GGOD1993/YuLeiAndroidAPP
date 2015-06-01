@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.example.pc.myapplication.AppConstant;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 
 import java.util.Random;
 

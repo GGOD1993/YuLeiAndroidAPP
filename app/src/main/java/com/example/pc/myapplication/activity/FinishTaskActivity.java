@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;
@@ -75,7 +75,7 @@ public class FinishTaskActivity extends SwipeBackActivity
         HashMap<String ,String> map = new HashMap<>(2);
         map.put(AppConstant.TASK_ID, clickTask.getTaskName());
         map.put(AppConstant.FROM_USERID, clickTask.getFromUserId());
-        HttpService.DoFinishDiyTaskRequest(Request.Method.POST, AppConstant.FINISH_DIY_TASK_URL, map, FinishTaskActivity.this);
+        HttpService.DoFinishDiyTaskRequest(map, FinishTaskActivity.this);
       }
     });
     cancel.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-package com.example.pc.myapplication.TaskInfo;
+package com.example.pc.myapplication.Infos;
 
 import android.os.Parcel;
 import android.os.Parcelable;

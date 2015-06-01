@@ -125,6 +125,7 @@ public class AppConstant {
   public static final String ADD_FRIEND_URL = HOST + "/Users/AddFriend.php";
   public static final String CHECK_DIY_TASK_URL = HOST + "/Users/CheckDiyTask.php";
   public static final String GET_COMPANY_URL = HOST + "/Users/Company.php";
+  public static final String GET_PROJECT_URL = HOST + "/Users/GetProject.php";
   public static final String DONATE_URL = HOST + "/Users/Donate.php";
   public static final String FINISH_DIY_TASK_URL = HOST + "/Users/FinishDiyTask.php";
   public static final String GET_CHILDREN_URL = HOST + "/Users/GetChildren.php";

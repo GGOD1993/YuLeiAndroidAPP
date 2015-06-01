@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
@@ -102,16 +101,14 @@ public class ParentLeftMenuFragment extends Fragment
       @Override
       public void onClick(View v) {
         preferences.edit().putInt(AppConstant.USER_MODE, 0).apply();
-        HttpService.DoLogoutRequest(Request.Method.GET, AppConstant.LOGIN_OUT_URL, null, ParentLeftMenuFragment.this);
+        HttpService.DoLogoutRequest(null, ParentLeftMenuFragment.this);
       }
     });
 
     relativeLayoutAddFriends.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        HttpService.DoGetInvitationRequest(
-                Request.Method.GET,
-                AppConstant.GET_INVITATION_URL + "?" + AppConstant.USERID + "=" + preferences.getString(AppConstant.FROM_USERID, ""),
+        HttpService.DoGetInvitationRequest(AppConstant.GET_INVITATION_URL + "?" + AppConstant.USERID + "=" + preferences.getString(AppConstant.FROM_USERID, ""),
                 null,
                 ParentLeftMenuFragment.this);
       }
@@ -180,12 +177,7 @@ public class ParentLeftMenuFragment extends Fragment
                   HashMap<String, String> map = new HashMap<>();
                   map.put(AppConstant.TO_USERID, editText.getText().toString());
                   map.put(AppConstant.USERID, preferences.getString(AppConstant.FROM_USERID, ""));
-                  HttpService.DoUserInvitationRequest(
-                          Request.Method.POST,
-                          AppConstant.USER_INVITATION_URL,
-                          map,
-                          ParentLeftMenuFragment.this
-                  );
+                  HttpService.DoUserInvitationRequest(map, ParentLeftMenuFragment.this);
                 } else {
                   showToast("请输入正确的用户名");
                 }
@@ -222,12 +214,7 @@ public class ParentLeftMenuFragment extends Fragment
                 HashMap<String, String> map = new HashMap<>();
                 map.put(AppConstant.TO_USERID, parent);
                 map.put(AppConstant.USERID, preferences.getString(AppConstant.FROM_USERID, ""));
-                HttpService.DoAddFriendRequest(
-                        Request.Method.POST,
-                        AppConstant.ADD_FRIEND_URL,
-                        map,
-                        ParentLeftMenuFragment.this
-                );
+                HttpService.DoAddFriendRequest(map, ParentLeftMenuFragment.this);
               }
             });
   }
@@ -244,17 +231,13 @@ public class ParentLeftMenuFragment extends Fragment
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
               userImage = loadedImage;
-              HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE,
-                      userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentLeftMenuFragment.this);
-            }
-          });
+              HttpService.DoUpLoadImageRequest(userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentLeftMenuFragment.this); } });
           break;
 
         case AppConstant.CAMERA_RESULTCODE:
           Bundle bundle = intent.getExtras();
           userImage = (Bitmap) bundle.get(AppConstant.CAMERA_DATA);
-          HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE,
-                  userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentLeftMenuFragment.this);
+          HttpService.DoUpLoadImageRequest(userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentLeftMenuFragment.this);
           break;
       }
     }

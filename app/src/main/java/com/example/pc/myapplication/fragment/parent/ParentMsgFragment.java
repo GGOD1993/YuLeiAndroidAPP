@@ -14,15 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.activity.parent.ParentAddDiyTaskActivity;
 import com.example.pc.myapplication.activity.parent.ParentAddSystemTaskActivity;
-import com.example.pc.myapplication.adapter.RecyclerViewAdapter;
-import com.example.pc.myapplication.adapter.RecyclerViewHolder;
+import com.example.pc.myapplication.adapter.TaskRecyclerViewAdapter;
+import com.example.pc.myapplication.adapter.TaskRecyclerViewHolder;
 import com.example.pc.myapplication.utils.HttpService;
 import com.shamanland.fab.FloatingActionButton;
 import com.shamanland.fab.ShowHideOnScroll;
@@ -56,7 +55,7 @@ public class ParentMsgFragment extends Fragment implements
   public ArrayList<DiyTaskInfo> taskList;
 
   //recyclerview适配器
-  public RecyclerViewAdapter recyclerViewAdapter;
+  public TaskRecyclerViewAdapter taskRecyclerViewAdapter;
 
   //SharedPreference
   private SharedPreferences preferences;
@@ -97,7 +96,7 @@ public class ParentMsgFragment extends Fragment implements
               public void onRefresh() {
                 String url = AppConstant.GET_SEND_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
                         preferences.getString(AppConstant.FROM_USERID, "");
-                HttpService.DoGetSendDiyTaskRequest(Request.Method.GET, url, null, ParentMsgFragment.this);
+                HttpService.DoGetSendDiyTaskRequest( url, null, ParentMsgFragment.this);
               }
             }
     );
@@ -140,9 +139,9 @@ public class ParentMsgFragment extends Fragment implements
     });
     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(layoutManager);
-    recyclerViewAdapter = new RecyclerViewAdapter(taskList,ParentMsgFragment.this, AppConstant.SEND_TASK_TYPE);
+    taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(taskList,ParentMsgFragment.this, AppConstant.SEND_TASK_TYPE);
     recyclerView.addItemDecoration(new SpaceItemDecoration(30));
-    ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(recyclerViewAdapter);
+    ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(taskRecyclerViewAdapter);
     scaleAdapter.setFirstOnly(false);
     AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
     alphaAdapter.setFirstOnly(false);
@@ -202,7 +201,7 @@ public class ParentMsgFragment extends Fragment implements
     }
     taskList.addAll(submittedTask);
     taskList.addAll(finishedTask);
-    recyclerViewAdapter.notifyDataSetChanged();
+    taskRecyclerViewAdapter.notifyDataSetChanged();
     recyclerView.scrollToPosition(taskList.size());
     submittedTask = null;
     finishedTask = null;
@@ -250,7 +249,7 @@ public class ParentMsgFragment extends Fragment implements
   public void changeStatusByTaskId(int taskId) {
     for (int i = 0; i < recyclerView.getChildCount(); i++) {
       View v = recyclerView.getChildAt(i);
-      RecyclerViewHolder holder = (RecyclerViewHolder) recyclerView.getChildViewHolder(v);
+      TaskRecyclerViewHolder holder = (TaskRecyclerViewHolder) recyclerView.getChildViewHolder(v);
       if (holder.textViewTaskName.getText().toString().equals(String.valueOf(taskId))) {
         holder.textViewTaskStatus.setText(AppConstant.STATUS_FINISHED_STRING);
       }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 
-public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+public class TaskRecyclerViewHolder extends RecyclerView.ViewHolder {
 
   //标示任务状态
   public TextView textViewTaskStatus;
@@ -34,7 +34,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
   //提交按钮
   public ImageButton imageButtonSubmit;
 
-  public RecyclerViewHolder(View itemView) {
+  public TaskRecyclerViewHolder(View itemView) {
     super(itemView);
     textViewTaskStatus = (TextView) itemView.findViewById(R.id.parent_recyclerview_textview_taskstatus);
     textViewUserId = (TextView) itemView.findViewById(R.id.parent_recyclerview_textview_childid);

@@ -20,7 +20,7 @@ import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.activity.SubmitTaskActivity;
 import com.example.pc.myapplication.activity.parent.ParentMainActivity;
-import com.example.pc.myapplication.adapter.ParentRecyclerViewAdapter;
+import com.example.pc.myapplication.adapter.RecyclerViewAdapter;
 import com.example.pc.myapplication.adapter.RecyclerViewHolder;
 import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
 import com.example.pc.myapplication.utils.HttpService;
@@ -55,7 +55,7 @@ public class ParentBabyFragment extends Fragment
   private SharedPreferences preferences;
 
   //recyclerview适配器
-  public ParentRecyclerViewAdapter recyclerViewAdapter;
+  public RecyclerViewAdapter recyclerViewAdapter;
 
   //和activity通信的回调接口
   private OnBabyFragmentInteractionListener mListener;
@@ -94,7 +94,7 @@ public class ParentBabyFragment extends Fragment
     mRecyclerView = (RecyclerView) v.findViewById(R.id.parent_babyfragment_recyclerview);
     mPullRefresh = (SwipeRefreshLayout) v.findViewById(R.id.parent_babyfragment_swiperefreshlayout);
     LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
-    recyclerViewAdapter = new ParentRecyclerViewAdapter(taskList, ParentBabyFragment.this, AppConstant.RECIVE_TASK_TYPE);
+    recyclerViewAdapter = new RecyclerViewAdapter(taskList, ParentBabyFragment.this, AppConstant.RECIVE_TASK_TYPE);
     mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(recyclerViewAdapter);
     scaleAdapter.setFirstOnly(false);

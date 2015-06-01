@@ -2,8 +2,10 @@ package com.example.pc.myapplication.utils;
 
 import android.graphics.Bitmap;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.pc.myapplication.AppConstant;
 
 import org.json.JSONArray;
 
@@ -319,7 +321,7 @@ public class HttpService {
   }
 
   /**
-   * 获取自己要完成任务
+   * 获取自己发出的完成任务
    */
   private static OnGetSendDiyTaskRequestResponseListener mGetSendDiyTaskRequestListener;
 
@@ -351,6 +353,34 @@ public class HttpService {
     HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
   }
 
+  /**
+   * 根据任务状态获取任务信息
+   */
+  private static OnGetTaskByStatusRequestResponseListener mGetTaskByStatusRequestListener;
+
+  public interface OnGetTaskByStatusRequestResponseListener {
+    void OnGetHistoryTaskSuccessResponse(JSONArray jsonArray);
+
+    void OnGetHistoryTaskErrorResponse(String errorResult);
+  }
+  public static void DoGetTaskByStatusRequest(HashMap<String, String> hashMap, OnGetTaskByStatusRequestResponseListener listener) {
+    mGetTaskByStatusRequestListener = listener;
+    Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+      @Override
+      public void onResponse(JSONArray jsonArray) {
+        mGetTaskByStatusRequestListener.OnGetHistoryTaskSuccessResponse(jsonArray);
+      }
+    };
+    Response.ErrorListener errorListener = new Response.ErrorListener() {
+      @Override
+      public void onErrorResponse(VolleyError volleyError) {
+        mGetTaskByStatusRequestListener.OnGetHistoryTaskErrorResponse(volleyError.getMessage());
+      }
+    };
+    HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.GET_TASK_BY_STATUS, hashMap, responseListener, errorListener);
+  }
+
+  
   /**
    * 家长审核完成任务
    */

@@ -132,6 +132,7 @@ public class AppConstant {
   public static final String GET_USER_INFO_URL = HOST + "/Users/GetUserInfo.php";
   public static final String SUBMIT_DIY_TASK_URL = HOST + "/Users/SubmitDiyTask.php";
   public static final String UPLOAD_USER_IMAGE = HOST + "/Users/UploadUserImage.php";
+  public static final String GET_TASK_BY_STATUS = HOST + "/Users/GetTaskByStatus.php";
 
   /**
    * 流弊的一个函数

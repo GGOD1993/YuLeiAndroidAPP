@@ -21,7 +21,7 @@ import com.example.pc.myapplication.TaskInfo.DiyTaskInfo;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.activity.parent.ParentAddDiyTaskActivity;
 import com.example.pc.myapplication.activity.parent.ParentAddSystemTaskActivity;
-import com.example.pc.myapplication.adapter.ParentRecyclerViewAdapter;
+import com.example.pc.myapplication.adapter.RecyclerViewAdapter;
 import com.example.pc.myapplication.adapter.RecyclerViewHolder;
 import com.example.pc.myapplication.utils.HttpService;
 import com.shamanland.fab.FloatingActionButton;
@@ -56,7 +56,7 @@ public class ParentMsgFragment extends Fragment implements
   public ArrayList<DiyTaskInfo> taskList;
 
   //recyclerview适配器
-  public ParentRecyclerViewAdapter parentRecyclerViewAdapter;
+  public RecyclerViewAdapter recyclerViewAdapter;
 
   //SharedPreference
   private SharedPreferences preferences;
@@ -140,9 +140,9 @@ public class ParentMsgFragment extends Fragment implements
     });
     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(layoutManager);
-    parentRecyclerViewAdapter = new ParentRecyclerViewAdapter(taskList,ParentMsgFragment.this, AppConstant.SEND_TASK_TYPE);
+    recyclerViewAdapter = new RecyclerViewAdapter(taskList,ParentMsgFragment.this, AppConstant.SEND_TASK_TYPE);
     recyclerView.addItemDecoration(new SpaceItemDecoration(30));
-    ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(parentRecyclerViewAdapter);
+    ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(recyclerViewAdapter);
     scaleAdapter.setFirstOnly(false);
     AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
     alphaAdapter.setFirstOnly(false);
@@ -202,7 +202,7 @@ public class ParentMsgFragment extends Fragment implements
     }
     taskList.addAll(submittedTask);
     taskList.addAll(finishedTask);
-    parentRecyclerViewAdapter.notifyDataSetChanged();
+    recyclerViewAdapter.notifyDataSetChanged();
     recyclerView.scrollToPosition(taskList.size());
     submittedTask = null;
     finishedTask = null;

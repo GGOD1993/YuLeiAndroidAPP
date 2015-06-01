@@ -267,7 +267,7 @@ public class ParentMainActivity extends FragmentActivity implements
         if (AppConstant.SET_DIY_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
           ParentMsgFragment parentMsgFragment = (ParentMsgFragment) fragmentList.get(0);
           parentMsgFragment.taskList.add(diyTaskInfo);
-          parentMsgFragment.parentRecyclerViewAdapter.notifyDataSetChanged();
+          parentMsgFragment.recyclerViewAdapter.notifyDataSetChanged();
         }
       }
       if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));

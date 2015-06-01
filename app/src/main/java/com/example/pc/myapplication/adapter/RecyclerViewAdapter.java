@@ -18,7 +18,7 @@ import com.example.pc.myapplication.utils.HttpService;
 import java.util.HashMap;
 import java.util.List;
 
-public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
   //上下文的引用
   private Fragment fragment;
@@ -29,7 +29,7 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
   //用来区别是发出的任务还是接受到的任务
   private int type;
 
-  public ParentRecyclerViewAdapter(List<DiyTaskInfo> taskList, Fragment fragment, int type) {
+  public RecyclerViewAdapter(List<DiyTaskInfo> taskList, Fragment fragment, int type) {
     super();
     this.taskList = taskList;
     this.fragment = fragment;

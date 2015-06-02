@@ -1,33 +1,37 @@
 package com.example.pc.myapplication.activity.parent;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.text.format.Time;
-import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
 import com.example.pc.myapplication.AppConstant;
-import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
+import com.example.pc.myapplication.ViewStyle.CircularImage;
+import com.example.pc.myapplication.activity.MainActivity;
 import com.example.pc.myapplication.adapter.ParentViewPagerAdapter;
 import com.example.pc.myapplication.fragment.parent.ParentBabyFragment;
 import com.example.pc.myapplication.fragment.parent.ParentDynamicFragment;
 import com.example.pc.myapplication.fragment.parent.ParentMsgFragment;
 import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
-import com.nineoldandroids.view.ViewHelper;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 import org.json.JSONArray;
@@ -35,14 +39,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ParentMainActivity extends FragmentActivity implements
         ParentBabyFragment.OnBabyFragmentInteractionListener,
         ParentMsgFragment.OnMsgFragmentInteractionListener,
         ParentDynamicFragment.OnDynamicFragmentInteractionListener,
-        HttpService.OnSetDiyTaskRequestResponseListener{
+        HttpService.OnUpLoadImageRequestResponseListener {
 
   //记录连续按两次退出
   private long exitTime;
@@ -50,56 +53,61 @@ public class ParentMainActivity extends FragmentActivity implements
   //SharedPreferences
   private SharedPreferences preferences;
 
-  //最底层的父控件
-  private DrawerLayout mDrawerLayout;
-
   //侧滑控件
   private ViewPager viewPager;
+  //ViewPager适配器
+  private ParentViewPagerAdapter adapter;
 
   //viewpager指示器
   private UnderlinePageIndicator viewPagerIndicator;
 
-  //viewpager的父控件
-  private RelativeLayout relativeLayoutViewPagerParent;
-
+  //布局的Header
+  private RelativeLayout relativeLayoutHeader;
+  //菜单栏按钮
+  private ImageView imageViewMenu;
+  //头像框
+  private CircularImage circularImage;
   //记录签到的当前时间
   private String nowTime;
-
-  //显示钱的控件
-  private TextView textViewMoney;
-
-  //打开侧滑菜单按钮
-  private ImageButton imageButtonOpenLeftMenu;
-
   //每日签到按钮
-  private ImageButton imageButtonEverydayTask;
+  private ImageView imageViewEverydayTask;
+  //存储用户更换的头像
+  private Bitmap userImage;
+  //ImageLoader
+  private ImageLoader imageLoader;
+  //用于更改头像
+  private com.nostra13.universalimageloader.core.ImageLoader loader;
 
   //存放ViewPager上显示的fragment
   private List<Fragment> fragmentList = new ArrayList<Fragment>();
 
-  //Volley框架的请求队列
-  private RequestQueue mQueue;
-
-  private String from_userid;
-
-  //用来暂存当前的自定义任务
-  private DiyTaskInfo diyTaskInfo;
+  //用户头像的高度
+  private static final int USERIMAGE_HEIGHT = 35;
+  //用户头像的宽度
+  private static final int USERIMAGE_WIDTH = 35;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_parent_main);
     exitTime = 0;
-    preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME,0);
-    mQueue = RequestQueueController.get().getRequestQueue();
-    from_userid = preferences.getString(AppConstant.FROM_USERID,"");
-
     Time t = new Time();
     t.setToNow();
-    int lastmonth = t.month + 1 ;
-    nowTime =  t.year + "年" + lastmonth + "月" + t.monthDay + "日";
+    int lastmonth = t.month + 1;
+    nowTime = t.year + "年" + lastmonth + "月" + t.monthDay + "日";
+    preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
+    loader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
+    loader.init(ImageLoaderConfiguration.createDefault(ParentMainActivity.this));
+    imageLoader = new ImageLoader(RequestQueueController.get().getRequestQueue(), new ImageLoader.ImageCache() {
+      @Override
+      public Bitmap getBitmap(String s) {
+        return null;
+      }
+      @Override
+      public void putBitmap(String s, Bitmap bitmap) {
+      }
+    });
     initView();
-    initEvents();
   }
 
   @Override
@@ -108,7 +116,6 @@ public class ParentMainActivity extends FragmentActivity implements
 
   @Override
   public void onBabyFragmentInteraction() {
-
   }
 
   @Override
@@ -116,9 +123,141 @@ public class ParentMainActivity extends FragmentActivity implements
   }
 
   @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    if (RESULT_OK == resultCode) {
+      switch (requestCode) {
+        case AppConstant.SELECT_PIC:
+        case AppConstant.SELECT_PIC_KITKAT:
+          ImageSize targetSize = new ImageSize(USERIMAGE_WIDTH, USERIMAGE_HEIGHT);
+          loader.loadImage(intent.getData().toString(), targetSize, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+              userImage = loadedImage;
+              HttpService.DoUpLoadImageRequest(
+                      userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentMainActivity.this);
+            }
+          });
+          break;
+        case AppConstant.CAMERA_RESULTCODE:
+          Bundle bundle = intent.getExtras();
+          userImage = (Bitmap) bundle.get(AppConstant.CAMERA_DATA);
+          HttpService.DoUpLoadImageRequest(userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentMainActivity.this);
+          break;
+      }
+    }
+  }
+
+  private void initView() {
+    viewPagerIndicator = (UnderlinePageIndicator) findViewById(R.id.parent_mainactivity_indicator);
+    viewPager = (ViewPager) findViewById(R.id.parent_mainactivity_viewpager);
+    relativeLayoutHeader = ((RelativeLayout) findViewById(R.id.parent_mainactivity_header));
+    imageViewMenu= ((ImageView) relativeLayoutHeader.findViewById(R.id.parent_mainactivity_header_imageview_menu));
+    circularImage = ((CircularImage) relativeLayoutHeader.findViewById(R.id.parent_mainactivity_header_circularimage));
+    imageViewEverydayTask= ((ImageView) relativeLayoutHeader.findViewById(R.id.parent_mainactivity_imageview_everydaytask));
+    adapter = new ParentViewPagerAdapter(ParentMainActivity.this, getSupportFragmentManager(), fragmentList);
+
+
+    ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(circularImage, R.mipmap.child_funcfragment_setting, R.mipmap.ic_launcher);
+    imageLoader.get(preferences.getString(AppConstant.IMG_URL, ""), imageListener);
+    fragmentList.add(ParentMsgFragment.newInstance());
+    fragmentList.add(ParentBabyFragment.newInstance());
+    fragmentList.add(ParentDynamicFragment.newInstance());
+    viewPager.setAdapter(adapter);
+    viewPagerIndicator.setViewPager(viewPager, 0);
+    viewPagerIndicator.setSelectedColor(getResources().getColor(R.color.skyblue));
+    if (nowTime.equals(preferences.getString(AppConstant.EVERYDAY_TASK, ""))) {
+      imageViewEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_done);
+    } else imageViewEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_normal);
+
+    imageViewMenu.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        //实际是菜单,临时用作登出
+        preferences.edit().putInt(AppConstant.USER_MODE, 0).apply();
+        startActivity(new Intent(ParentMainActivity.this, MainActivity.class));
+        finish();
+      }
+    });
+
+    circularImage.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        final Activity activity = ParentMainActivity.this;
+        LayoutInflater layoutInflater = LayoutInflater.from(activity);
+        View viewAddEmplyee = layoutInflater.inflate(R.layout.layout_signup_imagechooser, null);
+        new AlertDialog.Builder(activity).setTitle("更 换 头 像").setView(viewAddEmplyee).show();
+        viewAddEmplyee.findViewById(R.id.signup_imagechooser_textview_shot).setOnClickListener(
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, AppConstant.CAMERA_RESULTCODE);
+                  }
+                }
+        );
+        viewAddEmplyee.findViewById(R.id.signup_imagechooser_textview_album).setOnClickListener(
+                new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    //打开手机自带的图库，选择图片后将URI返回到onActivityResult
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT)
+                      startActivityForResult(intent, AppConstant.SELECT_PIC_KITKAT);
+                    else startActivityForResult(intent, AppConstant.SELECT_PIC);
+                  }
+                }
+        );
+      }
+    });
+
+    imageViewEverydayTask.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        String everyDayTaskDoneTime = preferences.getString(AppConstant.EVERYDAY_TASK, "");
+        if (!nowTime.equals(everyDayTaskDoneTime)) {
+          imageViewEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_done);
+          Toast.makeText(getApplicationContext(), AppConstant.EVERYDAY_TASK_SUCCESS, Toast.LENGTH_SHORT).show();
+          SharedPreferences.Editor editor = preferences.edit();
+          editor.putBoolean(AppConstant.EVERYDAY_TASK, true).apply();
+          editor.putString(AppConstant.EVERYDAY_TASK, nowTime).apply();
+        } else
+          showToast(AppConstant.EVERYDAY_TASK_FAILD);
+      }
+    });
+  }
+
+  @Override
+  public void OnUpLoadImageSuccessResponse(JSONArray jsonArray) {
+    JSONObject codeObject;
+    JSONObject msgObject;
+    try {
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      if (null != codeObject) {
+        if (AppConstant.UPLOAD_USER_IMAGE_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
+          circularImage.setImageBitmap(userImage);
+
+        }
+      }
+      if (null != msgObject) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void OnUpLoadImageErrorResponse(String errorResult) {
+    showToast(errorResult);
+  }
+
+  @Override
   public boolean onKeyDown(int keyCode, KeyEvent event) {
-    if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-      if((System.currentTimeMillis()-exitTime) > 2000){
+    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+      if ((System.currentTimeMillis() - exitTime) > 2000) {
         showToast("亲~再点一次返回桌面");
         exitTime = System.currentTimeMillis();
       } else {
@@ -130,154 +269,6 @@ public class ParentMainActivity extends FragmentActivity implements
       return true;
     }
     return super.onKeyDown(keyCode, event);
-  }
-
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    switch (resultCode) {
-      case AppConstant.PARENT_ADDDIYTASK_RESULTCODE:
-        if (data != null) {
-          diyTaskInfo = data.getParcelableExtra(AppConstant.NEW_TASK);
-          addNewTask(diyTaskInfo);
-        }
-        break;
-
-      case AppConstant.PARENT_ADDSYSTEMTASK_RESULTCODE:
-        if (data != null) {
-        }
-        break;
-    }
-    super.onActivityResult(requestCode, resultCode, data);
-  }
-
-  public void OpenRightMenu(){
-    mDrawerLayout.openDrawer(Gravity.START);
-    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.START);
-  }
-
-  private void initEvents(){
-    mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
-      @Override
-      public void onDrawerStateChanged(int newState) { }
-
-      @Override
-      public void onDrawerSlide(View drawerView, float slideOffset)
-      {
-        View mContent = mDrawerLayout.getChildAt(0);
-        float scale = 1 - slideOffset;
-        float rightScale = 0.8f + scale * 0.2f;
-        if (drawerView.getTag().equals("LEFT")) {
-          float leftScale = 1 - 0.3f * scale;
-          ViewHelper.setScaleX(drawerView, leftScale);
-          ViewHelper.setScaleY(drawerView, leftScale);
-          ViewHelper.setAlpha(drawerView, 0.6f + 0.4f * (1 - scale));
-          ViewHelper.setTranslationX(mContent,
-                  drawerView.getMeasuredWidth() * (1 - scale));
-          ViewHelper.setPivotX(mContent, 0);
-          ViewHelper.setPivotY(mContent,
-                  mContent.getMeasuredHeight() / 2);
-          ViewHelper.setScaleX(mContent, rightScale);
-          ViewHelper.setScaleY(mContent, rightScale);
-        } else {
-          ViewHelper.setTranslationX(mContent, -drawerView.getMeasuredWidth() * slideOffset);
-          ViewHelper.setPivotX(mContent, mContent.getMeasuredWidth());
-          ViewHelper.setPivotY(mContent, mContent.getMeasuredHeight() / 2);
-          ViewHelper.setScaleX(mContent, rightScale);
-          ViewHelper.setScaleY(mContent, rightScale);
-        }
-      }
-      @Override
-      public void onDrawerOpened(View drawerView) { }
-      @Override
-      public void onDrawerClosed(View drawerView) { }
-    });
-  }
-
-  private void initView() {
-    mDrawerLayout = (DrawerLayout) findViewById(R.id.parent_mainactivity_drawerlayout_root);
-    viewPagerIndicator = (UnderlinePageIndicator) findViewById(R.id.parent_mainactivity_indicator);
-    textViewMoney = (TextView) findViewById(R.id.parentactivity_leftmenu_textview_money);
-    imageButtonOpenLeftMenu = (ImageButton) findViewById(R.id.parent_mainactivity_relativelayout_actionbar_openleftmenu);
-    imageButtonEverydayTask = (ImageButton) findViewById(R.id.parent_mainactivity_relativelayout_actionbar_everydaytask);
-    viewPager = (ViewPager) findViewById(R.id.parentactivity_viewpager);
-    relativeLayoutViewPagerParent = (RelativeLayout) findViewById(R.id.parent_mainactivity_relativelayout_viewpager);
-    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
-
-
-    mDrawerLayout.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.bg_slight_rain_night)));
-//    findViewById(R.id.parent_mainactivity_drawerlayout_root).setBackgroundColor(getResources().getColor(R.color.beige));
-//    mDrawerLayout.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
-
-    textViewMoney.setText(String.valueOf(preferences.getInt(AppConstant.LEFT_MONEY, 0)));
-    if (nowTime.equals(preferences.getString(AppConstant.EVERYDAY_TASK, ""))) {
-      imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_done);
-    } else imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_normal);
-    imageButtonOpenLeftMenu.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                OpenRightMenu();
-              }
-            }
-    );
-    imageButtonEverydayTask.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                String everyDayTaskDoneTime = preferences.getString(AppConstant.EVERYDAY_TASK,"");
-                if (!nowTime.equals(everyDayTaskDoneTime)) {
-                  imageButtonEverydayTask.setImageResource(R.mipmap.parentactivityeveryday_task_done);
-                  Toast.makeText(getApplicationContext(), AppConstant.EVERYDAY_TASK_SUCCESS, Toast.LENGTH_SHORT).show();
-                  textViewMoney.setText(String.valueOf(Integer.valueOf(textViewMoney.getText().toString()) + 50));
-                  SharedPreferences.Editor editor = preferences.edit();
-                  editor.putBoolean(AppConstant.EVERYDAY_TASK, true).apply();
-                  editor.putInt(AppConstant.LEFT_MONEY, Integer.valueOf(textViewMoney.getText().toString())).apply();
-                  editor.putString(AppConstant.EVERYDAY_TASK, nowTime).apply();
-                } else Toast.makeText(getApplicationContext(), AppConstant.EVERYDAY_TASK_FAILD, Toast.LENGTH_SHORT).show();
-              }
-            }
-    );
-    fragmentList.add(ParentMsgFragment.newInstance());
-    fragmentList.add(ParentBabyFragment.newInstance());
-    fragmentList.add(ParentDynamicFragment.newInstance());
-    viewPager.setAdapter(new ParentViewPagerAdapter(ParentMainActivity.this, getSupportFragmentManager(), fragmentList));
-    viewPagerIndicator.setViewPager(viewPager, 0);
-  }
-
-  /**
-   * 向ParentMsgFragment中添加新的任务
-   * @param newTask
-   */
-  private void addNewTask(DiyTaskInfo newTask) {
-    HashMap<String, String> map = new HashMap<>();
-    map.put(AppConstant.FROM_USERID, from_userid);
-    map.put(AppConstant.TASK_CONTENT, newTask.getTaskContent());
-    map.put(AppConstant.TO_USERID, newTask.getToUserId());
-    map.put(AppConstant.AWARD, newTask.getAward());
-    HttpService.DoSetDiyTaskRequest(map, ParentMainActivity.this);
-  }
-
-  @Override
-  public void OnSetDiyTaskSuccessResponse(JSONArray jsonArray) {
-    JSONObject codeObject;
-    JSONObject msgObject;
-    try{
-      codeObject = (JSONObject) jsonArray.get(0);
-      msgObject = (JSONObject) jsonArray.get(1);
-      if (null != codeObject) {
-        if (AppConstant.SET_DIY_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
-          ParentMsgFragment parentMsgFragment = (ParentMsgFragment) fragmentList.get(0);
-          parentMsgFragment.taskList.add(diyTaskInfo);
-          parentMsgFragment.taskRecyclerViewAdapter.notifyDataSetChanged();
-        }
-      }
-      if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @Override
-  public void OnSetDiyTaskErrorResponse(String errorResult) {
-    showToast(errorResult);
   }
 
   private void showToast(String string) {

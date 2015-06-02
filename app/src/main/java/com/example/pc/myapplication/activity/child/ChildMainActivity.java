@@ -65,9 +65,6 @@ public class ChildMainActivity extends FragmentActivity
   //viewpager指示器
   private UnderlinePageIndicator viewPagerIndicator;
 
-  //根布局
-  private RelativeLayout relativeLayoutRoot;
-
   //布局的Header
   private RelativeLayout relativeLayoutHeader;
   //Header上的TextView
@@ -92,10 +89,10 @@ public class ChildMainActivity extends FragmentActivity
   private RapidFloatingActionHelper rapidFloatingActionHelper;
 
   //用户头像的高度
-  private static final int USERIMAGE_HEIGHT = 70;
+  private static final int USERIMAGE_HEIGHT = 35;
 
   //用户头像的宽度
-  private static final int USERIMAGE_WIDTH = 70;
+  private static final int USERIMAGE_WIDTH = 35;
 
   @Override
   public void onChildHistoryFragmentInteraction() {
@@ -133,7 +130,6 @@ public class ChildMainActivity extends FragmentActivity
   private void initViews() {
     viewPager = (ViewPager) findViewById(R.id.child_mainactivity_viewpager);
     viewPagerIndicator = (UnderlinePageIndicator) findViewById(R.id.child_mainactivity_indicator);
-    relativeLayoutRoot = (RelativeLayout) findViewById(R.id.child_mainactivity_relativelayout_root);
     relativeLayoutHeader = (RelativeLayout) findViewById(R.id.child_mainactivity_header);
     textViewHeader = (TextView) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_textview);
     imageViewHeader = (CircularImage) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_circularimage);
@@ -156,7 +152,6 @@ public class ChildMainActivity extends FragmentActivity
     viewPager.setAdapter(mAdapter);
     viewPagerIndicator.setViewPager(viewPager, 0);
     viewPagerIndicator.setSelectedColor(getResources().getColor(R.color.skyblue));
-    viewPagerIndicator.setFadingEdgeLength(2);
 
     imageButtonHeader.setOnClickListener(new View.OnClickListener() {
       @Override

@@ -10,9 +10,6 @@ import android.widget.Toast;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
-import com.example.pc.myapplication.fragment.parent.ParentBabyFragment;
-import com.example.pc.myapplication.fragment.parent.ParentMsgFragment;
-import com.example.pc.myapplication.utils.HttpService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,7 +73,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                HashMap<String, String> map = new HashMap<>();
                map.put(AppConstant.TASK_ID, task.getTaskName());
                map.put(AppConstant.FROM_USERID, task.getFromUserId());
-               HttpService.DoFinishDiyTaskRequest(map, (ParentMsgFragment) fragment);
+//               HttpService.DoFinishDiyTaskRequest(map, (ParentMsgFragment) fragment);
                break;
 
              case AppConstant.STATUS_FINISHED:
@@ -89,7 +86,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                HashMap<String, String> map = new HashMap<>();
                map.put(AppConstant.TASK_ID, task.getTaskName());
                map.put(AppConstant.TO_USERID, task.getToUserId());
-               HttpService.DoSubmitDiyTaskRequest(map, (ParentBabyFragment) fragment);
+//               HttpService.DoSubmitDiyTaskRequest(map, (ParentBabyFragment) fragment);
                break;
              case AppConstant.STATUS_SUBMITTED:
                showToast("该心愿已经提交,请耐心等待~~~");

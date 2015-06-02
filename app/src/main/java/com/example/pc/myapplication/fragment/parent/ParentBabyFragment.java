@@ -54,7 +54,7 @@ public class ParentBabyFragment extends Fragment
   private SharedPreferences preferences;
 
   //recyclerview适配器
-  public TaskRecyclerViewAdapter taskRecyclerViewAdapter;
+  private TaskRecyclerViewAdapter taskRecyclerViewAdapter;
 
   //和activity通信的回调接口
   private OnBabyFragmentInteractionListener mListener;

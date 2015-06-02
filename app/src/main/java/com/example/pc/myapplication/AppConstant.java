@@ -134,6 +134,14 @@ public class AppConstant {
   public static final String UPLOAD_USER_IMAGE = HOST + "/Users/UploadUserImage.php";
   public static final String GET_TASK_BY_STATUS = HOST + "/Users/GetTaskByStatus.php";
 
+  public static final int[] ParentTaskTypeImg = {
+          R.mipmap.img_parent_tasktype_animal,
+          R.mipmap.img_parent_tasktype_self,
+          R.mipmap.img_parent_tasktype_book,
+          R.mipmap.img_parent_tasktype_random,
+          R.mipmap.img_parent_tasktype_music};
+  public static final String[] ParentTaskTypeStr = {"动 物", "自定义", "书 籍", "随 机", "音 乐"};
+
   /**
    * 流弊的一个函数
    * 大量减少内存的占用

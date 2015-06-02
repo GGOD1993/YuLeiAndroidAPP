@@ -19,7 +19,7 @@
             />
 
         <com.example.pc.myapplication.ViewStyle.CircularImage
-            android:id="@+id/child_mainactivity_header_circularimage"
+            android:id="@+id/parent_mainactivity_header_circularimage"
             android:layout_width="35dip"
             android:layout_height="35dip"
             android:layout_centerInParent="true"
@@ -28,7 +28,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/child_mainactivity_header_textview"
+        android:id="@+id/parent_mainactivity_header_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -36,15 +36,33 @@
         android:textColor="@color/lightblue"
         android:textSize="10pt"/>
 
-    <ImageButton
-        android:id="@+id/child_mainactivity_header_imagebutton"
-        android:layout_width="50dip"
-        android:layout_height="50dip"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="8dip"
-        android:layout_marginRight="8dip"
-        android:background="@mipmap/openleftmenu"/>
+        android:layout_marginRight="8dip">
+
+        <ImageView
+            android:id="@+id/parent_mainactivity_imageview_everydaytask"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dip"
+            />
+
+        <ImageView
+            android:id="@+id/parent_mainactivity_header_imageview_menu"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/parent_mainactivity_imageview_everydaytask"
+            android:background="@mipmap/openleftmenu"/>
+
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

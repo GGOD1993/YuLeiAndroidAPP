@@ -32,10 +32,13 @@
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
 
-    <string name="child_header_text">育 蕾</string>
+    <string name="header_text">育 蕾</string>
     <string name="child_task_module">玩 转 任 务</string>
     <string name="child_task_history_module">历 史 战 绩</string>
     <string name="child_donate_project_module">公 益 项 目</string>
+    <string name="parent_send_wish">发 出 心 愿</string>
+    <string name="parent_wish_list">心 愿 清 单</string>
+    <string name="parent_donate_info">公 益 项 目</string>
 
     <string name="today_get_seed">今 日 获 得</string>
     <string name="all_seed">现 有 种 子</string>

@@ -15,13 +15,18 @@ import com.example.pc.myapplication.Infos.DonateProjectInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.adapter.ProjectRecyclerViewAdapter;
+import com.example.pc.myapplication.utils.HttpService;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
-public class ChildDonateFragment extends Fragment {
+public class ChildDonateFragment extends Fragment implements
+        HttpService.OnGetProjectRequestResponseListener{
 
   //列表
   private RecyclerView recyclerView;
@@ -78,11 +83,34 @@ public class ChildDonateFragment extends Fragment {
     refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
-//        HttpService.DoGet
+        HttpService.DoGetProjectRequest(null, ChildDonateFragment.this);
       }
     });
   }
 
+  @Override
+  public void OnGetProjectSuccessResponse(JSONArray jsonArray) {
+    refreshLayout.setRefreshing(false);
+    JSONObject arrayTask;
+    DonateProjectInfo projectInfo;
+    projectList.clear();
+    for (int i = 0; i < jsonArray.length(); i++) {
+      try {
+        arrayTask = (JSONObject) jsonArray.get(i);
+        projectInfo = new DonateProjectInfo();
+        projectList.add(projectInfo);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    adapter.notifyDataSetChanged();
+  }
+
+  @Override
+  public void OnGetProjectErrorResponse(String errorResult) {
+    refreshLayout.setRefreshing(false);
+    showToast(errorResult);
+  }
 
   private void showToast(String string) {
     Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();

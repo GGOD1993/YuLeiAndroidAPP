@@ -374,7 +374,7 @@ public class HttpService {
   }
 
   /**
-   * 获取公司列表
+   * 获取慈善项目
    */
   private static OnGetProjectRequestResponseListener mGetProjectRequestResponseListener;
 
@@ -384,7 +384,7 @@ public class HttpService {
     void OnGetProjectErrorResponse(String errorResult);
   }
 
-  public static void DoGetCompanyRequest(HashMap<String, String> hashMap, OnGetProjectRequestResponseListener listener) {
+  public static void DoGetProjectRequest(HashMap<String, String> hashMap, OnGetProjectRequestResponseListener listener) {
     mGetProjectRequestResponseListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override

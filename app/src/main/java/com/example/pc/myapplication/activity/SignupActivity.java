@@ -144,7 +144,7 @@ public class SignupActivity extends ActionBarActivity
         );
       }
     });
-    relativeLayoutRoot.setBackground(new BitmapDrawable(AppConstant.readBitMap(context, R.mipmap.bg0_fine_night)));
+    relativeLayoutRoot.setBackground(new BitmapDrawable(AppConstant.readBitMap(context, R.mipmap.bg_login)));
     buttonSubmmit.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

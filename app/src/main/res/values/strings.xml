@@ -13,6 +13,7 @@
     <string name="signup">注  册</string>
     <string name="memorypassword">记住密码</string>
     <string name="autosignin">自动登录</string>
+    <string name="forget_password">忘 记 密 码 ?</string>
     <string name="submmit">提 交</string>
     <string name="cancel">取 消</string>
     <string name="leftmoney">剩余金币：</string>
@@ -36,6 +37,9 @@
     <string name="child_task_history_module">历 史 战 绩</string>
     <string name="child_donate_project_module">公 益 项 目</string>
 
+    <string name="today_get_seed">今 日 获 得</string>
+    <string name="all_seed">现 有 种 子</string>
+    <string name="donate_seed">历 史 捐 出</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_parent_main">ParentMainActivity</string>

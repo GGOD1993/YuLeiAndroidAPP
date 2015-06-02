@@ -103,7 +103,6 @@ public class ChildHistoryFragment extends Fragment implements
 
   @Override
   public void OnGetHistoryTaskSuccessResponse(JSONArray jsonArray) {
-    Log.e("dada", jsonArray.toString());
     refreshLayout.setRefreshing(false);
     JSONObject arrayTask;
     DiyTaskInfo taskInfo;

@@ -1,7 +1,8 @@
-<RelativeLayout android:id="@+id/child_mainactivity_relativelayout_root"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+<RelativeLayout
+    android:id="@+id/child_mainactivity_relativelayout_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     >
 
     <include
@@ -12,8 +13,8 @@
         android:id="@+id/child_mainactivity_linearlayout_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/indianred"
-        android:layout_below="@id/child_mainactivity_header">
+        android:layout_below="@id/child_mainactivity_header"
+        android:background="@color/indianred">
 
         <TextView
             android:layout_width="match_parent"
@@ -55,10 +56,39 @@
             android:id="@+id/child_mainactivity_indicator"
             android:layout_width="wrap_content"
             android:layout_height="3dip"
-           />
+            />
 
 
     </RelativeLayout>
 
+    <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout
+        xmlns:rfal="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/child_mainactivity_rapidfloatingactionlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        rfal:rfal_frame_color="#000000"
+        rfal:rfal_frame_alpha="0.15"
+        >
+
+        <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton
+            xmlns:rfab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/child_mainactivity_rapidfloatingactionbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            rfab:rfab_size="normal"
+            rfab:rfab_drawable="@mipmap/img_child_seed"
+            rfab:rfab_color_normal="#37474f"
+            rfab:rfab_color_pressed="#263238"
+            rfab:rfab_shadow_radius="7dp"
+            rfab:rfab_shadow_color="#999999"
+            rfab:rfab_shadow_dx="0dp"
+            rfab:rfab_shadow_dy="5dp"
+            />
+
+    </com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout>
 
 </RelativeLayout>

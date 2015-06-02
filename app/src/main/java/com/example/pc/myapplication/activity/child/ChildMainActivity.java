@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
+import com.example.pc.myapplication.ViewStyle.ChildSeedInfoView;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.activity.MainActivity;
 import com.example.pc.myapplication.adapter.ChildViewpagerAdapter;
@@ -33,6 +34,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.viewpagerindicator.UnderlinePageIndicator;
+import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
+import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionHelper;
+import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,6 +86,10 @@ public class ChildMainActivity extends FragmentActivity
   //fragment列表
   private ArrayList<Fragment> fragmentList;
 
+  //fab相关的布局
+  private RapidFloatingActionLayout rapidFloatingActionLayout;
+  private RapidFloatingActionButton rapidFloatingActionButton;
+  private RapidFloatingActionHelper rapidFloatingActionHelper;
 
   //用户头像的高度
   private static final int USERIMAGE_HEIGHT = 70;
@@ -131,6 +139,14 @@ public class ChildMainActivity extends FragmentActivity
     imageViewHeader = (CircularImage) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_circularimage);
     imageButtonHeader = ((ImageButton) relativeLayoutHeader.findViewById(R.id.child_mainactivity_header_imagebutton));
 
+    ChildSeedInfoView childSeedInfoView = new ChildSeedInfoView(ChildMainActivity.this);
+    rapidFloatingActionButton = ((RapidFloatingActionButton) findViewById(R.id.child_mainactivity_rapidfloatingactionbutton));
+    rapidFloatingActionLayout = ((RapidFloatingActionLayout) findViewById(R.id.child_mainactivity_rapidfloatingactionlayout));
+    rapidFloatingActionHelper = new RapidFloatingActionHelper(ChildMainActivity.this, rapidFloatingActionLayout, rapidFloatingActionButton, childSeedInfoView).build();
+
+    rapidFloatingActionLayout.setIsContentAboveLayout(false);
+    rapidFloatingActionLayout.setDisableContentDefaultAnimation(true);
+    
     ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(imageViewHeader, R.mipmap.child_funcfragment_setting, R.mipmap.ic_launcher);
     imageLoader.get(preferences.getString(AppConstant.IMG_URL, ""), imageListener);
     fragmentList.add(ChildTaskFragment.newInstance());

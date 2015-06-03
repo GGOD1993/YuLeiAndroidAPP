@@ -1,5 +1,6 @@
 package com.example.pc.myapplication.fragment.parent;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,10 +16,13 @@ import android.widget.Toast;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
+import com.example.pc.myapplication.activity.parent.ParentAddDiyTaskActivity;
+import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
 
 import org.json.JSONArray;
 
-public class ParentSendWishFragment extends Fragment {
+public class ParentSendWishFragment extends Fragment implements
+        RecyclerViewItemClickListener {
 
   private RecyclerView recyclerView;
 
@@ -52,7 +56,6 @@ public class ParentSendWishFragment extends Fragment {
     initView(w);
     return w;
   }
-
   private void initView(View w) {
     recyclerView = ((RecyclerView) w.findViewById(R.id.parent_sendwishfragment_recyclerview_tasktype));
 
@@ -97,17 +100,36 @@ public class ParentSendWishFragment extends Fragment {
     });
   }
 
-
-  class ScaleRecyclerViewHolder extends RecyclerView.ViewHolder {
-    public ImageView imageView;
-    public TextView textView;
-    public ScaleRecyclerViewHolder(View itemView) {
-      super(itemView);
-      imageView = (ImageView) itemView.findViewById(R.id.layout_parent_recyclerview_tasktype_item_imageview);
-      textView = (TextView) itemView.findViewById(R.id.layout_parent_recyclerviedw_tasktype_item_textview);
+  @Override
+  public void onItemClick(View view, int position) {
+    switch (position) {
+      case AppConstant.TASK_TYPE_SELF:
+        Intent intent = new Intent(getActivity(), ParentAddDiyTaskActivity.class);
+        getActivity().startActivityForResult(intent, AppConstant.PARENT_ADDDIYTASK_REQUESTCODE);
+        break;
+      default:
+        showToast("该版块还在努力开发中...orz");
     }
   }
 
+  class ScaleRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public ImageView imageView;
+    public TextView textView;
+    private RecyclerViewItemClickListener mListener;
+    @Override
+    public void onClick(View v) {
+      if (mListener != null) {
+        mListener.onItemClick(v, getPosition());
+      }
+    }
+    public ScaleRecyclerViewHolder(View itemView, RecyclerViewItemClickListener listener) {
+      super(itemView);
+      mListener = listener;
+      imageView = (ImageView) itemView.findViewById(R.id.layout_parent_recyclerview_tasktype_item_imageview);
+      textView = (TextView) itemView.findViewById(R.id.layout_parent_recyclerviedw_tasktype_item_textview);
+      itemView.setOnClickListener(this);
+    }
+  }
   class ScaleRecyclerViewAdapter extends RecyclerView.Adapter<ScaleRecyclerViewHolder> {
     public ScaleRecyclerViewAdapter() {
       super();
@@ -119,7 +141,7 @@ public class ParentSendWishFragment extends Fragment {
     @Override
     public ScaleRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
       View v = View.inflate(parent.getContext(), R.layout.layout_parent_recyclerview_tasktype_item, null);
-      ScaleRecyclerViewHolder viewHolder = new ScaleRecyclerViewHolder(v);
+      ScaleRecyclerViewHolder viewHolder = new ScaleRecyclerViewHolder(v, ParentSendWishFragment.this);
       return viewHolder;
     }
     @Override
@@ -128,11 +150,9 @@ public class ParentSendWishFragment extends Fragment {
       holder.textView.setText(AppConstant.ParentTaskTypeStr[position]);
     }
   }
-
   private void showToast(String string) {
     Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
   }
-
   public interface OnMsgFragmentInteractionListener {
     public void onMsgFragmentInteraction(JSONArray jsonArray);
   }

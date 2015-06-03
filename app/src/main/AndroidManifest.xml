@@ -36,24 +36,8 @@
             android:label="@string/title_activity_parent_add_task" >
         </activity>
         <activity
-            android:name=".activity.TaskInfoActivity"
-            android:label="@string/title_activity_task_info" >
-        </activity>
-        <activity
-            android:name=".activity.child.ChildWishActivity"
-            android:label="@string/title_activity_child_wish" >
-        </activity>
-        <activity
             android:name=".activity.child.ChildDonateActivity"
             android:label="@string/title_activity_child_donate" >
-        </activity>
-        <activity
-            android:name=".activity.SubmitTaskActivity"
-            android:label="@string/title_activity_submit_task" >
-        </activity>
-        <activity
-            android:name=".activity.FinishTaskActivity"
-            android:label="@string/title_activity_award_task" >
         </activity>
         <activity
             android:name=".activity.child.ChildWishListActivity"

@@ -23,8 +23,6 @@ public class AppConstant {
 
   public static final int PARENT_ADDDIYTASK_REQUESTCODE = 6;
   public static final int PARENT_ADDDIYTASK_RESULTCODE = 7;
-  public static final int PARENT_ADDSYSTEMTASK_REQUESTCODE = 8;
-  public static final int PARENT_ADDSYSTEMTASK_RESULTCODE = 9;
 
   public static final int RECYCLERVIEW_FIRST_TAG = 1;
 
@@ -141,6 +139,11 @@ public class AppConstant {
           R.mipmap.img_parent_tasktype_random,
           R.mipmap.img_parent_tasktype_music};
   public static final String[] ParentTaskTypeStr = {"动 物", "自定义", "书 籍", "随 机", "音 乐"};
+  public static final int TASK_TYPE_ANIMAL = 0;
+  public static final int TASK_TYPE_SELF = 1;
+  public static final int TASK_TYPE_BOOK = 2;
+  public static final int TASK_TYPE_RANDOM = 3;
+  public static final int TASK_TYPE_MUSIC = 4;
 
   /**
    * 流弊的一个函数

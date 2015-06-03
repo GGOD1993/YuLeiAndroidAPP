@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.Infos.DiyTaskInfo;
-import com.example.pc.myapplication.Infos.SystemTaskInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.adapter.StringPickerViewAdapter;
 import com.example.pc.myapplication.utils.HttpService;
@@ -94,13 +93,6 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
     /**
      * 针对从系统任务选择的任务
      */
-    Intent intent = getIntent();
-    if (intent.getSerializableExtra(AppConstant.CLICKED_SYSTEM_TASK) != null) {
-      SystemTaskInfo newSystemTask = (SystemTaskInfo) intent.getSerializableExtra(AppConstant.CLICKED_SYSTEM_TASK);
-      ediTextTaskContent.setText(newSystemTask.getTaskContent());
-      editTextTaskName.setText(newSystemTask.getTaskId());
-    }
-
     list = new ArrayList<>();
     initChildFromNetwork();
 

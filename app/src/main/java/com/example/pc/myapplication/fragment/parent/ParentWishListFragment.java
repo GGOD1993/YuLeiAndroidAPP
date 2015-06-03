@@ -1,7 +1,6 @@
 package com.example.pc.myapplication.fragment.parent;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,9 +16,7 @@ import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
-import com.example.pc.myapplication.activity.SubmitTaskActivity;
 import com.example.pc.myapplication.activity.parent.ParentMainActivity;
-import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
 import com.example.pc.myapplication.adapter.TaskRecyclerViewAdapter;
 import com.example.pc.myapplication.adapter.TaskRecyclerViewHolder;
 import com.example.pc.myapplication.utils.HttpService;
@@ -33,9 +30,8 @@ import java.util.ArrayList;
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
-public class ParentWishListFragment extends Fragment
-        implements HttpService.OnGetDiyTaskRequestResponseListener,
-        RecyclerViewItemClickListener,
+public class ParentWishListFragment extends Fragment implements
+        HttpService.OnGetSendDiyTaskRequestResponseListener,
         HttpService.OnSubmitDiyTaskRequestResponseListener{
 
   //fragment所在的activity
@@ -76,8 +72,7 @@ public class ParentWishListFragment extends Fragment
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.fragment_parent_wish_list, container, false);
     taskList = new ArrayList<>();
     activity = (ParentMainActivity) getActivity();
@@ -104,31 +99,37 @@ public class ParentWishListFragment extends Fragment
     mPullRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
-        String url = AppConstant.GET_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
+        String url = AppConstant.GET_SEND_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
                 preferences.getString(AppConstant.FROM_USERID, "");
-        HttpService.DoGetDiyTaskRequest(url, null, ParentWishListFragment.this);
+        HttpService.DoGetSendDiyTaskRequest(url, null, ParentWishListFragment.this);
       }
     });
   }
- /**
-   * recyclerview的点击监听事件处理
-   * @param view
-   * @param position
+
+  /**
+   * 根据taskid来改变任务的状态
+   * @param taskId
    */
-  @Override
-  public void onItemClick(View view, int position) {
-    DiyTaskInfo clickTask = taskList.get(position);
-    Intent intent = new Intent(getActivity(), SubmitTaskActivity.class);
-    intent.putExtra(AppConstant.CLICKED_RECIVE_TASK, clickTask);
-    startActivity(intent);
+  public void changeStatusByTaskId(int taskId) {
+    for (int i = 0; i < mRecyclerView.getChildCount(); i++) {
+      View v = mRecyclerView.getChildAt(i);
+      TaskRecyclerViewHolder holder = (TaskRecyclerViewHolder) mRecyclerView.getChildViewHolder(v);
+      if (holder.textViewTaskName.getText().toString().equals(String.valueOf(taskId))) {
+        holder.textViewTaskStatus.setText(AppConstant.STATUS_FINISHED_STRING);
+      }
+    }
   }
 
+  public void addTaskToList(DiyTaskInfo task) {
+    taskList.add(task);
+    taskRecyclerViewAdapter.notifyDataSetChanged();
+  }
   /**
    * 处理网络请求
    * @param jsonArray
    */
   @Override
-  public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray) {
+  public void OnGetSendDiyTaskSuccessResponse(JSONArray jsonArray) {
     mPullRefresh.setRefreshing(false);
     JSONObject arrayTask;
     DiyTaskInfo taskInfo;
@@ -172,10 +173,9 @@ public class ParentWishListFragment extends Fragment
   }
 
   @Override
-  public void OnGetDiyTaskErrorResponse(String errorResult) {
+  public void OnGetSendDiyTaskErrorResponse(String errorResult) {
     mPullRefresh.setRefreshing(true);
   }
-
   @Override
   public void OnSubmitDiyTaskSuccessResponse(JSONArray jsonArray) {
     JSONObject codeObject;
@@ -200,30 +200,16 @@ public class ParentWishListFragment extends Fragment
       e.printStackTrace();
     }
   }
-  /**
-   * 根据taskid来改变任务的状态
-   * @param taskId
-   */
-  public void changeStatusByTaskId(int taskId) {
-    for (int i = 0; i < mRecyclerView.getChildCount(); i++) {
-      View v = mRecyclerView.getChildAt(i);
-      TaskRecyclerViewHolder holder = (TaskRecyclerViewHolder) mRecyclerView.getChildViewHolder(v);
-      if (holder.textViewTaskName.getText().toString().equals(String.valueOf(taskId))) {
-        holder.textViewTaskStatus.setText(AppConstant.STATUS_FINISHED_STRING);
-      }
-    }
-  }
-
 
   @Override
   public void OnSubmitDiyTaskErrorResponse(String errorResult) {
     showToast(errorResult);
   }
 
+
   private void showToast(String string) {
     Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
   }
-
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
@@ -240,7 +226,6 @@ public class ParentWishListFragment extends Fragment
     mListener = null;
   }
   public interface OnBabyFragmentInteractionListener {
-    // TODO: Update argument type and name
     public void onBabyFragmentInteraction();
   }
 

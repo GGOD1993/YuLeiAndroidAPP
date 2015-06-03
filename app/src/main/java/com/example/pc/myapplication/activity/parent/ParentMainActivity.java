@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.ChildSeedInfoView;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
@@ -43,13 +44,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ParentMainActivity extends FragmentActivity implements
         ParentWishListFragment.OnBabyFragmentInteractionListener,
         ParentSendWishFragment.OnMsgFragmentInteractionListener,
         ParentDonateInfoFragment.OnDynamicFragmentInteractionListener,
-        HttpService.OnUpLoadImageRequestResponseListener {
+        HttpService.OnUpLoadImageRequestResponseListener,
+        HttpService.OnSetDiyTaskRequestResponseListener{
 
   //记录连续按两次退出
   private long exitTime;
@@ -81,6 +84,9 @@ public class ParentMainActivity extends FragmentActivity implements
   private ImageLoader imageLoader;
   //用于更改头像
   private com.nostra13.universalimageloader.core.ImageLoader loader;
+
+  //新增任务引用
+  private DiyTaskInfo newTask;
 
   //存放ViewPager上显示的fragment
   private List<Fragment> fragmentList = new ArrayList<Fragment>();
@@ -134,27 +140,47 @@ public class ParentMainActivity extends FragmentActivity implements
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (RESULT_OK == resultCode) {
-      switch (requestCode) {
-        case AppConstant.SELECT_PIC:
-        case AppConstant.SELECT_PIC_KITKAT:
-          ImageSize targetSize = new ImageSize(USERIMAGE_WIDTH, USERIMAGE_HEIGHT);
-          loader.loadImage(intent.getData().toString(), targetSize, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-              userImage = loadedImage;
-              HttpService.DoUpLoadImageRequest(
-                      userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentMainActivity.this);
-            }
-          });
-          break;
-        case AppConstant.CAMERA_RESULTCODE:
-          Bundle bundle = intent.getExtras();
-          userImage = (Bitmap) bundle.get(AppConstant.CAMERA_DATA);
-          HttpService.DoUpLoadImageRequest(userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentMainActivity.this);
-          break;
-      }
+    switch (resultCode) {
+      case RESULT_OK:
+        switch (requestCode) {
+          case AppConstant.SELECT_PIC:
+          case AppConstant.SELECT_PIC_KITKAT:
+            ImageSize targetSize = new ImageSize(USERIMAGE_WIDTH, USERIMAGE_HEIGHT);
+            loader.loadImage(intent.getData().toString(), targetSize, new SimpleImageLoadingListener() {
+              @Override
+              public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                userImage = loadedImage;
+                HttpService.DoUpLoadImageRequest(userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentMainActivity.this);
+              }
+            });
+            break;
+          case AppConstant.CAMERA_RESULTCODE:
+            Bundle bundle = intent.getExtras();
+            userImage = (Bitmap) bundle.get(AppConstant.CAMERA_DATA);
+            HttpService.DoUpLoadImageRequest(userImage, preferences.getString(AppConstant.FROM_USERID, ""), ParentMainActivity.this);
+            break;
+        }
+        break;
+      case AppConstant.PARENT_ADDDIYTASK_RESULTCODE:
+        if (intent != null) {
+          newTask = intent.getParcelableExtra(AppConstant.NEW_TASK);
+          addNewTask(newTask);
+        }
+        break;
     }
+  }
+
+  /**
+   * 添加新任务
+   * @param newTask
+   */
+  private void addNewTask(DiyTaskInfo newTask) {
+    HashMap<String, String> map = new HashMap<>();
+    map.put(AppConstant.FROM_USERID, preferences.getString(AppConstant.FROM_USERID, ""));
+    map.put(AppConstant.TASK_CONTENT, newTask.getTaskContent());
+    map.put(AppConstant.TO_USERID, newTask.getToUserId());
+    map.put(AppConstant.AWARD, newTask.getAward());
+    HttpService.DoSetDiyTaskRequest(map, ParentMainActivity.this);
   }
 
   private void initView() {
@@ -167,8 +193,8 @@ public class ParentMainActivity extends FragmentActivity implements
     adapter = new ParentViewPagerAdapter(ParentMainActivity.this, getSupportFragmentManager(), fragmentList);
 
     ChildSeedInfoView childSeedInfoView = new ChildSeedInfoView(ParentMainActivity.this);
-    rapidFloatingActionButton = ((RapidFloatingActionButton) findViewById(R.id.child_mainactivity_rapidfloatingactionbutton));
-    rapidFloatingActionLayout = ((RapidFloatingActionLayout) findViewById(R.id.child_mainactivity_rapidfloatingactionlayout));
+    rapidFloatingActionButton = ((RapidFloatingActionButton) findViewById(R.id.parent_mainactivity_rapidfloatingactionbutton));
+    rapidFloatingActionLayout = ((RapidFloatingActionLayout) findViewById(R.id.parent_mainactivity_rapidfloatingactionlayout));
     rapidFloatingActionHelper = new RapidFloatingActionHelper(ParentMainActivity.this, rapidFloatingActionLayout, rapidFloatingActionButton, childSeedInfoView).build();
 
     rapidFloatingActionLayout.setIsContentAboveLayout(false);
@@ -242,6 +268,30 @@ public class ParentMainActivity extends FragmentActivity implements
           showToast(AppConstant.EVERYDAY_TASK_FAILD);
       }
     });
+  }
+
+  @Override
+  public void OnSetDiyTaskSuccessResponse(JSONArray jsonArray) {
+    JSONObject codeObject;
+    JSONObject msgObject;
+    try{
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      if (null != codeObject) {
+        if (AppConstant.SET_DIY_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
+          ParentWishListFragment fragment = (ParentWishListFragment) fragmentList.get(1);
+          fragment.addTaskToList(newTask);
+        }
+      }
+      if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void OnSetDiyTaskErrorResponse(String errorMsg) {
+    showToast(errorMsg);
   }
 
   @Override

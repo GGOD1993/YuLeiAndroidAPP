@@ -1,14 +1,15 @@
  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+     android:background="@mipmap/bg_child_taskhistor_fragment">
 
      <android.support.v4.widget.SwipeRefreshLayout
-         android:id="@+id/parent_babyfragment_swiperefreshlayout"
+         android:id="@+id/parent_wishlistfragment_swiperefreshlayout"
          android:layout_height="match_parent"
          android:layout_width="match_parent">
 
          <android.support.v7.widget.RecyclerView
-             android:id="@+id/parent_babyfragment_recyclerview"
+             android:id="@+id/parent_wishlistfragment_recyclerview"
              android:layout_width="match_parent"
              android:layout_height="match_parent"/>
 

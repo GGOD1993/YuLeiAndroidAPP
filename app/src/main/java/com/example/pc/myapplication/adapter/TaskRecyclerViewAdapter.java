@@ -1,7 +1,7 @@
 package com.example.pc.myapplication.adapter;
 
 
-import android.support.v4.app.Fragment;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,7 @@ import java.util.List;
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewHolder> {
 
   //上下文的引用
-  private Fragment fragment;
+  private Context context;
 
   //任务列表
   private List<DiyTaskInfo> taskList;
@@ -25,10 +25,10 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
   //用来区别是发出的任务还是接受到的任务
   private int type;
 
-  public TaskRecyclerViewAdapter(List<DiyTaskInfo> taskList, Fragment fragment, int type) {
+  public TaskRecyclerViewAdapter(List<DiyTaskInfo> taskList, Context context, int type) {
     super();
     this.taskList = taskList;
-    this.fragment = fragment;
+    this.context = context;
     this.type = type;
   }
 
@@ -106,6 +106,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
   }
 
   private void showToast(String string) {
-    Toast.makeText(fragment.getActivity(), string, Toast.LENGTH_SHORT).show();
+    Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
   }
 }

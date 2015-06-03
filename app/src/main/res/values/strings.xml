@@ -16,6 +16,7 @@
     <string name="forget_password">忘 记 密 码 ?</string>
     <string name="submmit">提 交</string>
     <string name="cancel">取 消</string>
+    <string name="back">返 回</string>
     <string name="leftmoney">剩余金币：</string>
 
     <string name="shot">马 上 拍 照</string>
@@ -43,6 +44,8 @@
     <string name="today_get_seed">今 日 获 得</string>
     <string name="all_seed">现 有 种 子</string>
     <string name="donate_seed">历 史 捐 出</string>
+
+    <string name="child_wishlist_activity_header">父 母 心 愿</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_parent_main">ParentMainActivity</string>

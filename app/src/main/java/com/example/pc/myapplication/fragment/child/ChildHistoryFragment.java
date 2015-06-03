@@ -7,15 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pc.myapplication.AppConstant;
-import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.Infos.DiyTaskInfo;
+import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.adapter.TaskRecyclerViewAdapter;
 import com.example.pc.myapplication.utils.HttpService;
@@ -83,7 +82,7 @@ public class ChildHistoryFragment extends Fragment implements
 
     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(layoutManager);
-    adapter = new TaskRecyclerViewAdapter(historyTaskList, ChildHistoryFragment.this, AppConstant.RECIVE_TASK_TYPE);
+    adapter = new TaskRecyclerViewAdapter(historyTaskList, getActivity(), AppConstant.RECIVE_TASK_TYPE);
     recyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(adapter);
     scaleAdapter.setFirstOnly(false);

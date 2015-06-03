@@ -21,18 +21,22 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
+import com.example.pc.myapplication.ViewStyle.ChildSeedInfoView;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.activity.MainActivity;
 import com.example.pc.myapplication.adapter.ParentViewPagerAdapter;
-import com.example.pc.myapplication.fragment.parent.ParentBabyFragment;
-import com.example.pc.myapplication.fragment.parent.ParentDynamicFragment;
-import com.example.pc.myapplication.fragment.parent.ParentMsgFragment;
+import com.example.pc.myapplication.fragment.parent.ParentDonateInfoFragment;
+import com.example.pc.myapplication.fragment.parent.ParentSendWishFragment;
+import com.example.pc.myapplication.fragment.parent.ParentWishListFragment;
 import com.example.pc.myapplication.utils.HttpService;
 import com.example.pc.myapplication.utils.RequestQueueController;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.viewpagerindicator.UnderlinePageIndicator;
+import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
+import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionHelper;
+import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,9 +46,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParentMainActivity extends FragmentActivity implements
-        ParentBabyFragment.OnBabyFragmentInteractionListener,
-        ParentMsgFragment.OnMsgFragmentInteractionListener,
-        ParentDynamicFragment.OnDynamicFragmentInteractionListener,
+        ParentWishListFragment.OnBabyFragmentInteractionListener,
+        ParentSendWishFragment.OnMsgFragmentInteractionListener,
+        ParentDonateInfoFragment.OnDynamicFragmentInteractionListener,
         HttpService.OnUpLoadImageRequestResponseListener {
 
   //记录连续按两次退出
@@ -80,6 +84,11 @@ public class ParentMainActivity extends FragmentActivity implements
 
   //存放ViewPager上显示的fragment
   private List<Fragment> fragmentList = new ArrayList<Fragment>();
+
+  //fab相关的布局
+  private RapidFloatingActionLayout rapidFloatingActionLayout;
+  private RapidFloatingActionButton rapidFloatingActionButton;
+  private RapidFloatingActionHelper rapidFloatingActionHelper;
 
   //用户头像的高度
   private static final int USERIMAGE_HEIGHT = 35;
@@ -157,12 +166,19 @@ public class ParentMainActivity extends FragmentActivity implements
     imageViewEverydayTask= ((ImageView) relativeLayoutHeader.findViewById(R.id.parent_mainactivity_imageview_everydaytask));
     adapter = new ParentViewPagerAdapter(ParentMainActivity.this, getSupportFragmentManager(), fragmentList);
 
+    ChildSeedInfoView childSeedInfoView = new ChildSeedInfoView(ParentMainActivity.this);
+    rapidFloatingActionButton = ((RapidFloatingActionButton) findViewById(R.id.child_mainactivity_rapidfloatingactionbutton));
+    rapidFloatingActionLayout = ((RapidFloatingActionLayout) findViewById(R.id.child_mainactivity_rapidfloatingactionlayout));
+    rapidFloatingActionHelper = new RapidFloatingActionHelper(ParentMainActivity.this, rapidFloatingActionLayout, rapidFloatingActionButton, childSeedInfoView).build();
+
+    rapidFloatingActionLayout.setIsContentAboveLayout(false);
+    rapidFloatingActionLayout.setDisableContentDefaultAnimation(true);
 
     ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(circularImage, R.mipmap.child_funcfragment_setting, R.mipmap.ic_launcher);
     imageLoader.get(preferences.getString(AppConstant.IMG_URL, ""), imageListener);
-    fragmentList.add(ParentMsgFragment.newInstance());
-    fragmentList.add(ParentBabyFragment.newInstance());
-    fragmentList.add(ParentDynamicFragment.newInstance());
+    fragmentList.add(ParentSendWishFragment.newInstance());
+    fragmentList.add(ParentWishListFragment.newInstance());
+    fragmentList.add(ParentDonateInfoFragment.newInstance());
     viewPager.setAdapter(adapter);
     viewPagerIndicator.setViewPager(viewPager, 0);
     viewPagerIndicator.setSelectedColor(getResources().getColor(R.color.skyblue));

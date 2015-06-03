@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
-public class ParentBabyFragment extends Fragment
+public class ParentWishListFragment extends Fragment
         implements HttpService.OnGetDiyTaskRequestResponseListener,
         RecyclerViewItemClickListener,
         HttpService.OnSubmitDiyTaskRequestResponseListener{
@@ -59,14 +59,14 @@ public class ParentBabyFragment extends Fragment
   //和activity通信的回调接口
   private OnBabyFragmentInteractionListener mListener;
 
-  public static ParentBabyFragment newInstance() {
-    ParentBabyFragment fragment = new ParentBabyFragment();
+  public static ParentWishListFragment newInstance() {
+    ParentWishListFragment fragment = new ParentWishListFragment();
     Bundle args = new Bundle();
     fragment.setArguments(args);
     return fragment;
   }
 
-  public ParentBabyFragment() {
+  public ParentWishListFragment() {
     // Required empty public constructor
   }
 
@@ -78,7 +78,7 @@ public class ParentBabyFragment extends Fragment
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.fragment_parent_baby, container, false);
+    View v = inflater.inflate(R.layout.fragment_parent_wish_list, container, false);
     taskList = new ArrayList<>();
     activity = (ParentMainActivity) getActivity();
     preferences = activity.getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
@@ -90,10 +90,10 @@ public class ParentBabyFragment extends Fragment
    * @param v
    */
   private void initViews(View v) {
-    mRecyclerView = (RecyclerView) v.findViewById(R.id.parent_babyfragment_recyclerview);
-    mPullRefresh = (SwipeRefreshLayout) v.findViewById(R.id.parent_babyfragment_swiperefreshlayout);
+    mRecyclerView = (RecyclerView) v.findViewById(R.id.parent_wishlistfragment_recyclerview);
+    mPullRefresh = (SwipeRefreshLayout) v.findViewById(R.id.parent_wishlistfragment_swiperefreshlayout);
     LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
-    taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(taskList, ParentBabyFragment.this, AppConstant.RECIVE_TASK_TYPE);
+    taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(taskList, getActivity(), AppConstant.RECIVE_TASK_TYPE);
     mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(taskRecyclerViewAdapter);
     scaleAdapter.setFirstOnly(false);
@@ -106,7 +106,7 @@ public class ParentBabyFragment extends Fragment
       public void onRefresh() {
         String url = AppConstant.GET_DIY_TASK_URL + "?" + AppConstant.USERNAME + "=" +
                 preferences.getString(AppConstant.FROM_USERID, "");
-        HttpService.DoGetDiyTaskRequest(url, null, ParentBabyFragment.this);
+        HttpService.DoGetDiyTaskRequest(url, null, ParentWishListFragment.this);
       }
     });
   }

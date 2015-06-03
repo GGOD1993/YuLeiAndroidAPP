@@ -1,0 +1,11 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_child_task_fragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/parent_sendwishfragment_recyclerview_tasktype"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

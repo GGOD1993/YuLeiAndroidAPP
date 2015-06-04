@@ -5,7 +5,7 @@
                 android:background="@color/indianred">
 
     <TextView
-        android:id="@+id/child_otheractivity_header_textview_back"
+        android:id="@+id/otheractivity_header_textview_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -18,7 +18,7 @@
         android:textSize="8pt"/>
 
     <TextView
-        android:id="@+id/child_otheractivity_header_textview_headline"
+        android:id="@+id/otheractivity_header_textview_headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -27,7 +27,7 @@
         android:textSize="10pt"/>
 
     <ImageButton
-        android:id="@+id/child_otheractivity_header_imagebutton_menu"
+        android:id="@+id/otheractivity_header_imagebutton_menu"
         android:layout_width="50dip"
         android:layout_height="50dip"
         android:layout_alignParentEnd="true"

@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
-import com.example.pc.myapplication.activity.parent.ParentAddDiyTaskActivity;
+import com.example.pc.myapplication.activity.parent.ParentAddTaskActivity;
 import com.example.pc.myapplication.adapter.RecyclerViewItemClickListener;
 
 import org.json.JSONArray;
@@ -104,7 +104,7 @@ public class ParentSendWishFragment extends Fragment implements
   public void onItemClick(View view, int position) {
     switch (position) {
       case AppConstant.TASK_TYPE_SELF:
-        Intent intent = new Intent(getActivity(), ParentAddDiyTaskActivity.class);
+        Intent intent = new Intent(getActivity(), ParentAddTaskActivity.class);
         getActivity().startActivityForResult(intent, AppConstant.PARENT_ADDDIYTASK_REQUESTCODE);
         break;
       default:

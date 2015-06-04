@@ -110,6 +110,7 @@ public class AppConstant {
 
   //网络请求URL
   public static final String HOST = "http://byhands.sinaapp.com";
+  public static final String IMG_HOST = "http://byhands-usersimg.stor.sinaapp.com/";
   public static final String NEW_USER_URL= HOST + "/Users/NewUser.php";
   public static final String LOGIN_IN_URL = HOST + "/Users/Login.php";
   public static final String LOGIN_OUT_URL = HOST + "/Users/Logout.php";

@@ -55,8 +55,8 @@ public class ChildWishListActivity extends SwipeBackActivity implements
     recyclerView = (RecyclerView) findViewById(R.id.child_wishlistactivity_recyclerview);
     header = (RelativeLayout) findViewById(R.id.child_wishlistactivity_header);
     refreshLayout = (SwipeRefreshLayout) findViewById(R.id.child_wishlistactivity_swiperefreshlayout);
-    textViewHeadeline = (TextView) findViewById(R.id.child_otheractivity_header_textview_headline);
-    textViewBack = (TextView) findViewById(R.id.child_otheractivity_header_textview_back);
+    textViewHeadeline = (TextView) findViewById(R.id.otheractivity_header_textview_headline);
+    textViewBack = (TextView) findViewById(R.id.otheractivity_header_textview_back);
 
     textViewHeadeline.setText("父 母 心 愿");
     textViewBack.setOnClickListener(new View.OnClickListener() {

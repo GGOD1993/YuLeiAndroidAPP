@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
 import com.yalantis.contextmenu.lib.MenuParams;
 import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemLongClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,7 +64,8 @@ public class ChildMainActivity extends FragmentActivity
         HttpService.OnUserInvitationRequestResponseListener,
         HttpService.OnAddFriendRequestResponseListener,
         HttpService.OnLogoutRequestResponseListener,
-        OnMenuItemClickListener {
+        OnMenuItemClickListener,
+        OnMenuItemLongClickListener{
 
   //再按一次返回桌面
   private Long exitTime;
@@ -317,6 +320,7 @@ public class ChildMainActivity extends FragmentActivity
 
   @Override
   public void onMenuItemClick(View view, int i) {
+    Log.e("dada", "click");
     switch (i) {
       case AppConstant.MENU_CLOSE:
         break;
@@ -341,6 +345,11 @@ public class ChildMainActivity extends FragmentActivity
         HttpService.DoLogoutRequest(null, ChildMainActivity.this);
         break;
     }
+  }
+
+  @Override
+  public void onMenuItemLongClick(View view, int i) {
+    
   }
 
   /**

@@ -5,10 +5,10 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="MyAppTheme" parent="AppBaseTheme">
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="colorPrimaryDark">@color/colorPrimaryColor</item>
+        <item name="colorPrimaryDark">@color/indianred</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

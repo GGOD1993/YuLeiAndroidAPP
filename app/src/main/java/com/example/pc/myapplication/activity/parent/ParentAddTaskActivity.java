@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pc.myapplication.AppConstant;
@@ -26,7 +27,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class ParentAddDiyTaskActivity extends ActionBarActivity
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
+public class ParentAddTaskActivity extends SwipeBackActivity
         implements AbsListView.OnScrollListener, HttpService.OnGetChildrenRequestResponseListener {
 
   //用于存放即将发布的任务
@@ -43,6 +46,13 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
 
   //输入任务内容的控件
   private EditText ediTextTaskContent;
+
+  //Header
+  private RelativeLayout header;
+  //返回按钮
+  private TextView headerBack;
+  //标题
+  private TextView headerHeadline;
 
   //提交按钮
   private ImageButton imageButtonSubmit;
@@ -78,6 +88,7 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_parent_add_diy_task);
     preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
+    list = new ArrayList<>();
     initView();
   }
 
@@ -86,21 +97,23 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
     editTextTaskName = (EditText) findViewById(R.id.parent_addtaskactivity_edittext_taskname);
     ediTextAward = (EditText) findViewById(R.id.parent_addtaskactivity_editext_award);
     ediTextTaskContent = (EditText) findViewById(R.id.parent_addtaskactivity_editext_taskcontent);
-
     imageButtonSubmit = (ImageButton) findViewById(R.id.parent_addtaskactivity_imagebutton_submit);
     imageButtonCancel = (ImageButton) findViewById(R.id.parent_addtaskactivity_imagebutton_cancel);
+    header = (RelativeLayout) findViewById(R.id.parent_addtaskactivity_header);
+    headerBack = (TextView) header.findViewById(R.id.otheractivity_header_textview_back);
+    headerHeadline = (TextView) header.findViewById(R.id.otheractivity_header_textview_headline);
 
-    /**
-     * 针对从系统任务选择的任务
-     */
-    list = new ArrayList<>();
+    headerHeadline.setText("发 布 心 愿");
     initChildFromNetwork();
-
-    listViewUserId = (ListView) findViewById(R.id.parent_addtaskactivity_listview_userid);
     adapter = new StringPickerViewAdapter(getApplicationContext(), list);
     listViewUserId.setAdapter(adapter);
-    listViewUserId.setOnScrollListener(ParentAddDiyTaskActivity.this);
-
+    listViewUserId.setOnScrollListener(ParentAddTaskActivity.this);
+    headerBack.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        finish();
+      }
+    });
     imageButtonCancel.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -109,7 +122,6 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
         finish();
       }
     });
-
     imageButtonSubmit.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -162,7 +174,7 @@ public class ParentAddDiyTaskActivity extends ActionBarActivity
   private void initChildFromNetwork() {
     String url = AppConstant.GET_CHILDREN_URL + "?" + AppConstant.USERID+ "=" +
             preferences.getString(AppConstant.FROM_USERID, "");
-    HttpService.DoGetChildrenRequest(url, null, ParentAddDiyTaskActivity.this);
+    HttpService.DoGetChildrenRequest(url, null, ParentAddTaskActivity.this);
   }
 
   /**

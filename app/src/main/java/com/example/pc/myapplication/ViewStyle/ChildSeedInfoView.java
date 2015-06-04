@@ -2,10 +2,10 @@ package com.example.pc.myapplication.ViewStyle;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.example.pc.myapplication.R;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.viewbase.RapidFloatingActionContentViewBase;
@@ -16,7 +16,7 @@ public class ChildSeedInfoView extends RapidFloatingActionContentViewBase {
   private Context context;
 
   //圆形展开的自定义view
-  private CardView contentView;
+  private RelativeLayout contentView;
 
   public ChildSeedInfoView(Context context) {
     super(context);
@@ -38,7 +38,7 @@ public class ChildSeedInfoView extends RapidFloatingActionContentViewBase {
   @NonNull
   @Override
   protected View getContentView() {
-    contentView = (CardView) LayoutInflater.from(context).inflate(R.layout.layout_child_seed_info, null);
+    contentView = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.layout_seed_info, null);
     return contentView;
   }
 }

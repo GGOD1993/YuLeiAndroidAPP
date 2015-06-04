@@ -96,7 +96,7 @@ public class AppConstant {
   public static final String TASK_STATUS = "taskstatus";
   public static final String TASK_ID = "taskId";
   public static final String TASK_CONTENT = "content";
-  public static final String TASK_REGDATE = "regdate";
+  public static final String TASK_AWARD = "award";
   public static final String NEW_TASK = "newTask";
 
   //发送广播的关键字
@@ -123,7 +123,7 @@ public class AppConstant {
   public static final String GET_INVITATION_URL = HOST + "/Users/get_invitation.php";
   public static final String ADD_FRIEND_URL = HOST + "/Users/AddFriend.php";
   public static final String CHECK_DIY_TASK_URL = HOST + "/Users/CheckDiyTask.php";
-  public static final String GET_PROJECT_URL = HOST + "/Users/GetProject.php";
+  public static final String GET_CHARITY_URL = HOST + "/Users/GetCharity.php";
   public static final String DONATE_URL = HOST + "/Users/Donate.php";
   public static final String FINISH_DIY_TASK_URL = HOST + "/Users/FinishDiyTask.php";
   public static final String GET_CHILDREN_URL = HOST + "/Users/GetChildren.php";
@@ -153,6 +153,13 @@ public class AppConstant {
   public static final int MENU_AGREE = 3;
   public static final int MENU_FAVORITE = 4;
   public static final int MENU_LOGOUT = 5;
+
+  //慈善机构信息关键字
+  public static final String CHARITY_NAME = "charity_name";
+  public static final String CHARITY_IMG_URL = "charity_img_url";
+  public static final String CHARITY_BIREF= "charity_brief";
+  public static final String CHARITY_CONTACT = "charity_contact";
+  public static final String CHARITY_ADDRESS = "charity_address";
 
   /**
    * 流弊的一个函数

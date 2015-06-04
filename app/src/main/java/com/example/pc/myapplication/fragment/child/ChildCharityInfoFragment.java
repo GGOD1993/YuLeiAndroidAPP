@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.Infos.DonateProjectInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
@@ -25,8 +26,8 @@ import java.util.ArrayList;
 import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
-public class ChildDonateFragment extends Fragment implements
-        HttpService.OnGetProjectRequestResponseListener{
+public class ChildCharityInfoFragment extends Fragment implements
+        HttpService.OnGetCharityRequestResponseListener{
 
   //列表
   private RecyclerView recyclerView;
@@ -43,13 +44,13 @@ public class ChildDonateFragment extends Fragment implements
   //回调的监听
   private OnChildFuncFragmentInteractionListener mListener;
 
-  public static ChildDonateFragment newInstance() {
-    ChildDonateFragment fragment = new ChildDonateFragment();
+  public static ChildCharityInfoFragment newInstance() {
+    ChildCharityInfoFragment fragment = new ChildCharityInfoFragment();
     Bundle args = new Bundle();
     fragment.setArguments(args);
     return fragment;
   }
-  public ChildDonateFragment() {
+  public ChildCharityInfoFragment() {
   }
 
   @Override
@@ -60,7 +61,7 @@ public class ChildDonateFragment extends Fragment implements
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_child_donate, container, false);
+    View view = inflater.inflate(R.layout.fragment_child_charity_info, container, false);
 
     projectList = new ArrayList<>();
     initView(view);
@@ -73,8 +74,8 @@ public class ChildDonateFragment extends Fragment implements
 
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(linearLayoutManager);
-    adapter = new ProjectRecyclerViewAdapter(projectList, ChildDonateFragment.this);
-    recyclerView.addItemDecoration(new SpaceItemDecoration(30));
+    adapter = new ProjectRecyclerViewAdapter(getActivity(), projectList);
+    recyclerView.addItemDecoration(new SpaceItemDecoration(40));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(adapter);
     scaleAdapter.setFirstOnly(false);
     AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
@@ -83,21 +84,27 @@ public class ChildDonateFragment extends Fragment implements
     refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
-        HttpService.DoGetProjectRequest(null, ChildDonateFragment.this);
+        HttpService.DoGetCharityRequest(null, ChildCharityInfoFragment.this);
       }
     });
   }
 
   @Override
-  public void OnGetProjectSuccessResponse(JSONArray jsonArray) {
+  public void OnGetCharitySuccessResponse(JSONArray jsonArray) {
     refreshLayout.setRefreshing(false);
-    JSONObject arrayTask;
+    JSONObject project;
     DonateProjectInfo projectInfo;
     projectList.clear();
     for (int i = 0; i < jsonArray.length(); i++) {
       try {
-        arrayTask = (JSONObject) jsonArray.get(i);
-        projectInfo = new DonateProjectInfo();
+        project = (JSONObject) jsonArray.get(i);
+        projectInfo = new DonateProjectInfo(
+                project.getString(AppConstant.CHARITY_NAME),
+                project.getString(AppConstant.CHARITY_IMG_URL),
+                project.getString(AppConstant.CHARITY_BIREF),
+                project.getString(AppConstant.CHARITY_CONTACT),
+                project.getString(AppConstant.CHARITY_ADDRESS)
+        );
         projectList.add(projectInfo);
       } catch (Exception e) {
         e.printStackTrace();
@@ -107,7 +114,7 @@ public class ChildDonateFragment extends Fragment implements
   }
 
   @Override
-  public void OnGetProjectErrorResponse(String errorResult) {
+  public void OnGetCharityErrorResponse(String errorResult) {
     refreshLayout.setRefreshing(false);
     showToast(errorResult);
   }

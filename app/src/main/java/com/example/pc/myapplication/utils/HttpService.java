@@ -376,30 +376,30 @@ public class HttpService {
   /**
    * 获取慈善项目
    */
-  private static OnGetProjectRequestResponseListener mGetProjectRequestResponseListener;
+  private static OnGetCharityRequestResponseListener mGetCharityRequestResponseListener;
 
-  public interface OnGetProjectRequestResponseListener {
-    void OnGetProjectSuccessResponse(JSONArray jsonArray);
+  public interface OnGetCharityRequestResponseListener {
+    void OnGetCharitySuccessResponse(JSONArray jsonArray);
 
-    void OnGetProjectErrorResponse(String errorResult);
+    void OnGetCharityErrorResponse(String errorResult);
   }
 
-  public static void DoGetProjectRequest(HashMap<String, String> hashMap, OnGetProjectRequestResponseListener listener) {
-    mGetProjectRequestResponseListener = listener;
+  public static void DoGetCharityRequest(HashMap<String, String> hashMap, OnGetCharityRequestResponseListener listener) {
+    mGetCharityRequestResponseListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
       public void onResponse(JSONArray jsonArray) {
-        mGetProjectRequestResponseListener.OnGetProjectSuccessResponse(jsonArray);
+        mGetCharityRequestResponseListener.OnGetCharitySuccessResponse(jsonArray);
       }
     };
 
     Response.ErrorListener errorListener = new Response.ErrorListener() {
       @Override
       public void onErrorResponse(VolleyError volleyError) {
-        mGetProjectRequestResponseListener.OnGetProjectErrorResponse(volleyError.getMessage());
+        mGetCharityRequestResponseListener.OnGetCharityErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_PROJECT_URL, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_CHARITY_URL, hashMap, responseListener, errorListener);
   }
 
   /**

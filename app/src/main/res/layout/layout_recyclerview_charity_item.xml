@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    card_view:cardBackgroundColor="#aaFFDEDD"
+                                    card_view:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/charity_recyclerview_relativelayout_header"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/recyclerview_item_header_style">
+
+
+            <TextView
+                android:id="@+id/charity_recyclerview_textview_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:textSize="7pt"
+                />
+
+            <ImageButton
+                android:id="@+id/charity_recyclerview_imagebutten_close"
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/recyclerview_cancel"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginStart="20dip"
+            android:layout_marginTop="10dip"
+            >
+
+            <ImageView
+                android:id="@+id/charity_recyclerview_userimage"
+                android:layout_width="55dip"
+                android:layout_height="55dip"
+                android:layout_centerInParent="true"
+                android:src="@drawable/circle_mask_style"
+                />
+
+            <com.example.pc.myapplication.ViewStyle.CircularImage
+                android:id="@+id/charity_recyclerview_circularimage_userimage"
+                android:layout_width="45dip"
+                android:layout_height="45dip"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/charity_recyclerview_taskinfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/charity_recyclerview_relativelayout_header"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="40dip"
+            android:layout_marginStart="40dip"
+            android:layout_marginTop="15dip"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:text="组织简介:"
+                    android:textSize="7pt"/>
+
+                <TextView
+                    android:id="@+id/charity_recyclerview_textview_briefinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="7pt"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:text="联系方式: "
+                    android:textSize="7pt"/>
+
+                <TextView
+                    android:id="@+id/charity_recyclerview_textview_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="7pt"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:text="组织地址: "
+                    android:textSize="7pt"/>
+
+                <TextView
+                    android:id="@+id/charity_recyclerview_textview_addr"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="7pt"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@id/charity_recyclerview_taskinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
+            <ImageButton
+                android:background="@mipmap/icn_1"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_margin="10dip"/>
+            <ImageButton
+                android:background="@mipmap/icn_2"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_margin="10dip"/>
+            <ImageButton
+                android:background="@mipmap/icn_4"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_margin="10dip"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

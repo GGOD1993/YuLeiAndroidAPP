@@ -146,7 +146,7 @@ public class ChildWishListActivity extends SwipeBackActivity implements
         taskInfo = new DiyTaskInfo(
                 object.getString(AppConstant.TO_USERID),
                 object.getString(AppConstant.TASK_ID),
-                object.getString(AppConstant.TASK_REGDATE),
+                object.getString(AppConstant.TASK_AWARD),
                 object.getString(AppConstant.TASK_CONTENT),
                 object.getString(AppConstant.FROM_USERID),
                 0);

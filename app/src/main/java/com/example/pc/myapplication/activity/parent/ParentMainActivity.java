@@ -30,7 +30,7 @@ import com.example.pc.myapplication.ViewStyle.ChildSeedInfoView;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.activity.MainActivity;
 import com.example.pc.myapplication.adapter.ParentViewPagerAdapter;
-import com.example.pc.myapplication.fragment.parent.ParentDonateInfoFragment;
+import com.example.pc.myapplication.fragment.parent.ParentCharityInfoFragment;
 import com.example.pc.myapplication.fragment.parent.ParentSendWishFragment;
 import com.example.pc.myapplication.fragment.parent.ParentWishListFragment;
 import com.example.pc.myapplication.utils.HttpService;
@@ -58,7 +58,7 @@ import java.util.List;
 public class ParentMainActivity extends FragmentActivity implements
         ParentWishListFragment.OnBabyFragmentInteractionListener,
         ParentSendWishFragment.OnMsgFragmentInteractionListener,
-        ParentDonateInfoFragment.OnDynamicFragmentInteractionListener,
+        ParentCharityInfoFragment.OnDynamicFragmentInteractionListener,
         HttpService.OnUpLoadImageRequestResponseListener,
         HttpService.OnSetDiyTaskRequestResponseListener,
         HttpService.OnGetInvitationRequestResponseListener,
@@ -224,7 +224,7 @@ public class ParentMainActivity extends FragmentActivity implements
     imageLoader.get(preferences.getString(AppConstant.IMG_URL, ""), imageListener);
     fragmentList.add(ParentSendWishFragment.newInstance());
     fragmentList.add(ParentWishListFragment.newInstance());
-    fragmentList.add(ParentDonateInfoFragment.newInstance());
+    fragmentList.add(ParentCharityInfoFragment.newInstance());
     viewPager.setAdapter(adapter);
     viewPagerIndicator.setViewPager(viewPager, 0);
     viewPagerIndicator.setSelectedColor(getResources().getColor(R.color.skyblue));
@@ -445,7 +445,17 @@ public class ParentMainActivity extends FragmentActivity implements
 
   @Override
   public void OnAddFriendSuccessResponse(JSONArray jsonArray) {
-    showToast(jsonArray.toString());
+    JSONObject codeObject;
+    JSONObject msgObject;
+    try {
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      if (null != codeObject) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -455,7 +465,17 @@ public class ParentMainActivity extends FragmentActivity implements
 
   @Override
   public void OnUserInvitationSuccessResponse(JSONArray jsonArray) {
-    showToast(jsonArray.toString());
+    JSONObject codeObject;
+    JSONObject msgObject;
+    try {
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      if (null != codeObject) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+        }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -484,7 +504,6 @@ public class ParentMainActivity extends FragmentActivity implements
     showToast(errorResult);
     showUserInviteDialog();
   }
-
 
   @Override
   public void OnSetDiyTaskSuccessResponse(JSONArray jsonArray) {

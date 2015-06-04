@@ -176,7 +176,7 @@ public class ParentWishListFragment extends Fragment implements
         taskInfo = new DiyTaskInfo(
                 arrayTask.getString(AppConstant.TO_USERID),
                 arrayTask.getString(AppConstant.TASK_ID),
-                arrayTask.getString(AppConstant.TASK_REGDATE),
+                arrayTask.getString(AppConstant.TASK_AWARD),
                 arrayTask.getString(AppConstant.TASK_CONTENT),
                 arrayTask.getString(AppConstant.FROM_USERID),
                 0

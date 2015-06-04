@@ -3,6 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/layout_otheractivity_header"
+             android:id="@+id/parent_addtaskactivity_header"/>
+
+    <RelativeLayout
+        android:layout_below="@id/parent_addtaskactivity_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
     <LinearLayout
         android:id="@+id/parent_addtaskactivity_linearlayout_childname"
         android:layout_width="match_parent"
@@ -100,7 +109,7 @@
     </ScrollView>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dip"
         android:layout_marginEnd="20dip"
@@ -127,6 +136,8 @@
             android:layout_marginLeft="20dp"
             android:background="@drawable/parent_addtaskactivity_imagebutton_cancel_style"
             android:contentDescription="@null"/>
+    </RelativeLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

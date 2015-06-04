@@ -5,7 +5,7 @@
 
     <include
         android:id="@+id/child_wishlistactivity_header"
-        layout="@layout/layout_child_otheractivity_header"/>
+        layout="@layout/layout_otheractivity_header"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/child_wishlistactivity_swiperefreshlayout"

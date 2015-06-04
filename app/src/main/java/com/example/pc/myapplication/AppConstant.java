@@ -145,6 +145,14 @@ public class AppConstant {
   public static final int TASK_TYPE_RANDOM = 3;
   public static final int TASK_TYPE_MUSIC = 4;
 
+  //菜单选项
+  public static final int MENU_CLOSE = 0;
+  public static final int MENU_ADD_FRIEND = 1;
+  public static final int MENU_FORUM = 2;
+  public static final int MENU_AGREE = 3;
+  public static final int MENU_FAVORITE = 4;
+  public static final int MENU_LOGOUT = 5;
+
   /**
    * 流弊的一个函数
    * 大量减少内存的占用

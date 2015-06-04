@@ -39,5 +39,6 @@ dependencies {
     compile project(':SwipeBackLayout')
     compile project(':ViewPagerIndicator')
     compile project(':RapidFloatingActionButton-master')
+    compile 'com.yalantis:contextmenu:1.0.4'
 }
 

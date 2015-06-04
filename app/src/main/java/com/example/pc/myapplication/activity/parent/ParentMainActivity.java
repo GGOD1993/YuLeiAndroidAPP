@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -14,8 +16,10 @@ import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -38,6 +42,10 @@ import com.viewpagerindicator.UnderlinePageIndicator;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionHelper;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout;
+import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
+import com.yalantis.contextmenu.lib.MenuObject;
+import com.yalantis.contextmenu.lib.MenuParams;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +60,12 @@ public class ParentMainActivity extends FragmentActivity implements
         ParentSendWishFragment.OnMsgFragmentInteractionListener,
         ParentDonateInfoFragment.OnDynamicFragmentInteractionListener,
         HttpService.OnUpLoadImageRequestResponseListener,
-        HttpService.OnSetDiyTaskRequestResponseListener{
+        HttpService.OnSetDiyTaskRequestResponseListener,
+        HttpService.OnGetInvitationRequestResponseListener,
+        HttpService.OnUserInvitationRequestResponseListener,
+        HttpService.OnAddFriendRequestResponseListener,
+        HttpService.OnLogoutRequestResponseListener,
+        OnMenuItemClickListener {
 
   //记录连续按两次退出
   private long exitTime;
@@ -91,6 +104,9 @@ public class ParentMainActivity extends FragmentActivity implements
   //存放ViewPager上显示的fragment
   private List<Fragment> fragmentList = new ArrayList<Fragment>();
 
+  //弹出式菜单
+  ContextMenuDialogFragment mMenuDialogFragment;
+
   //fab相关的布局
   private RapidFloatingActionLayout rapidFloatingActionLayout;
   private RapidFloatingActionButton rapidFloatingActionButton;
@@ -100,6 +116,18 @@ public class ParentMainActivity extends FragmentActivity implements
   private static final int USERIMAGE_HEIGHT = 35;
   //用户头像的宽度
   private static final int USERIMAGE_WIDTH = 35;
+
+  @Override
+  public void onDynamicFragmentInteraction() {
+  }
+
+  @Override
+  public void onBabyFragmentInteraction() {
+  }
+
+  @Override
+  public void onMsgFragmentInteraction(JSONArray jsonArray) {
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -118,23 +146,12 @@ public class ParentMainActivity extends FragmentActivity implements
       public Bitmap getBitmap(String s) {
         return null;
       }
+
       @Override
       public void putBitmap(String s, Bitmap bitmap) {
       }
     });
     initView();
-  }
-
-  @Override
-  public void onDynamicFragmentInteraction() {
-  }
-
-  @Override
-  public void onBabyFragmentInteraction() {
-  }
-
-  @Override
-  public void onMsgFragmentInteraction(JSONArray jsonArray) {
   }
 
   @Override
@@ -172,6 +189,7 @@ public class ParentMainActivity extends FragmentActivity implements
 
   /**
    * 添加新任务
+   *
    * @param newTask
    */
   private void addNewTask(DiyTaskInfo newTask) {
@@ -187,10 +205,12 @@ public class ParentMainActivity extends FragmentActivity implements
     viewPagerIndicator = (UnderlinePageIndicator) findViewById(R.id.parent_mainactivity_indicator);
     viewPager = (ViewPager) findViewById(R.id.parent_mainactivity_viewpager);
     relativeLayoutHeader = ((RelativeLayout) findViewById(R.id.parent_mainactivity_header));
-    imageViewMenu= ((ImageView) relativeLayoutHeader.findViewById(R.id.parent_mainactivity_header_imageview_menu));
+    imageViewMenu = ((ImageView) relativeLayoutHeader.findViewById(R.id.parent_mainactivity_header_imageview_menu));
     circularImage = ((CircularImage) relativeLayoutHeader.findViewById(R.id.parent_mainactivity_header_circularimage));
-    imageViewEverydayTask= ((ImageView) relativeLayoutHeader.findViewById(R.id.parent_mainactivity_imageview_everydaytask));
+    imageViewEverydayTask = ((ImageView) relativeLayoutHeader.findViewById(R.id.parent_mainactivity_imageview_everydaytask));
     adapter = new ParentViewPagerAdapter(ParentMainActivity.this, getSupportFragmentManager(), fragmentList);
+
+    initMenu();
 
     ChildSeedInfoView childSeedInfoView = new ChildSeedInfoView(ParentMainActivity.this);
     rapidFloatingActionButton = ((RapidFloatingActionButton) findViewById(R.id.parent_mainactivity_rapidfloatingactionbutton));
@@ -215,10 +235,8 @@ public class ParentMainActivity extends FragmentActivity implements
     imageViewMenu.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        //实际是菜单,临时用作登出
-        preferences.edit().putInt(AppConstant.USER_MODE, 0).apply();
-        startActivity(new Intent(ParentMainActivity.this, MainActivity.class));
-        finish();
+
+        mMenuDialogFragment.show(getSupportFragmentManager(), "ContextMenuDialogFragment");
       }
     });
 
@@ -270,11 +288,210 @@ public class ParentMainActivity extends FragmentActivity implements
     });
   }
 
+  /**
+   * 初始化菜单栏
+   */
+  private void initMenu() {
+    MenuObject menuClose = new MenuObject("Close Menu");
+    BitmapDrawable closeBd = new BitmapDrawable(getResources(),
+            BitmapFactory.decodeResource(getResources(), R.mipmap.icn_close));
+    menuClose.setDrawable(closeBd);
+    menuClose.setMenuTextAppearanceStyle(R.style.TextViewStyle);
+
+    MenuObject menuAddFr = new MenuObject("Add Friend");
+    BitmapDrawable addFrBd = new BitmapDrawable(getResources(),
+            BitmapFactory.decodeResource(getResources(), R.mipmap.icn_add_friend));
+    menuAddFr.setDrawable(addFrBd);
+    menuAddFr.setMenuTextAppearanceStyle(R.style.TextViewStyle);
+
+    MenuObject addFr1 = new MenuObject("Forum");
+    BitmapDrawable bd1 = new BitmapDrawable(getResources(),
+            BitmapFactory.decodeResource(getResources(), R.mipmap.icn_1));
+    addFr1.setDrawable(bd1);
+    addFr1.setMenuTextAppearanceStyle(R.style.TextViewStyle);
+
+    MenuObject addFr2 = new MenuObject("Agree");
+    BitmapDrawable bd2 = new BitmapDrawable(getResources(),
+            BitmapFactory.decodeResource(getResources(), R.mipmap.icn_2));
+    addFr2.setDrawable(bd2);
+    addFr2.setMenuTextAppearanceStyle(R.style.TextViewStyle);
+
+    MenuObject addFr4 = new MenuObject("Favorite");
+    BitmapDrawable bd4 = new BitmapDrawable(getResources(),
+            BitmapFactory.decodeResource(getResources(), R.mipmap.icn_4));
+    addFr4.setDrawable(bd4);
+    addFr4.setMenuTextAppearanceStyle(R.style.TextViewStyle);
+
+    MenuObject menuLogout = new MenuObject("Logout");
+    BitmapDrawable logoutBd = new BitmapDrawable(getResources(),
+            BitmapFactory.decodeResource(getResources(), R.mipmap.icn_4));
+    menuLogout.setDrawable(logoutBd);
+    menuLogout.setMenuTextAppearanceStyle(R.style.TextViewStyle);
+
+
+    List<MenuObject> menuObjects = new ArrayList<>();
+    menuObjects.add(menuClose);
+    menuObjects.add(menuAddFr);
+    menuObjects.add(addFr1);
+    menuObjects.add(addFr2);
+    menuObjects.add(addFr4);
+    menuObjects.add(menuLogout);
+
+    MenuParams menuParams = new MenuParams();
+    menuParams.setActionBarSize(200);
+    menuParams.setMenuObjects(menuObjects);
+    menuParams.setClosableOutside(true);
+    // set other settings to meet your needs
+    mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
+  }
+
+  @Override
+  public void onMenuItemClick(View view, int i) {
+    switch (i) {
+      case AppConstant.MENU_CLOSE:
+        showToast("该版块正在努力开发中...");
+        break;
+      case AppConstant.MENU_ADD_FRIEND:
+        HttpService.DoGetInvitationRequest(
+                AppConstant.GET_INVITATION_URL + "?" + AppConstant.USERID + "=" + preferences.getString(AppConstant.FROM_USERID, ""),
+                null,
+                ParentMainActivity.this);
+        break;
+      case AppConstant.MENU_FORUM:
+        showToast("该版块正在努力开发中...");
+
+        break;
+      case AppConstant.MENU_AGREE:
+        showToast("该版块正在努力开发中...");
+        break;
+      case AppConstant.MENU_FAVORITE:
+        showToast("该版块正在努力开发中...");
+        break;
+      case AppConstant.MENU_LOGOUT:
+        preferences.edit().putInt(AppConstant.USER_MODE, 0).apply();
+        HttpService.DoLogoutRequest(null, ParentMainActivity.this);
+        break;
+    }
+  }
+
+  /**
+   * 设定邀请的对话框
+   */
+  private void showUserInviteDialog() {
+    final LayoutInflater layoutInflater = LayoutInflater.from(ParentMainActivity.this);
+    final View view = layoutInflater.inflate(R.layout.layout_parent_leftmenu_dialog_userinvite, null);
+    AlertDialog.Builder builder = new AlertDialog.Builder(ParentMainActivity.this);
+    builder.setView(view);
+    ((TextView) view.findViewById(R.id.parent_leftmenu_dialog_userinvite_textview_header)).setText("添 加 好 友");
+    final AlertDialog dialog = builder.create();
+    dialog.show();
+    view.findViewById(R.id.parent_leftmenu_imagebutton_cancel)
+            .setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                dialog.dismiss();
+              }
+            });
+    view.findViewById(R.id.parent_leftmenu_imagebutton_submit)
+            .setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                EditText editText = (EditText) view.findViewById(R.id.parent_leftmenu_edittext_tousername);
+                if (0 != editText.getText().length()) {
+                  HashMap<String, String> map = new HashMap<>();
+                  map.put(AppConstant.TO_USERID, editText.getText().toString());
+                  map.put(AppConstant.USERID, preferences.getString(AppConstant.FROM_USERID, ""));
+                  HttpService.DoUserInvitationRequest(map, ParentMainActivity.this);
+                } else {
+                  showToast("请输入正确的用户名");
+                }
+              }
+            });
+  }
+
+  /**
+   * 获取邀请的对话框
+   */
+  private void showGetInviteDialog(final String parent) {
+    final LayoutInflater layoutInflater = LayoutInflater.from(ParentMainActivity.this);
+    final View view = layoutInflater.inflate(R.layout.layout_parent_leftmenu_dialog_getinvite, null);
+    AlertDialog.Builder builder = new AlertDialog.Builder(ParentMainActivity.this);
+    builder.setView(view);
+    ((TextView) view.findViewById(R.id.parent_leftmenu_dialog_textview_header)).setText("好 友 请 求");
+    ((TextView) view.findViewById(R.id.parent_leftmenu_dialog_textview_inviteinfo))
+            .setText("用户名为: \"" + parent + "\" 的用户请求和您绑定");
+    final AlertDialog dialog = builder.create();
+    dialog.show();
+    view.findViewById(R.id.parent_leftmenu_dialog_imagebutton_cancel)
+            .setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                dialog.dismiss();
+                showUserInviteDialog();
+              }
+            });
+
+    view.findViewById(R.id.parent_leftmenu_dialog_imagebutton_submit)
+            .setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put(AppConstant.TO_USERID, parent);
+                map.put(AppConstant.USERID, preferences.getString(AppConstant.FROM_USERID, ""));
+                HttpService.DoAddFriendRequest(map, ParentMainActivity.this);
+              }
+            });
+  }
+
+
+  @Override
+  public void OnAddFriendSuccessResponse(JSONArray jsonArray) {
+    showToast(jsonArray.toString());
+  }
+
+  @Override
+  public void OnAddFriendErrorResponse(String errorResult) {
+    showToast(errorResult);
+  }
+
+  @Override
+  public void OnUserInvitationSuccessResponse(JSONArray jsonArray) {
+    showToast(jsonArray.toString());
+  }
+
+  @Override
+  public void OnUserInvitationErrorResponse(String errorResult) {
+    showToast(errorResult);
+  }
+
+  @Override
+  public void OnGetInvitationSuccessResponse(JSONArray jsonArray) {
+    if (null != jsonArray) {
+      try {
+        JSONObject object = (JSONObject) jsonArray.get(0);
+        showGetInviteDialog(object.getString("parent"));
+      } catch (JSONException e) {
+        e.printStackTrace();
+        showUserInviteDialog();
+      }
+    } else {
+      showUserInviteDialog();
+    }
+
+  }
+
+  @Override
+  public void OnGetInvitationErrorResponse(String errorResult) {
+    showToast(errorResult);
+    showUserInviteDialog();
+  }
+
+
   @Override
   public void OnSetDiyTaskSuccessResponse(JSONArray jsonArray) {
     JSONObject codeObject;
     JSONObject msgObject;
-    try{
+    try {
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
@@ -320,6 +537,26 @@ public class ParentMainActivity extends FragmentActivity implements
     showToast(errorResult);
   }
 
+  @Override
+  public void OnLogoutSuccessResponse(JSONArray successJsonArray) {
+    try {
+      JSONObject codeObject = (JSONObject) successJsonArray.get(0);
+      JSONObject msgObject = (JSONObject) successJsonArray.get(1);
+      int code = codeObject.getInt(AppConstant.RETURN_CODE);
+      if (AppConstant.LOGOUT_SUCCESS == code) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+        startActivity(new Intent(ParentMainActivity.this, MainActivity.class));
+        finish();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void OnLogoutErrorResponse(String errorMsg) {
+    showToast(errorMsg);
+  }
   @Override
   public boolean onKeyDown(int keyCode, KeyEvent event) {
     if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {

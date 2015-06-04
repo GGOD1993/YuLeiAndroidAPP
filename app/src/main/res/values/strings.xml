@@ -71,4 +71,5 @@
     <string name="title_activity_submit_task">SubmitTaskActivity</string>
     <string name="title_activity_award_task">AwardTaskActivity</string>
     <string name="title_activity_child_wish_list">ChildWishListActivity</string>
+    <string name="title_activity_user_info">UserInfoActivity</string>
 </resources>

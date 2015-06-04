@@ -32,7 +32,7 @@ import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
 public class ParentWishListFragment extends Fragment implements
         HttpService.OnGetSendDiyTaskRequestResponseListener,
-        HttpService.OnSubmitDiyTaskRequestResponseListener{
+        HttpService.OnFinishDiyTaskRequestResponseListener {
 
   //fragment所在的activity
   private ParentMainActivity activity;
@@ -80,15 +80,18 @@ public class ParentWishListFragment extends Fragment implements
     initViews(v);
     return v;
   }
+
   /**
    * 初始化fragment中的控件
+   *
    * @param v
    */
   private void initViews(View v) {
     mRecyclerView = (RecyclerView) v.findViewById(R.id.parent_wishlistfragment_recyclerview);
     mPullRefresh = (SwipeRefreshLayout) v.findViewById(R.id.parent_wishlistfragment_swiperefreshlayout);
     LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
-    taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(taskList, getActivity(), AppConstant.RECIVE_TASK_TYPE);
+    taskRecyclerViewAdapter = new TaskRecyclerViewAdapter(taskList, getActivity(), AppConstant.SEND_TASK_TYPE);
+    taskRecyclerViewAdapter.setFinishDiyTaskRequestResponseListener(ParentWishListFragment.this);
     mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(taskRecyclerViewAdapter);
     scaleAdapter.setFirstOnly(false);
@@ -106,6 +109,11 @@ public class ParentWishListFragment extends Fragment implements
     });
   }
 
+  public void addTaskToList(DiyTaskInfo task) {
+    taskList.add(task);
+    taskRecyclerViewAdapter.notifyDataSetChanged();
+  }
+
   /**
    * 根据taskid来改变任务的状态
    * @param taskId
@@ -120,14 +128,40 @@ public class ParentWishListFragment extends Fragment implements
     }
   }
 
-  public void addTaskToList(DiyTaskInfo task) {
-    taskList.add(task);
-    taskRecyclerViewAdapter.notifyDataSetChanged();
-  }
   /**
    * 处理网络请求
    * @param jsonArray
    */
+  @Override
+  public void OnFinishDiyTaskSuccessResponse(JSONArray jsonArray) {
+    JSONObject codeObject;
+    JSONObject msgObject;
+    JSONObject taskIdObject;
+    try{
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      taskIdObject = (JSONObject) jsonArray.get(2);
+      if (null != codeObject) {
+        if (AppConstant.FINISH_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
+          if (null != taskIdObject) {
+            int taskId = taskIdObject.getInt(AppConstant.TASK_ID);
+            changeStatusByTaskId(taskId);
+          }
+        }
+      }
+      if (null != msgObject) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void OnFinishDiyTaskErrorResponse(String errorResult) {
+    showToast(errorResult);
+  }
+
   @Override
   public void OnGetSendDiyTaskSuccessResponse(JSONArray jsonArray) {
     mPullRefresh.setRefreshing(false);
@@ -136,8 +170,8 @@ public class ParentWishListFragment extends Fragment implements
     ArrayList<DiyTaskInfo> submittedTask = new ArrayList<>();
     ArrayList<DiyTaskInfo> finishedTask = new ArrayList<>();
     taskList.clear();
-    for (int i = 0 ; i < jsonArray.length() ; i ++) {
-      try{
+    for (int i = 0; i < jsonArray.length(); i++) {
+      try {
         arrayTask = (JSONObject) jsonArray.get(i);
         taskInfo = new DiyTaskInfo(
                 arrayTask.getString(AppConstant.TO_USERID),
@@ -176,40 +210,11 @@ public class ParentWishListFragment extends Fragment implements
   public void OnGetSendDiyTaskErrorResponse(String errorResult) {
     mPullRefresh.setRefreshing(true);
   }
-  @Override
-  public void OnSubmitDiyTaskSuccessResponse(JSONArray jsonArray) {
-    JSONObject codeObject;
-    JSONObject msgObject;
-    JSONObject taskIdObject;
-    try{
-      codeObject = (JSONObject) jsonArray.get(0);
-      msgObject = (JSONObject) jsonArray.get(1);
-      taskIdObject = (JSONObject) jsonArray.get(2);
-      if (null != codeObject) {
-        if (AppConstant.FINISH_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
-          if (null != taskIdObject) {
-            int taskId = taskIdObject.getInt(AppConstant.TASK_ID);
-            changeStatusByTaskId(taskId);
-          }
-        }
-      }
-      if (null != msgObject) {
-        showToast(msgObject.getString(AppConstant.RETURN_MSG));
-      }
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @Override
-  public void OnSubmitDiyTaskErrorResponse(String errorResult) {
-    showToast(errorResult);
-  }
-
 
   private void showToast(String string) {
     Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
   }
+
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
@@ -220,11 +225,13 @@ public class ParentWishListFragment extends Fragment implements
               + " must implement OnFragmentInteractionListener");
     }
   }
+
   @Override
   public void onDetach() {
     super.onDetach();
     mListener = null;
   }
+
   public interface OnBabyFragmentInteractionListener {
     public void onBabyFragmentInteraction();
   }

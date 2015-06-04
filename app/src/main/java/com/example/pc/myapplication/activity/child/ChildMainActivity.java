@@ -319,7 +319,6 @@ public class ChildMainActivity extends FragmentActivity
   public void onMenuItemClick(View view, int i) {
     switch (i) {
       case AppConstant.MENU_CLOSE:
-        showToast("该版块正在努力开发中...");
         break;
       case AppConstant.MENU_ADD_FRIEND:
         HttpService.DoGetInvitationRequest(

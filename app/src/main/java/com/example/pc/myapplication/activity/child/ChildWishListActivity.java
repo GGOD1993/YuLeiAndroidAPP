@@ -14,6 +14,7 @@ import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.adapter.TaskRecyclerViewAdapter;
+import com.example.pc.myapplication.adapter.TaskRecyclerViewHolder;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;
@@ -27,7 +28,8 @@ import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public class ChildWishListActivity extends SwipeBackActivity implements
-        HttpService.OnGetDiyTaskRequestResponseListener {
+        HttpService.OnGetDiyTaskRequestResponseListener,
+        HttpService.OnSubmitDiyTaskRequestResponseListener {
 
 
   private TaskRecyclerViewAdapter adapter;
@@ -67,6 +69,7 @@ public class ChildWishListActivity extends SwipeBackActivity implements
     LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
     recyclerView.setLayoutManager(layoutManager);
     adapter = new TaskRecyclerViewAdapter(taskList, getApplicationContext(), AppConstant.RECIVE_TASK_TYPE);
+    adapter.setSubmitDiyTaskRequestResponseListener(ChildWishListActivity.this);
     recyclerView.addItemDecoration(new SpaceItemDecoration(30));
     ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(adapter);
     scaleAdapter.setFirstOnly(false);
@@ -84,16 +87,61 @@ public class ChildWishListActivity extends SwipeBackActivity implements
     });
   }
 
+  /**
+   * 根据taskid来改变任务的状态
+   * @param taskId
+   */
+  public void changeStatusByTaskId(int taskId) {
+    for (int i = 0; i < recyclerView.getChildCount(); i++) {
+      View v = recyclerView.getChildAt(i);
+      TaskRecyclerViewHolder holder = (TaskRecyclerViewHolder) recyclerView.getChildViewHolder(v);
+      if (holder.textViewTaskName.getText().toString().equals(String.valueOf(taskId))) {
+        holder.textViewTaskStatus.setText(AppConstant.STATUS_SUBMITTED_STRING);
+      }
+    }
+  }
+
+  @Override
+  public void OnSubmitDiyTaskSuccessResponse(JSONArray jsonArray) {
+    JSONObject codeObject;
+    JSONObject msgObject;
+    JSONObject taskIdObject;
+    try {
+      codeObject = (JSONObject) jsonArray.get(0);
+      msgObject = (JSONObject) jsonArray.get(1);
+      taskIdObject = (JSONObject) jsonArray.get(2);
+      if (null != codeObject) {
+        if (AppConstant.FINISH_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
+          if (null != taskIdObject) {
+            int taskId = taskIdObject.getInt(AppConstant.TASK_ID);
+            changeStatusByTaskId(taskId);
+          }
+        }
+      }
+      if (null != msgObject) {
+        showToast(msgObject.getString(AppConstant.RETURN_MSG));
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void OnSubmitDiyTaskErrorResponse(String errorResult) {
+    showToast(errorResult);
+  }
+
   @Override
   public void OnGetDiyTaskSuccessResponse(JSONArray jsonArray) {
     refreshLayout.setRefreshing(false);
+    taskList.clear();
     JSONObject object;
     DiyTaskInfo taskInfo;
     ArrayList<DiyTaskInfo> submittedTask = new ArrayList<>();
     ArrayList<DiyTaskInfo> finishedTask = new ArrayList<>();
     int count = jsonArray.length();
     for (int i = 0; i < count; i++) {
-      try{
+      try {
         object = jsonArray.getJSONObject(i);
         taskInfo = new DiyTaskInfo(
                 object.getString(AppConstant.TO_USERID),

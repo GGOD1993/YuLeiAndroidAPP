@@ -10,14 +10,19 @@ import android.widget.Toast;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.Infos.DiyTaskInfo;
 import com.example.pc.myapplication.R;
+import com.example.pc.myapplication.utils.HttpService;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewHolder> {
 
-  //上下文的引用
+  //上下文引用
   private Context context;
+
+  //回调接口
+  private HttpService.OnSubmitDiyTaskRequestResponseListener submitDiyTaskRequestResponseListener;
+  private HttpService.OnFinishDiyTaskRequestResponseListener finishDiyTaskRequestResponseListener;
 
   //任务列表
   private List<DiyTaskInfo> taskList;
@@ -25,11 +30,11 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
   //用来区别是发出的任务还是接受到的任务
   private int type;
 
-  public TaskRecyclerViewAdapter(List<DiyTaskInfo> taskList, Context context, int type) {
+  public TaskRecyclerViewAdapter(List<DiyTaskInfo> taskList,Context context , int type) {
     super();
     this.taskList = taskList;
-    this.context = context;
     this.type = type;
+    this.context = context;
   }
 
   @Override
@@ -73,7 +78,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                HashMap<String, String> map = new HashMap<>();
                map.put(AppConstant.TASK_ID, task.getTaskName());
                map.put(AppConstant.FROM_USERID, task.getFromUserId());
-//               HttpService.DoFinishDiyTaskRequest(map, (ParentMsgFragment) fragment);
+               HttpService.DoFinishDiyTaskRequest(map, finishDiyTaskRequestResponseListener);
                break;
 
              case AppConstant.STATUS_FINISHED:
@@ -86,7 +91,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                HashMap<String, String> map = new HashMap<>();
                map.put(AppConstant.TASK_ID, task.getTaskName());
                map.put(AppConstant.TO_USERID, task.getToUserId());
-//               HttpService.DoSubmitDiyTaskRequest(map, (ParentBabyFragment) fragment);
+               HttpService.DoSubmitDiyTaskRequest(map, submitDiyTaskRequestResponseListener);
                break;
              case AppConstant.STATUS_SUBMITTED:
                showToast("该心愿已经提交,请耐心等待~~~");
@@ -98,6 +103,14 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         }
       }
     });
+  }
+
+  public void setSubmitDiyTaskRequestResponseListener(HttpService.OnSubmitDiyTaskRequestResponseListener submitDiyTaskRequestResponseListener) {
+    this.submitDiyTaskRequestResponseListener = submitDiyTaskRequestResponseListener;
+  }
+
+  public void setFinishDiyTaskRequestResponseListener(HttpService.OnFinishDiyTaskRequestResponseListener finishDiyTaskRequestResponseListener) {
+    this.finishDiyTaskRequestResponseListener = finishDiyTaskRequestResponseListener;
   }
 
   @Override

@@ -1,132 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    android:background="@mipmap/bg_child_wishlistactivity">
 
-    <LinearLayout
-        android:id="@+id/parent_addtaskactivity_linearlayout_childname"
-        android:layout_width="match_parent"
-        android:layout_height="30dip"
-        android:layout_margin="20dip">
+    <include
+        android:id="@+id/parent_addtaskactivity_header"
+        layout="@layout/layout_otheractivity_header"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="任务对象: "
-            android:gravity="center"
-            android:textSize="10pt"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/parent_addtaskactivity_header">
 
-        <ListView
-            android:id="@+id/parent_addtaskactivity_listview_userid"
+
+        <LinearLayout
+            android:id="@+id/parent_addtaskactivity_linearlayout_childname"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:scrollbars="none"
-            android:dividerHeight="0dp"
-            android:background="@drawable/signin_edittext_style"
-            />
+            android:layout_height="30dip"
+            android:layout_margin="20dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="任务对象: "
+                android:textSize="10pt"/>
+
+            <ListView
+                android:id="@+id/parent_addtaskactivity_listview_userid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/signin_edittext_style"
+                android:dividerHeight="0dp"
+                android:gravity="center"
+                android:scrollbars="none"
+                />
 
         </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/parent_addtaskactivity_linearlayout_taskname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dip"
-        android:layout_below="@id/parent_addtaskactivity_linearlayout_childname">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="任务名称: "
-            android:gravity="center"
-            android:textSize="10pt"/>
-
-        <EditText
-            android:id="@+id/parent_addtaskactivity_edittext_taskname"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="10pt"
-            android:background="@drawable/signin_edittext_style"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/parent_addtaskactivity_linearlayout_award"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/parent_addtaskactivity_linearlayout_taskname"
-        android:layout_margin="20dip">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="任务奖金: "
-            android:gravity="center"
-            android:textSize="10pt"/>
-
-        <EditText
-            android:id="@+id/parent_addtaskactivity_editext_award"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="10pt"
-            android:background="@drawable/signin_edittext_style"
-            />
-
-    </LinearLayout>
-
-    <ScrollView
-        android:id="@+id/parent_addtaskactivity_scrollview_taskcontent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/parent_addtaskactivity_linearlayout_award"
-        android:layout_marginTop="20dip"
-        android:layout_marginStart="20dip"
-        android:layout_marginEnd="20dip"
-        android:layout_marginBottom="100dip">
-
-        <EditText
-            android:id="@+id/parent_addtaskactivity_editext_taskcontent"
+        <LinearLayout
+            android:id="@+id/parent_addtaskactivity_linearlayout_taskname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="任务说明"
-            android:textSize="10pt"
-            android:gravity="start"
-            android:background="@drawable/signin_edittext_style"/>
+            android:layout_below="@id/parent_addtaskactivity_linearlayout_childname"
+            android:layout_margin="20dip">
 
-    </ScrollView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="任务名称: "
+                android:textSize="10pt"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dip"
-        android:layout_marginEnd="20dip"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dip"
-        >
+            <EditText
+                android:id="@+id/parent_addtaskactivity_edittext_taskname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/signin_edittext_style"
+                android:gravity="center"
+                android:textSize="10pt"
+                />
 
-        <ImageButton
-            android:id="@+id/parent_addtaskactivity_imagebutton_submit"
-            android:layout_width="70dip"
-            android:layout_height="70dip"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/parent_addtaskactivity_linearlayout_award"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parent_addtaskactivity_linearlayout_taskname"
+            android:layout_margin="20dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="任务奖金: "
+                android:textSize="10pt"/>
+
+            <EditText
+                android:id="@+id/parent_addtaskactivity_editext_award"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/signin_edittext_style"
+                android:gravity="center"
+                android:textSize="10pt"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/parent_addtaskactivity_linearlayout_taskcontent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parent_addtaskactivity_linearlayout_award"
+            android:layout_margin="20dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="任务说明: "
+                android:textSize="10pt"/>
+
+            <EditText
+
+                android:id="@+id/parent_addtaskactivity_editext_taskcontent"
+                android:layout_width="match_parent"
+                android:layout_height="100dip"
+                android:background="@drawable/signin_edittext_style"
+                android:gravity="center"
+                android:inputType="textMultiLine"
+                android:textSize="10pt"
+                />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dip"
             android:layout_marginEnd="20dip"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/parent_addtaskactivity_imagebutton_submit_style"
-            android:contentDescription="@null"/>
-
-        <ImageButton
-            android:id="@+id/parent_addtaskactivity_imagebutton_cancel"
-            android:layout_width="70dip"
-            android:layout_height="70dip"
             android:layout_marginStart="20dip"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/parent_addtaskactivity_imagebutton_cancel_style"
-            android:contentDescription="@null"/>
+            android:layout_centerHorizontal="true"
+            >
+
+            <ImageButton
+                android:id="@+id/parent_addtaskactivity_imagebutton_submit"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="30dip"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/parent_addtaskactivity_imagebutton_submit_style"
+                android:contentDescription="@null"/>
+
+            <ImageButton
+                android:id="@+id/parent_addtaskactivity_imagebutton_cancel"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dip"
+                android:background="@drawable/parent_addtaskactivity_imagebutton_cancel_style"
+                android:contentDescription="@null"/>
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

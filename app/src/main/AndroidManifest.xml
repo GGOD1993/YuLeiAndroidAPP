@@ -7,11 +7,10 @@
     <application
         android:name=".utils.RequestQueueController"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/MyAppTheme" >
         <activity
-            android:windowSoftInputMode="adjustResize|stateHidden"
             android:name=".activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
@@ -22,8 +21,7 @@
         </activity>
         <activity
             android:name=".activity.parent.ParentMainActivity"
-            android:label="@string/title_activity_parent_main"
-            android:launchMode="singleTop" >
+            android:label="@string/title_activity_parent_main" >
         </activity>
         <activity
             android:name=".activity.child.ChildMainActivity"
@@ -34,40 +32,12 @@
             android:label="@string/title_activity_signup" >
         </activity>
         <activity
-            android:name=".activity.parent.ParentAddDiyTaskActivity"
+            android:name=".activity.parent.ParentAddTaskActivity"
             android:label="@string/title_activity_parent_add_task" >
         </activity>
         <activity
-            android:name=".activity.TaskInfoActivity"
-            android:label="@string/title_activity_task_info" >
-        </activity>
-        <activity
-            android:name=".activity.parent.ParentAddSystemTaskActivity"
-            android:label="@string/title_activity_parent_add_system_task" >
-        </activity>
-        <activity
-            android:name=".activity.child.ChildWishActivity"
-            android:label="@string/title_activity_child_wish" >
-        </activity>
-        <activity
-            android:name=".activity.child.ChildDiaryActivity"
-            android:label="@string/title_activity_child_diary" >
-        </activity>
-        <activity
-            android:name=".activity.child.ChildSettingActivity"
-            android:label="@string/title_activity_child_setting" >
-        </activity>
-        <activity
-            android:name=".activity.child.ChildDonateActivity"
-            android:label="@string/title_activity_child_donate" >
-        </activity>
-        <activity
-            android:name=".activity.SubmitTaskActivity"
-            android:label="@string/title_activity_submit_task" >
-        </activity>
-        <activity
-            android:name=".activity.FinishTaskActivity"
-            android:label="@string/title_activity_award_task" >
+            android:name=".activity.child.ChildWishListActivity"
+            android:label="@string/title_activity_child_wish_list" >
         </activity>
     </application>
 

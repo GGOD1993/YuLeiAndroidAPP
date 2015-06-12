@@ -16,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
@@ -145,7 +144,7 @@ public class SignupActivity extends ActionBarActivity
         );
       }
     });
-    relativeLayoutRoot.setBackground(new BitmapDrawable(AppConstant.readBitMap(context, R.mipmap.bg0_fine_night)));
+    relativeLayoutRoot.setBackground(new BitmapDrawable(AppConstant.readBitMap(context, R.mipmap.bg_login)));
     buttonSubmmit.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -209,9 +208,9 @@ public class SignupActivity extends ActionBarActivity
               map.put(AppConstant.NICKNAME, editTextNickname.getText().toString());
               map.put(AppConstant.EMAIL, editTextEmail.getText().toString());
               map.put(AppConstant.GENDER, String.valueOf(gender));
-              HttpService.DoSignupRequest(Request.Method.POST, AppConstant.NEW_USER_URL, map, SignupActivity.this);
+              HttpService.DoSignupRequest(map, SignupActivity.this);
               circularImageUserImage.setDrawingCacheEnabled(true);
-              HttpService.DoUpLoadImageRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE, circularImageUserImage.getDrawingCache(true), editTextUsername.getText().toString(), SignupActivity.this);
+              HttpService.DoUpLoadImageRequest(circularImageUserImage.getDrawingCache(true), editTextUsername.getText().toString(), SignupActivity.this);
               circularImageUserImage.setDrawingCacheEnabled(false);
             } else {
               showToast("两次密码输入不相同");

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">育 蕾orz</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="username">用 户 名</string>
@@ -13,8 +13,10 @@
     <string name="signup">注  册</string>
     <string name="memorypassword">记住密码</string>
     <string name="autosignin">自动登录</string>
+    <string name="forget_password">忘 记 密 码 ?</string>
     <string name="submmit">提 交</string>
     <string name="cancel">取 消</string>
+    <string name="back">返 回</string>
     <string name="leftmoney">剩余金币：</string>
 
     <string name="shot">马 上 拍 照</string>
@@ -31,14 +33,23 @@
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
 
+    <string name="header_text">育 蕾</string>
+    <string name="child_task_module">玩 转 任 务</string>
+    <string name="child_task_history_module">历 史 战 绩</string>
+    <string name="child_donate_project_module">公 益 项 目</string>
+    <string name="parent_send_wish">发 出 心 愿</string>
+    <string name="parent_wish_list">心 愿 清 单</string>
+    <string name="parent_donate_info">公 益 项 目</string>
+
+    <string name="today_get_seed">今 日 获 得</string>
+    <string name="all_seed">现 有 种 子</string>
+    <string name="donate_seed">历 史 捐 出</string>
+
+    <string name="child_wishlist_activity_header">父 母 心 愿</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_parent_main">ParentMainActivity</string>
     <string name="title_activity_child_main">ChildMainActivity</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -60,4 +71,5 @@
     <string name="title_activity_submit_task">SubmitTaskActivity</string>
     <string name="title_activity_award_task">AwardTaskActivity</string>
     <string name="title_activity_child_wish_list">ChildWishListActivity</string>
+    <string name="title_activity_user_info">UserInfoActivity</string>
 </resources>

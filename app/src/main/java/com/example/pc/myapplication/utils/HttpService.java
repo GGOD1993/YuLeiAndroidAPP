@@ -2,8 +2,10 @@ package com.example.pc.myapplication.utils;
 
 import android.graphics.Bitmap;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.pc.myapplication.AppConstant;
 
 import org.json.JSONArray;
 
@@ -26,11 +28,7 @@ public class HttpService {
     void OnLoginErrorResponse(String errorResult);
   }
 
-  public static void DoLoginRequest(int method,
-                                    String url,
-                                    HashMap<String, String> hashMap,
-                                    OnLoginRequestResponseListener listener
-  ) {
+  public static void DoLoginRequest(HashMap<String, String> hashMap, OnLoginRequestResponseListener listener) {
     mLoginRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -45,7 +43,7 @@ public class HttpService {
         mLoginRequestListener.OnLoginErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.LOGIN_IN_URL, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -59,11 +57,7 @@ public class HttpService {
     void OnSignupErrorResponse(String errorResult);
   }
 
-  public static void DoSignupRequest(int method,
-                                     String url,
-                                     HashMap<String, String> hashMap,
-                                     OnSignupRequestResponseListener listener
-  ) {
+  public static void DoSignupRequest(HashMap<String, String> hashMap, OnSignupRequestResponseListener listener) {
     mSignupRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -78,7 +72,7 @@ public class HttpService {
         mSignupRequestListener.OnSignupErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.NEW_USER_URL, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -92,11 +86,7 @@ public class HttpService {
     void OnGetCurrentUserErrorResponse(String errorResult);
   }
 
-  public static void DoGetCurrentUserRequest(int method,
-                                             String url,
-                                             HashMap<String, String> hashMap,
-                                             OnGetCurrentUserRequestResponseListener listener
-  ) {
+  public static void DoGetCurrentUserRequest(HashMap<String, String> hashMap, OnGetCurrentUserRequestResponseListener listener) {
     mGetCurrentUserListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -113,9 +103,9 @@ public class HttpService {
     };
 
     if (hashMap == null) {
-      HttpApi.DoJsonArrayRequest(method, url, null, responseListener, errorListener);
+      HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_CURRENT_USER_URL, null, responseListener, errorListener);
     } else {
-      HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+      HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_CURRENT_USER_URL, hashMap, responseListener, errorListener);
     }
   }
 
@@ -130,10 +120,7 @@ public class HttpService {
     void OnLogoutErrorResponse(String errorMsg);
   }
 
-  public static void DoLogoutRequest(int method,
-                                     String url,
-                                     HashMap<String, String> hashMap,
-                                     OnLogoutRequestResponseListener listener) {
+  public static void DoLogoutRequest(HashMap<String, String> hashMap, OnLogoutRequestResponseListener listener) {
     onLogoutRequestResponseListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -149,7 +136,7 @@ public class HttpService {
       }
     };
 
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.LOGIN_OUT_URL, hashMap, responseListener, errorListener);
 
   }
 
@@ -164,10 +151,7 @@ public class HttpService {
     void OnSetDiyTaskErrorResponse(String errorMsg);
   }
 
-  public static void DoSetDiyTaskRequest(int method,
-                                         String url,
-                                         HashMap<String, String> hashMap,
-                                         OnSetDiyTaskRequestResponseListener listener) {
+  public static void DoSetDiyTaskRequest(HashMap<String, String> hashMap, OnSetDiyTaskRequestResponseListener listener) {
     onSetDiyTaskRequestResponseListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -183,7 +167,7 @@ public class HttpService {
       }
     };
 
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.SET_DIY_TASK_URL, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -197,10 +181,7 @@ public class HttpService {
     void OnGetSysTaskErrorResponse(String errorMsg);
   }
 
-  public static void DoGetSysTaskRequest(int method,
-                                         String url,
-                                         HashMap<String, String> hashMap,
-                                         OnGetSysTaskRequestResponseListener listener) {
+  public static void DoGetSysTaskRequest(HashMap<String, String> hashMap, OnGetSysTaskRequestResponseListener listener) {
     onGetSysTaskRequestResponseListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -216,40 +197,7 @@ public class HttpService {
       }
     };
 
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
-  }
-
-  /**
-   * 接收心愿
-   */
-  private static OnGetTaskRequestResponseListener onGetTaskRequestResponseListener;
-
-  public interface OnGetTaskRequestResponseListener {
-    void OnGetTaskSuccessResponse(JSONArray jsonArray);
-
-    void OnGetTaskErrorResponse(String errorMsg);
-  }
-
-  public static void DoGetTaskRequest(int method,
-                                      String url,
-                                      HashMap<String, String> hashMap,
-                                      OnGetTaskRequestResponseListener listener) {
-    onGetTaskRequestResponseListener = listener;
-    Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
-      @Override
-      public void onResponse(JSONArray jsonArray) {
-        onGetTaskRequestResponseListener.OnGetTaskSuccessResponse(jsonArray);
-      }
-    };
-
-    Response.ErrorListener errorListener = new Response.ErrorListener() {
-      @Override
-      public void onErrorResponse(VolleyError volleyError) {
-        onGetTaskRequestResponseListener.OnGetTaskErrorResponse(volleyError.getMessage());
-      }
-    };
-
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_SYS_TASK_URL, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -263,11 +211,7 @@ public class HttpService {
     void OnGetUserInfoErrorResponse(String errorResult);
   }
 
-  public static void DoGetUserInfoRequest(int method,
-                                          String url,
-                                          HashMap<String, String> hashMap,
-                                          OnGetUserInfoRequestResponseListener listener
-  ) {
+  public static void DoGetUserInfoRequest(HashMap<String, String> hashMap, OnGetUserInfoRequestResponseListener listener) {
     mGetUserInfoRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -282,7 +226,7 @@ public class HttpService {
         mGetUserInfoRequestListener.OnGetUserInfoErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_USER_INFO_URL, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -296,11 +240,7 @@ public class HttpService {
     void OnGetDiyTaskErrorResponse(String errorResult);
   }
 
-  public static void DoGetDiyTaskRequest(int method,
-                                         String url,
-                                         HashMap<String, String> hashMap,
-                                         OnGetDiyTaskRequestResponseListener listener
-  ) {
+  public static void DoGetDiyTaskRequest(String url, HashMap<String, String> hashMap, OnGetDiyTaskRequestResponseListener listener) {
     mGetDiyTaskRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -315,11 +255,11 @@ public class HttpService {
         mGetDiyTaskRequestListener.OnGetDiyTaskErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, url, hashMap, responseListener, errorListener);
   }
 
   /**
-   * 获取自己要完成任务
+   * 获取自己发出的完成任务
    */
   private static OnGetSendDiyTaskRequestResponseListener mGetSendDiyTaskRequestListener;
 
@@ -329,11 +269,7 @@ public class HttpService {
     void OnGetSendDiyTaskErrorResponse(String errorResult);
   }
 
-  public static void DoGetSendDiyTaskRequest(int method,
-                                             String url,
-                                             HashMap<String, String> hashMap,
-                                             OnGetSendDiyTaskRequestResponseListener listener
-  ) {
+  public static void DoGetSendDiyTaskRequest(String url, HashMap<String, String> hashMap, OnGetSendDiyTaskRequestResponseListener listener) {
     mGetSendDiyTaskRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -348,9 +284,37 @@ public class HttpService {
         mGetSendDiyTaskRequestListener.OnGetSendDiyTaskErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, url, hashMap, responseListener, errorListener);
   }
 
+  /**
+   * 根据任务状态获取任务信息
+   */
+  private static OnGetTaskByStatusRequestResponseListener mGetTaskByStatusRequestListener;
+
+  public interface OnGetTaskByStatusRequestResponseListener {
+    void OnGetHistoryTaskSuccessResponse(JSONArray jsonArray);
+
+    void OnGetHistoryTaskErrorResponse(String errorResult);
+  }
+  public static void DoGetTaskByStatusRequest(HashMap<String, String> hashMap, OnGetTaskByStatusRequestResponseListener listener) {
+    mGetTaskByStatusRequestListener = listener;
+    Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+      @Override
+      public void onResponse(JSONArray jsonArray) {
+        mGetTaskByStatusRequestListener.OnGetHistoryTaskSuccessResponse(jsonArray);
+      }
+    };
+    Response.ErrorListener errorListener = new Response.ErrorListener() {
+      @Override
+      public void onErrorResponse(VolleyError volleyError) {
+        mGetTaskByStatusRequestListener.OnGetHistoryTaskErrorResponse(volleyError.getMessage());
+      }
+    };
+    HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.GET_TASK_BY_STATUS, hashMap, responseListener, errorListener);
+  }
+
+  
   /**
    * 家长审核完成任务
    */
@@ -362,11 +326,7 @@ public class HttpService {
     void OnFinishDiyTaskErrorResponse(String errorResult);
   }
 
-  public static void DoFinishDiyTaskRequest(int method,
-                                            String url,
-                                            HashMap<String, String> hashMap,
-                                            OnFinishDiyTaskRequestResponseListener listener
-  ) {
+  public static void DoFinishDiyTaskRequest(HashMap<String, String> hashMap, OnFinishDiyTaskRequestResponseListener listener) {
     mFinishDiyTaskRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -381,7 +341,7 @@ public class HttpService {
         mFinishDiyTaskRequestListener.OnFinishDiyTaskErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.FINISH_DIY_TASK_URL, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -395,11 +355,7 @@ public class HttpService {
     void OnSubmitDiyTaskErrorResponse(String errorResult);
   }
 
-  public static void DoSubmitDiyTaskRequest(int method,
-                                            String url,
-                                            HashMap<String, String> hashMap,
-                                            OnSubmitDiyTaskRequestResponseListener listener
-  ) {
+  public static void DoSubmitDiyTaskRequest(HashMap<String, String> hashMap, OnSubmitDiyTaskRequestResponseListener listener) {
     mSubmitDiyTaskRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -414,73 +370,36 @@ public class HttpService {
         mSubmitDiyTaskRequestListener.OnSubmitDiyTaskErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.SUBMIT_DIY_TASK_URL, hashMap, responseListener, errorListener);
   }
 
   /**
-   * 捐款
+   * 获取慈善项目
    */
-  private static OnDonateRequestResponseListener mDonateRequestListener;
+  private static OnGetCharityRequestResponseListener mGetCharityRequestResponseListener;
 
-  public interface OnDonateRequestResponseListener {
-    void OnDonateSuccessResponse(JSONArray jsonArray);
+  public interface OnGetCharityRequestResponseListener {
+    void OnGetCharitySuccessResponse(JSONArray jsonArray);
 
-    void OnDonateErrorResponse(String errorResult);
+    void OnGetCharityErrorResponse(String errorResult);
   }
 
-  public static void DoDonateRequest(int method,
-                                     String url,
-                                     HashMap<String, String> hashMap,
-                                     OnDonateRequestResponseListener listener
-  ) {
-    mDonateRequestListener = listener;
+  public static void DoGetCharityRequest(HashMap<String, String> hashMap, OnGetCharityRequestResponseListener listener) {
+    mGetCharityRequestResponseListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
       public void onResponse(JSONArray jsonArray) {
-        mDonateRequestListener.OnDonateSuccessResponse(jsonArray);
+        mGetCharityRequestResponseListener.OnGetCharitySuccessResponse(jsonArray);
       }
     };
 
     Response.ErrorListener errorListener = new Response.ErrorListener() {
       @Override
       public void onErrorResponse(VolleyError volleyError) {
-        mDonateRequestListener.OnDonateErrorResponse(volleyError.getMessage());
+        mGetCharityRequestResponseListener.OnGetCharityErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
-  }
-
-  /**
-   * 获取公司列表
-   */
-  private static OnGetCompanyRequestResponseListener mGetCompanyRequestListener;
-
-  public interface OnGetCompanyRequestResponseListener {
-    void OnGetCompanySuccessResponse(JSONArray jsonArray);
-
-    void OnGetCompanyErrorResponse(String errorResult);
-  }
-
-  public static void DoGetCompanyRequest(int method,
-                                         String url,
-                                         HashMap<String, String> hashMap,
-                                         OnGetCompanyRequestResponseListener listener
-  ) {
-    mGetCompanyRequestListener = listener;
-    Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
-      @Override
-      public void onResponse(JSONArray jsonArray) {
-        mGetCompanyRequestListener.OnGetCompanySuccessResponse(jsonArray);
-      }
-    };
-
-    Response.ErrorListener errorListener = new Response.ErrorListener() {
-      @Override
-      public void onErrorResponse(VolleyError volleyError) {
-        mGetCompanyRequestListener.OnGetCompanyErrorResponse(volleyError.getMessage());
-      }
-    };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_CHARITY_URL, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -527,11 +446,7 @@ public class HttpService {
     void OnUserInvitationErrorResponse(String errorResult);
   }
 
-  public static void DoUserInvitationRequest(int method,
-                                             String url,
-                                             HashMap<String, String> hashMap,
-                                             OnUserInvitationRequestResponseListener listener
-  ) {
+  public static void DoUserInvitationRequest(HashMap<String, String> hashMap, OnUserInvitationRequestResponseListener listener) {
     mUserInvitationRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -546,7 +461,7 @@ public class HttpService {
         mUserInvitationRequestListener.OnUserInvitationErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.USER_INVITATION_URL, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -560,11 +475,7 @@ public class HttpService {
     void OnGetInvitationErrorResponse(String errorResult);
   }
 
-  public static void DoGetInvitationRequest(int method,
-                                            String url,
-                                            HashMap<String, String> hashMap,
-                                            OnGetInvitationRequestResponseListener listener
-  ) {
+  public static void DoGetInvitationRequest(String url, HashMap<String, String> hashMap, OnGetInvitationRequestResponseListener listener) {
     mGetInvitationRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -579,7 +490,7 @@ public class HttpService {
         mGetInvitationRequestListener.OnGetInvitationErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, url, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -593,11 +504,7 @@ public class HttpService {
     void OnAddFriendErrorResponse(String errorResult);
   }
 
-  public static void DoAddFriendRequest(int method,
-                                        String url,
-                                        HashMap<String, String> hashMap,
-                                        OnAddFriendRequestResponseListener listener
-  ) {
+  public static void DoAddFriendRequest(HashMap<String, String> hashMap, OnAddFriendRequestResponseListener listener) {
     mAddFriendRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -612,7 +519,7 @@ public class HttpService {
         mAddFriendRequestListener.OnAddFriendErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.ADD_FRIEND_URL, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -626,11 +533,7 @@ public class HttpService {
     void OnGetChildrenErrorResponse(String errorResult);
   }
 
-  public static void DoGetChildrenRequest(int method,
-                                          String url,
-                                          HashMap<String, String> hashMap,
-                                          OnGetChildrenRequestResponseListener listener
-  ) {
+  public static void DoGetChildrenRequest(String url, HashMap<String, String> hashMap, OnGetChildrenRequestResponseListener listener) {
     mGetChildrenRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -645,7 +548,7 @@ public class HttpService {
         mGetChildrenRequestListener.OnGetChildrenErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, url, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -659,11 +562,7 @@ public class HttpService {
     void OnGetParentErrorResponse(String errorResult);
   }
 
-  public static void DoGetParentRequest(int method,
-                                        String url,
-                                        HashMap<String, String> hashMap,
-                                        OnGetParentRequestResponseListener listener
-  ) {
+  public static void DoGetParentRequest(String url, HashMap<String, String> hashMap, OnGetParentRequestResponseListener listener) {
     mGetParentRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -678,7 +577,7 @@ public class HttpService {
         mGetParentRequestListener.OnGetParentErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoJsonArrayRequest(method, url, hashMap, responseListener, errorListener);
+    HttpApi.DoJsonArrayRequest(Request.Method.GET, url, hashMap, responseListener, errorListener);
   }
 
   /**
@@ -692,11 +591,7 @@ public class HttpService {
     void OnUpLoadImageErrorResponse(String errorResult);
   }
 
-  public static void DoUpLoadImageRequest(int method,
-                                          String url,
-                                          Bitmap bitmap,
-                                          String userId,
-                                          OnUpLoadImageRequestResponseListener listener) {
+  public static void DoUpLoadImageRequest(Bitmap bitmap, String userId, OnUpLoadImageRequestResponseListener listener) {
     mUpLoadRequestListener = listener;
     Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
       @Override
@@ -710,6 +605,6 @@ public class HttpService {
         mUpLoadRequestListener.OnUpLoadImageErrorResponse(volleyError.getMessage());
       }
     };
-    HttpApi.DoMultipartRequest(method, url, bitmap, userId, responseListener, errorListener);
+    HttpApi.DoMultipartRequest(Request.Method.POST, AppConstant.UPLOAD_USER_IMAGE, bitmap, userId, responseListener, errorListener);
   }
 }

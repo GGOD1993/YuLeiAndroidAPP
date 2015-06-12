@@ -2,26 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/wheat">
+    >
+
+    <include layout="@layout/layout_child_mainactivity_header"
+             android:id="@+id/activity_main_header"/>
 
     <ImageButton
         android:id="@+id/imagebutton_child_access"
-        android:layout_width="100dip"
-        android:layout_height="100dip"
+        android:layout_width="150dip"
+        android:layout_height="150dip"
         android:background="@mipmap/bg_imagebutton_child_access"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dip"
+        android:layout_marginTop="100dip"
         android:contentDescription="@null"
         />
 
     <ImageButton
         android:id="@+id/imagebutton_parent_access"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:background="@mipmap/bg_imagebutton_parent_access"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/imagebutton_child_access"
-        android:layout_marginTop="100dip"
+        android:layout_marginTop="80dip"
         android:contentDescription="@null"
         />
 </RelativeLayout>

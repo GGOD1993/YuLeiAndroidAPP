@@ -1,2 +1,2 @@
-include ':app', ':SwipeBackLayout'
+include ':app', ':SwipeBackLayout', ':RapidFloatingActionButton-master'
 include ':ViewPagerIndicator'

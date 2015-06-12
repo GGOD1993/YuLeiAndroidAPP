@@ -3,6 +3,7 @@ package com.example.pc.myapplication.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -15,9 +16,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
+import com.android.volley.toolbox.ImageLoader;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.pc.myapplication.AppConstant;
@@ -26,6 +28,7 @@ import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.activity.child.ChildMainActivity;
 import com.example.pc.myapplication.activity.parent.ParentMainActivity;
 import com.example.pc.myapplication.utils.HttpService;
+import com.example.pc.myapplication.utils.RequestQueueController;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,13 +80,16 @@ public class MainActivity extends ActionBarActivity implements
   //自动登录选项框
   private CheckBox checkBoxAutoSignIn;
 
+  //ImageLoader
+  private ImageLoader imageLoader;
+
   //存储数据的SharedPreferences
   private SharedPreferences preferences;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    setContentView(R.layout.layout_signin);
     initActivity();
   }
 
@@ -91,7 +97,6 @@ public class MainActivity extends ActionBarActivity implements
    * 初始化登陆界面
    */
   private void initActivity() {
-    setContentView(R.layout.layout_signin);
     preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
     buttonSignIn = (Button) findViewById(R.id.signin_button_signin);
     buttonSignUp = (Button) findViewById(R.id.signin_button_signup);
@@ -103,13 +108,26 @@ public class MainActivity extends ActionBarActivity implements
     root = (RelativeLayout) findViewById(R.id.signin_relativelayout_root);
     startInitAnim();
     root.setOnClickListener(this);
-    circularImage.setImageResource(R.mipmap.ic_launcher);
-    editTextUsername.setText(preferences.getString(AppConstant.AUTO_SIGNIN_USERNAME, ""));
+
+    String userId = preferences.getString(AppConstant.AUTO_SIGNIN_USERNAME, "");
+    editTextUsername.setText(userId);
     editTextPassword.setText(preferences.getString(AppConstant.AUTO_SIGNIN_PASSWORD, ""));
     if (preferences.getBoolean(AppConstant.AUTO_SIGNIN, false)) checkBoxAutoSignIn.setChecked(true);
     if (preferences.getBoolean(AppConstant.MEMORY_PASSWORD, false))
       checkBoxMemoryPassword.setChecked(true);
-//    root.setBackground(new BitmapDrawable(AppConstant.readBitMap(getApplicationContext(), R.mipmap.skin_bg_player_x)));
+    imageLoader = new ImageLoader(RequestQueueController.get().getRequestQueue(), new ImageLoader.ImageCache() {
+      @Override
+      public Bitmap getBitmap(String s) {
+        return null;
+      }
+
+      @Override
+      public void putBitmap(String s, Bitmap bitmap) {
+      }
+    });
+    ImageLoader.ImageListener imageListener = ImageLoader.getImageListener(circularImage, R.mipmap.child_funcfragment_setting, R.mipmap.ic_launcher);
+    imageLoader.get(AppConstant.IMG_HOST + userId + "/" + userId + ".png", imageListener);
+
     /**
      * 登陆按钮
      */
@@ -167,6 +185,10 @@ public class MainActivity extends ActionBarActivity implements
       setContentView(R.layout.activity_main);
       imageButtonParentAccess = (ImageButton) findViewById(R.id.imagebutton_parent_access);
       imageButtonChildAccess = (ImageButton) findViewById(R.id.imagebutton_child_access);
+      RelativeLayout header = (RelativeLayout) findViewById(R.id.activity_main_header);
+      ((TextView) header.findViewById(R.id.child_mainactivity_header_textview)).setText("选 择 角 色");
+      ImageLoader.ImageListener imageListener = ImageLoader.getImageListener((CircularImage) header.findViewById(R.id.child_mainactivity_header_circularimage), R.mipmap.child_funcfragment_setting, R.mipmap.ic_launcher);
+      imageLoader.get(preferences.getString(AppConstant.IMG_URL, ""), imageListener);
       imageButtonChildAccess.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -227,7 +249,7 @@ public class MainActivity extends ActionBarActivity implements
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put(AppConstant.USERNAME, editTextUsername.getText().toString());
         hashMap.put(AppConstant.PASSWORD, editTextPassword.getText().toString());
-        HttpService.DoLoginRequest(Request.Method.POST, AppConstant.LOGIN_IN_URL, hashMap, MainActivity.this);
+        HttpService.DoLoginRequest(hashMap, MainActivity.this);
       } else {
         YoYo.with(Techniques.Shake).duration(800).playOn(editTextPassword);
         showToast("请输入正确的密码");

@@ -1,51 +1,94 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:id="@+id/child_mainactivity_relativelayout_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
-    <include layout="@layout/layout_child_mainactivity_header"
-        android:id="@+id/child_mainactivity_header"/>
+    <include
+        android:id="@+id/child_mainactivity_header"
+        layout="@layout/layout_child_mainactivity_header"/>
 
     <LinearLayout
         android:id="@+id/child_mainactivity_linearlayout_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/child_mainactivity_header">
+        android:layout_below="@id/child_mainactivity_header"
+        android:background="@color/indianred">
+
         <TextView
-            android:text="我的心愿"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/child_task_module"/>
+
         <TextView
-            android:text="父母心愿"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/child_task_history_module"/>
+
         <TextView
-            android:text="更多功能"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/child_donate_project_module"/>
 
     </LinearLayout>
 
-    <com.viewpagerindicator.UnderlinePageIndicator
-        android:id="@+id/child_mainactivity_indicator"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="5dip"
-        android:layout_below="@id/child_mainactivity_linearlayout_top"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/child_mainactivity_linearlayout_top">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/child_mainactivity_viewpager"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/child_mainactivity_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.viewpagerindicator.UnderlinePageIndicator
+            android:id="@+id/child_mainactivity_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="3dip"
+            />
+
+
+    </RelativeLayout>
+
+    <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout
+        xmlns:rfal="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/child_mainactivity_rapidfloatingactionlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/child_mainactivity_indicator"/>
+        rfal:rfal_frame_color="#000000"
+        rfal:rfal_frame_alpha="0.15"
+        >
+
+        <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton
+            xmlns:rfab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/child_mainactivity_rapidfloatingactionbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            rfab:rfab_size="normal"
+            rfab:rfab_drawable="@mipmap/img_child_seed"
+            rfab:rfab_color_normal="#37474f"
+            rfab:rfab_color_pressed="#263238"
+            rfab:rfab_shadow_radius="7dp"
+            rfab:rfab_shadow_color="#999999"
+            rfab:rfab_shadow_dx="0dp"
+            rfab:rfab_shadow_dy="5dp"
+            />
+
+    </com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout>
 
 </RelativeLayout>

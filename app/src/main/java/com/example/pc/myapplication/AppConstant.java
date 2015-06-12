@@ -23,8 +23,6 @@ public class AppConstant {
 
   public static final int PARENT_ADDDIYTASK_REQUESTCODE = 6;
   public static final int PARENT_ADDDIYTASK_RESULTCODE = 7;
-  public static final int PARENT_ADDSYSTEMTASK_REQUESTCODE = 8;
-  public static final int PARENT_ADDSYSTEMTASK_RESULTCODE = 9;
 
   public static final int RECYCLERVIEW_FIRST_TAG = 1;
 
@@ -98,7 +96,7 @@ public class AppConstant {
   public static final String TASK_STATUS = "taskstatus";
   public static final String TASK_ID = "taskId";
   public static final String TASK_CONTENT = "content";
-  public static final String TASK_REGDATE = "regdate";
+  public static final String TASK_AWARD = "award";
   public static final String NEW_TASK = "newTask";
 
   //发送广播的关键字
@@ -112,6 +110,7 @@ public class AppConstant {
 
   //网络请求URL
   public static final String HOST = "http://byhands.sinaapp.com";
+  public static final String IMG_HOST = "http://byhands-usersimg.stor.sinaapp.com/";
   public static final String NEW_USER_URL= HOST + "/Users/NewUser.php";
   public static final String LOGIN_IN_URL = HOST + "/Users/Login.php";
   public static final String LOGIN_OUT_URL = HOST + "/Users/Logout.php";
@@ -124,7 +123,7 @@ public class AppConstant {
   public static final String GET_INVITATION_URL = HOST + "/Users/get_invitation.php";
   public static final String ADD_FRIEND_URL = HOST + "/Users/AddFriend.php";
   public static final String CHECK_DIY_TASK_URL = HOST + "/Users/CheckDiyTask.php";
-  public static final String GET_COMPANY_URL = HOST + "/Users/Company.php";
+  public static final String GET_CHARITY_URL = HOST + "/Users/GetCharity.php";
   public static final String DONATE_URL = HOST + "/Users/Donate.php";
   public static final String FINISH_DIY_TASK_URL = HOST + "/Users/FinishDiyTask.php";
   public static final String GET_CHILDREN_URL = HOST + "/Users/GetChildren.php";
@@ -132,6 +131,35 @@ public class AppConstant {
   public static final String GET_USER_INFO_URL = HOST + "/Users/GetUserInfo.php";
   public static final String SUBMIT_DIY_TASK_URL = HOST + "/Users/SubmitDiyTask.php";
   public static final String UPLOAD_USER_IMAGE = HOST + "/Users/UploadUserImage.php";
+  public static final String GET_TASK_BY_STATUS = HOST + "/Users/GetTaskByStatus.php";
+
+  public static final int[] ParentTaskTypeImg = {
+          R.mipmap.img_parent_tasktype_animal,
+          R.mipmap.img_parent_tasktype_self,
+          R.mipmap.img_parent_tasktype_book,
+          R.mipmap.img_parent_tasktype_random,
+          R.mipmap.img_parent_tasktype_music};
+  public static final String[] ParentTaskTypeStr = {"动 物", "自定义", "书 籍", "随 机", "音 乐"};
+  public static final int TASK_TYPE_ANIMAL = 0;
+  public static final int TASK_TYPE_SELF = 1;
+  public static final int TASK_TYPE_BOOK = 2;
+  public static final int TASK_TYPE_RANDOM = 3;
+  public static final int TASK_TYPE_MUSIC = 4;
+
+  //菜单选项
+  public static final int MENU_CLOSE = 0;
+  public static final int MENU_ADD_FRIEND = 1;
+  public static final int MENU_FORUM = 2;
+  public static final int MENU_AGREE = 3;
+  public static final int MENU_FAVORITE = 4;
+  public static final int MENU_LOGOUT = 5;
+
+  //慈善机构信息关键字
+  public static final String CHARITY_NAME = "charity_name";
+  public static final String CHARITY_IMG_URL = "charity_img_url";
+  public static final String CHARITY_BIREF= "charity_brief";
+  public static final String CHARITY_CONTACT = "charity_contact";
+  public static final String CHARITY_ADDRESS = "charity_address";
 
   /**
    * 流弊的一个函数

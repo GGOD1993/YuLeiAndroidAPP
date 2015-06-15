@@ -2,7 +2,10 @@ package com.example.pc.myapplication.activity.child;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +15,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -24,11 +30,13 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.example.pc.myapplication.AppConstant;
+import com.example.pc.myapplication.Infos.DonateDataInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SeedInfoView;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
 import com.example.pc.myapplication.activity.MainActivity;
 import com.example.pc.myapplication.adapter.ChildViewpagerAdapter;
+import com.example.pc.myapplication.adapter.SeedInfoRecyclerViewAdapter;
 import com.example.pc.myapplication.fragment.child.ChildCharityInfoFragment;
 import com.example.pc.myapplication.fragment.child.ChildHistoryFragment;
 import com.example.pc.myapplication.fragment.child.ChildTaskFragment;
@@ -105,9 +113,16 @@ public class ChildMainActivity extends FragmentActivity
     ContextMenuDialogFragment mMenuDialogFragment;
 
     //fab相关的布局
+    private SeedInfoView seedInfoView;
     private RapidFloatingActionLayout rapidFloatingActionLayout;
     private RapidFloatingActionButton rapidFloatingActionButton;
     private RapidFloatingActionHelper rapidFloatingActionHelper;
+    private GetSeedInfoBroadcastReceiver receiver;
+    private RecyclerView seedInfoRecyclerview;
+    private SwipeRefreshLayout seedInfoRefreshLayout;
+    private ArrayList<DonateDataInfo> donateDataList;
+    private SeedInfoRecyclerViewAdapter seedInfoAdapter;
+    private boolean isInit = true;
 
     //用户头像的高度
     private static final int USERIMAGE_HEIGHT = 35;
@@ -127,12 +142,14 @@ public class ChildMainActivity extends FragmentActivity
     public void onChildFuncFragmentInteraction() {
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_main);
         exitTime = 0L;
         fragmentList = new ArrayList<>();
+        donateDataList = new ArrayList<>();
         preferences = getSharedPreferences(AppConstant.PREFERENCE_NAME, 0);
         loader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
         loader.init(ImageLoaderConfiguration.createDefault(ChildMainActivity.this));
@@ -146,7 +163,17 @@ public class ChildMainActivity extends FragmentActivity
             public void putBitmap(String s, Bitmap bitmap) {
             }
         });
+
+        receiver = new GetSeedInfoBroadcastReceiver();
+        IntentFilter filter = new IntentFilter("initSeedInfoFromNet");
+        registerReceiver(receiver, filter);
         initViews();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
     @Override
@@ -184,10 +211,11 @@ public class ChildMainActivity extends FragmentActivity
                 showToast("亲~再点一次返回桌面");
                 exitTime = System.currentTimeMillis();
             } else {
-                Intent i = new Intent(Intent.ACTION_MAIN);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.addCategory(Intent.CATEGORY_HOME);
-                startActivity(i);
+                finish();
+//                Intent i = new Intent(Intent.ACTION_MAIN);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                i.addCategory(Intent.CATEGORY_HOME);
+//                startActivity(i);
             }
             return true;
         }
@@ -204,11 +232,10 @@ public class ChildMainActivity extends FragmentActivity
 
         initMenu();
 
-        SeedInfoView seedInfoView = new SeedInfoView(ChildMainActivity.this);
+        seedInfoView = new SeedInfoView(ChildMainActivity.this);
         rapidFloatingActionButton = ((RapidFloatingActionButton) findViewById(R.id.child_mainactivity_rapidfloatingactionbutton));
         rapidFloatingActionLayout = ((RapidFloatingActionLayout) findViewById(R.id.child_mainactivity_rapidfloatingactionlayout));
         rapidFloatingActionHelper = new RapidFloatingActionHelper(ChildMainActivity.this, rapidFloatingActionLayout, rapidFloatingActionButton, seedInfoView).build();
-
         rapidFloatingActionLayout.setIsContentAboveLayout(false);
         rapidFloatingActionLayout.setDisableContentDefaultAnimation(true);
 
@@ -262,6 +289,22 @@ public class ChildMainActivity extends FragmentActivity
         });
     }
 
+    private void initSeedInfoView() {
+        if (isInit) {
+            seedInfoRecyclerview = ((RecyclerView) seedInfoView.findViewById(R.id.seed_info_recyclerview));
+            seedInfoRecyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            seedInfoAdapter = new SeedInfoRecyclerViewAdapter(donateDataList, getApplicationContext());
+            seedInfoRecyclerview.setAdapter(seedInfoAdapter);
+            seedInfoRefreshLayout = ((SwipeRefreshLayout) seedInfoView.findViewById(R.id.seed_info_swiperefreshlayout));
+            seedInfoRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+//                HttpService.DoGetDonateDataRequest(ChildMainActivity.this);
+                }
+            });
+            isInit = false;
+        }
+    }
 
     /**
      * 初始化菜单栏
@@ -413,9 +456,7 @@ public class ChildMainActivity extends FragmentActivity
     @Override
     public void OnGetSeedInfoSuccessResponse(JSONArray jsonArray) {
         final View v = rapidFloatingActionLayout.getContentView();
-        Log.e("waimian", jsonArray.toString());
         if (View.VISIBLE == v.getVisibility()) {
-            Log.e("limian", jsonArray.toString());
             JSONObject moneyObject;
             JSONObject donateObject;
             try {
@@ -492,7 +533,6 @@ public class ChildMainActivity extends FragmentActivity
         } else {
             showUserInviteDialog();
         }
-
     }
 
     @Override
@@ -546,6 +586,14 @@ public class ChildMainActivity extends FragmentActivity
     @Override
     public void OnLogoutErrorResponse(String errorMsg) {
         showToast(errorMsg);
+    }
+
+    class GetSeedInfoBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initSeedInfoView();
+            HttpService.DoGetSeedInfoRequest(ChildMainActivity.this);
+        }
     }
 
     private void showToast(String string) {

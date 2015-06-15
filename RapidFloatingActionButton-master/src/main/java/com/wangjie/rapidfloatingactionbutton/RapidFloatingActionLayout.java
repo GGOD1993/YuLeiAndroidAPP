@@ -2,6 +2,7 @@ package com.wangjie.rapidfloatingactionbutton;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -24,6 +25,7 @@ import com.wangjie.rapidfloatingactionbutton.listener.OnRapidFloatingActionListe
  * Date: 4/29/15.
  */
 public class RapidFloatingActionLayout extends RelativeLayout implements OnClickListener {
+    private Intent intentToBroadcast;
     private static final String TAG = RapidFloatingActionLayout.class.getSimpleName();
 
     public RapidFloatingActionLayout(Context context) {
@@ -57,17 +59,13 @@ public class RapidFloatingActionLayout extends RelativeLayout implements OnClick
         frameAlpha = a.getFloat(R.styleable.RapidFloatingActionLayout_rfal_frame_alpha,
                 Float.valueOf(getResources().getString(R.string.rfab_rfal__float_convert_color_alpha))
         );
-
         frameAlpha = frameAlpha > 1f ? 1f : (frameAlpha < 0f ? 0f : frameAlpha);
-
         a.recycle();
-
     }
 
     public static final long ANIMATION_DURATION = 150/*ms*/;
 
     private void initAfterConstructor() {
-
     }
 
     private OnRapidFloatingActionListener onRapidFloatingActionListener;
@@ -164,6 +162,7 @@ public class RapidFloatingActionLayout extends RelativeLayout implements OnClick
             collapseContent();
         } else {
             expandContent();
+
         }
     }
 
@@ -173,6 +172,8 @@ public class RapidFloatingActionLayout extends RelativeLayout implements OnClick
         if (isExpanded) {
             return;
         }
+        intentToBroadcast = new Intent("initSeedInfoFromNet");
+        getContext().sendBroadcast(intentToBroadcast);
         endAnimatorSet();
         isExpanded = true;
 
@@ -207,9 +208,7 @@ public class RapidFloatingActionLayout extends RelativeLayout implements OnClick
                 isExpanded = true;
             }
         });
-
         animatorSet.start();
-
     }
 
     public void collapseContent() {

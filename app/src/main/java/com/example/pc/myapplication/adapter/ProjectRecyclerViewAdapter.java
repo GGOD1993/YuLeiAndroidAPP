@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.example.pc.myapplication.Infos.DonateProjectInfo;
+import com.example.pc.myapplication.Infos.CharityInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.utils.RequestQueueController;
 
@@ -20,12 +20,12 @@ public class ProjectRecyclerViewAdapter extends RecyclerView.Adapter<ProjectRecy
   private Context context;
 
   //任务列表
-  private List<DonateProjectInfo> projectList;
+  private List<CharityInfo> projectList;
 
   //ImageLoader
   private ImageLoader imageLoader;
 
-  public ProjectRecyclerViewAdapter(Context context, List<DonateProjectInfo> list) {
+  public ProjectRecyclerViewAdapter(Context context, List<CharityInfo> list) {
     super();
     this.projectList = list;
     this.context = context;
@@ -50,7 +50,7 @@ public class ProjectRecyclerViewAdapter extends RecyclerView.Adapter<ProjectRecy
 
   @Override
   public void onBindViewHolder(final ProjectRecyclerViewHolder viewHolder, int i) {
-    final DonateProjectInfo projectInfo = projectList.get(i);
+    final CharityInfo projectInfo = projectList.get(i);
     viewHolder.name.setText(projectInfo.getName());
     viewHolder.brief.setText(projectInfo.getBrief());
     viewHolder.contact.setText(projectInfo.getContact());

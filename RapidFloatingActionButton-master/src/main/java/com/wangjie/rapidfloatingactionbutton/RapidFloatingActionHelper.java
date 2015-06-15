@@ -16,8 +16,6 @@ public final class RapidFloatingActionHelper implements OnRapidFloatingActionLis
     private RapidFloatingActionButton rfaBtn;
     private RapidFloatingActionContent rfaContent;
 
-
-
     public RapidFloatingActionHelper(Context context, RapidFloatingActionLayout rfaLayout, RapidFloatingActionButton rfaBtn, RapidFloatingActionContent rfaContent) {
         this.context = context;
         this.rfaLayout = rfaLayout;
@@ -96,6 +94,4 @@ public final class RapidFloatingActionHelper implements OnRapidFloatingActionLis
         rfaContent.onCollapseAnimator(animatorSet);
         rfaBtn.onCollapseAnimator(animatorSet);
     }
-
-
 }

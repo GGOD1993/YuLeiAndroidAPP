@@ -591,10 +591,11 @@ public class ParentMainActivity extends FragmentActivity implements
                 showToast("亲~再点一次返回桌面");
                 exitTime = System.currentTimeMillis();
             } else {
-                Intent i = new Intent(Intent.ACTION_MAIN);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.addCategory(Intent.CATEGORY_HOME);
-                startActivity(i);
+                finish();
+//                Intent i = new Intent(Intent.ACTION_MAIN);
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                i.addCategory(Intent.CATEGORY_HOME);
+//                startActivity(i);
             }
             return true;
         }

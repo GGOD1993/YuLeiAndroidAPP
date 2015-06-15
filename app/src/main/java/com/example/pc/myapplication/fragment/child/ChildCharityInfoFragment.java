@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.pc.myapplication.AppConstant;
-import com.example.pc.myapplication.Infos.DonateProjectInfo;
+import com.example.pc.myapplication.Infos.CharityInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.adapter.ProjectRecyclerViewAdapter;
@@ -39,7 +39,7 @@ public class ChildCharityInfoFragment extends Fragment implements
   private ProjectRecyclerViewAdapter adapter;
 
   //捐赠项目的列表
-  private ArrayList<DonateProjectInfo> projectList;
+  private ArrayList<CharityInfo> projectList;
 
   //回调的监听
   private OnChildFuncFragmentInteractionListener mListener;
@@ -93,12 +93,12 @@ public class ChildCharityInfoFragment extends Fragment implements
   public void OnGetCharitySuccessResponse(JSONArray jsonArray) {
     refreshLayout.setRefreshing(false);
     JSONObject project;
-    DonateProjectInfo projectInfo;
+    CharityInfo projectInfo;
     projectList.clear();
     for (int i = 0; i < jsonArray.length(); i++) {
       try {
         project = (JSONObject) jsonArray.get(i);
-        projectInfo = new DonateProjectInfo(
+        projectInfo = new CharityInfo(
                 project.getString(AppConstant.CHARITY_NAME),
                 project.getString(AppConstant.CHARITY_IMG_URL),
                 project.getString(AppConstant.CHARITY_BIREF),

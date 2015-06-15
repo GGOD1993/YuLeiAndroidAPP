@@ -1,6 +1,6 @@
 package com.example.pc.myapplication.Infos;
 
-public class DonateProjectInfo {
+public class CharityInfo {
 
   private String name;
   private String img_url;
@@ -8,7 +8,7 @@ public class DonateProjectInfo {
   private String contact;
   private String addr;
 
-  public DonateProjectInfo(String n, String i, String b, String c, String a) {
+  public CharityInfo(String n, String i, String b, String c, String a) {
     name = n;
     img_url = i;
     brief = b;

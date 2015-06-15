@@ -269,4 +269,6 @@ public class RapidFloatingActionLayout extends RelativeLayout implements OnClick
     public RapidFloatingActionContent getContentView() {
         return contentView;
     }
+
+
 }

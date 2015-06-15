@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import com.example.pc.myapplication.R;
 import com.wangjie.rapidfloatingactionbutton.contentimpl.viewbase.RapidFloatingActionContentViewBase;
 
-public class ChildSeedInfoView extends RapidFloatingActionContentViewBase {
+public class SeedInfoView extends RapidFloatingActionContentViewBase {
 
   //上下文引用
   private Context context;
@@ -18,20 +18,20 @@ public class ChildSeedInfoView extends RapidFloatingActionContentViewBase {
   //圆形展开的自定义view
   private RelativeLayout contentView;
 
-  public ChildSeedInfoView(Context context) {
+  public SeedInfoView(Context context) {
     super(context);
     this.context = context;
   }
 
-  public ChildSeedInfoView(Context context, AttributeSet attrs) {
+  public SeedInfoView(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
-  public ChildSeedInfoView(Context context, AttributeSet attrs, int defStyleAttr) {
+  public SeedInfoView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
 
-  public ChildSeedInfoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+  public SeedInfoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
   }
 

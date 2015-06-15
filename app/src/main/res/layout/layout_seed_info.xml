@@ -1,70 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@mipmap/seed">
+                android:layout_width="300dip"
+                android:layout_height="400dip">
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/child_seedinfo_linearlayout_getseed"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerHorizontal="true">-->
-<!---->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/today_get_seed"-->
-            <!--android:textSize="9pt"-->
-            <!--android:layout_margin="20dip"/>-->
-<!---->
-        <!--<TextView-->
-            <!--android:id="@+id/child_seedinfo_textview_getseed"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="10粒"-->
-            <!-- -->
-            <!--android:textSize="9pt"/>-->
-    <!--</LinearLayout>-->
-<!---->
-    <!--<LinearLayout-->
-        <!--android:id="@+id/child_seedinfo_linearlayout_allseed"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/child_seedinfo_linearlayout_getseed"-->
-        <!--android:layout_centerHorizontal="true">-->
-<!---->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/all_seed"-->
-            <!--android:textSize="9pt"/>-->
-<!---->
-        <!--<TextView-->
-            <!--android:id="@+id/child_seedinfo_textview_allseed"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="10粒"-->
-            <!--android:textSize="9pt"/>-->
-    <!--</LinearLayout>-->
-<!---->
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/child_seedinfo_linearlayout_allseed"-->
-        <!--android:layout_centerHorizontal="true">-->
-<!---->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/donate_seed"-->
-            <!--android:textSize="9pt"/>-->
-<!---->
-        <!--<TextView-->
-            <!--android:id="@+id/child_seedinfo_textview_donateseed"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="10粒"-->
-            <!--android:textSize="9pt"/>-->
-    <!--</LinearLayout>-->
-<!---->
+    <RelativeLayout
+        android:id="@+id/seed_info"
+        android:layout_width="300dip"
+        android:layout_height="160dip"
+        android:background="#87CEEB">
+
+        <RelativeLayout
+            android:id="@+id/seed_info_headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/indianred">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="种 子 信 息"
+                android:textSize="10pt"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_seed_info_linearlayout_all_seed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seed_info_headline"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all_seed"
+                android:textSize="8pt"/>
+
+            <TextView
+                android:id="@+id/layout_seed_info_textview_all_seed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:text="0"
+                android:textSize="8pt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dip"
+                android:text="@string/li"
+                android:textSize="8pt"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_seed_info_linearlayout_donate_seed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_seed_info_linearlayout_all_seed"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/donate_seed"
+                android:textSize="8pt"/>
+
+            <TextView
+                android:id="@+id/layout_seed_info_textview_donate_seed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:text="0"
+                android:textSize="8pt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dip"
+                android:text="@string/li"
+                android:textSize="8pt"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="300dip"
+        android:layout_height="240dip"
+        android:layout_below="@id/seed_info"
+        android:background="#FFf5c0">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/seed_info_swiperefreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/seed_info_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </RelativeLayout>
+
 </RelativeLayout>

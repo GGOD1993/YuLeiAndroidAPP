@@ -44,6 +44,7 @@
     <string name="today_get_seed">今 日 获 得</string>
     <string name="all_seed">现 有 种 子</string>
     <string name="donate_seed">历 史 捐 出</string>
+    <string name="li">粒</string>
 
     <string name="child_wishlist_activity_header">父 母 心 愿</string>
 

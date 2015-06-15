@@ -1,6 +1,7 @@
 package com.wangjie.rapidfloatingactionbutton;
 
 import android.content.Context;
+
 import com.nineoldandroids.animation.AnimatorSet;
 import com.wangjie.rapidfloatingactionbutton.listener.OnRapidFloatingActionListener;
 
@@ -14,6 +15,7 @@ public final class RapidFloatingActionHelper implements OnRapidFloatingActionLis
     private RapidFloatingActionLayout rfaLayout;
     private RapidFloatingActionButton rfaBtn;
     private RapidFloatingActionContent rfaContent;
+
 
 
     public RapidFloatingActionHelper(Context context, RapidFloatingActionLayout rfaLayout, RapidFloatingActionButton rfaBtn, RapidFloatingActionContent rfaContent) {

@@ -266,9 +266,7 @@ public class MainActivity extends ActionBarActivity implements
   public void OnLoginSuccessResponse(JSONArray jsonArray) {
     JSONObject codeObject;
     JSONObject msgObject;
-    JSONObject moneyObject = null;
     JSONObject imgUrlObject = null;
-    Log.e("dada", jsonArray.toString());
     try {
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
@@ -279,14 +277,12 @@ public class MainActivity extends ActionBarActivity implements
             YoYo.with(Techniques.Shake).duration(800).playOn(editTextUsername);
             break;
           case AppConstant.LOGIN_SUCCESS:
-            moneyObject = (JSONObject) jsonArray.get(2);
-            imgUrlObject = (JSONObject) jsonArray.get(3);
+            imgUrlObject = (JSONObject) jsonArray.get(2);
             chooseMode();
             break;
         }
       }
       if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));
-      if (null != moneyObject) preferences.edit().putInt(AppConstant.LEFT_MONEY, moneyObject.getInt(AppConstant.MONEY)).apply();
       if (null != imgUrlObject) preferences.edit().putString(AppConstant.IMG_URL, imgUrlObject.getString(AppConstant.IMG_URL).replaceAll("\\\\", "")).apply();
     } catch (JSONException e) {
       e.printStackTrace();

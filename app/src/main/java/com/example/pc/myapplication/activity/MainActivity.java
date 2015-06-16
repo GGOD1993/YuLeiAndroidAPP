@@ -40,7 +40,7 @@ import java.util.HashMap;
  * 初始Activity
  */
 public class MainActivity extends ActionBarActivity implements
-        HttpService.OnLoginRequestResponseListener, View.OnClickListener {
+    HttpService.OnLoginRequestResponseListener, View.OnClickListener {
 
   //再次点击返回桌面
   private long exitTime = 0;
@@ -267,6 +267,7 @@ public class MainActivity extends ActionBarActivity implements
     JSONObject codeObject;
     JSONObject msgObject;
     JSONObject imgUrlObject = null;
+    JSONObject moneyObject = null;
     try {
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
@@ -278,12 +279,15 @@ public class MainActivity extends ActionBarActivity implements
             break;
           case AppConstant.LOGIN_SUCCESS:
             imgUrlObject = (JSONObject) jsonArray.get(2);
+            moneyObject = (JSONObject) jsonArray.get(3);
+            preferences.edit().putString(AppConstant.MONEY, moneyObject.getString(AppConstant.MONEY)).apply();
             chooseMode();
             break;
         }
       }
       if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));
-      if (null != imgUrlObject) preferences.edit().putString(AppConstant.IMG_URL, imgUrlObject.getString(AppConstant.IMG_URL).replaceAll("\\\\", "")).apply();
+      if (null != imgUrlObject)
+        preferences.edit().putString(AppConstant.IMG_URL, imgUrlObject.getString(AppConstant.IMG_URL).replaceAll("\\\\", "")).apply();
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -297,7 +301,7 @@ public class MainActivity extends ActionBarActivity implements
   public boolean onKeyDown(int keyCode, KeyEvent event) {
     if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
       if ((System.currentTimeMillis() - exitTime) > 2000) {
-        showToast("亲~再点一次返回桌面");
+        showToast("亲~再点一次退出");
         exitTime = System.currentTimeMillis();
       } else {
         Intent i = new Intent(Intent.ACTION_MAIN);

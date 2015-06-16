@@ -237,7 +237,7 @@ public class SignupActivity extends ActionBarActivity
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
-        if (AppConstant.SIGNUP_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
+        if (AppConstant.NEW_USER_SUCCESS== codeObject.getInt(AppConstant.RETURN_CODE)) {
           if (isAbleFinish) finish();
           else isAbleFinish = true;
         }

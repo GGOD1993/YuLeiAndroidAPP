@@ -17,6 +17,10 @@
     <string name="submmit">提 交</string>
     <string name="cancel">取 消</string>
     <string name="back">返 回</string>
+    <string name="friend_request">好 友 请 求</string>
+    <string name="add_friend">添 加 好 友</string>
+    <string name="hint_input_username">请输入用户名</string>
+    <string name="hint_input_number">请输入捐赠的种子数</string>
     <string name="leftmoney">剩余金币：</string>
 
     <string name="shot">马 上 拍 照</string>
@@ -41,9 +45,9 @@
     <string name="parent_wish_list">心 愿 清 单</string>
     <string name="parent_donate_info">公 益 项 目</string>
 
-    <string name="today_get_seed">今 日 获 得</string>
     <string name="all_seed">现 有 种 子</string>
     <string name="donate_seed">历 史 捐 出</string>
+    <string name="donate">捐 赠 种 子</string>
     <string name="li">粒</string>
 
     <string name="child_wishlist_activity_header">父 母 心 愿</string>

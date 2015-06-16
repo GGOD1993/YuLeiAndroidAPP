@@ -14,13 +14,13 @@
 
 
         <RelativeLayout
-            android:id="@+id/parent_leftmenu_dialog_userinvite_relativelayout_header"
+            android:id="@+id/layout_dialog_userinvite_relativelayout_header"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/skyblue">
 
             <TextView
-                android:id="@+id/parent_leftmenu_dialog_userinvite_textview_header"
+                android:id="@+id/layout_dialog_userinvite_textview_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -29,34 +29,33 @@
         </RelativeLayout>
 
         <EditText
-            android:id="@+id/parent_leftmenu_edittext_tousername"
+            android:id="@+id/layout_dialog_edittext_tousername"
             android:layout_width="match_parent"
             android:layout_height="35dip"
-            android:layout_below="@id/parent_leftmenu_dialog_userinvite_relativelayout_header"
+            android:layout_below="@id/layout_dialog_userinvite_relativelayout_header"
             android:layout_marginEnd="40dip"
             android:layout_marginStart="40dip"
             android:layout_marginTop="20dip"
             android:background="@drawable/signin_edittext_style"
-            android:hint="请输入用户名"
             android:textSize="10pt"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dip"
-            android:layout_below="@id/parent_leftmenu_edittext_tousername"
+            android:layout_below="@id/layout_dialog_edittext_tousername"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="90dip"
             android:layout_marginStart="90dip"
             android:layout_marginTop="20dip">
 
             <ImageButton
-                android:id="@+id/parent_leftmenu_imagebutton_cancel"
+                android:id="@+id/layout_dialog_imagebutton_cancel"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
                 android:background="@drawable/parent_addtaskactivity_imagebutton_cancel_style"/>
 
             <ImageButton
-                android:id="@+id/parent_leftmenu_imagebutton_submit"
+                android:id="@+id/layout_dialog_imagebutton_submit"
                 android:layout_width="50dip"
                 android:layout_height="50dip"
                 android:layout_alignParentEnd="true"

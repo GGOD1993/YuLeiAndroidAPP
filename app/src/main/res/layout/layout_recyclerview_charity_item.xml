@@ -148,8 +148,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/charity_recyclerview_taskinfo"
-            android:layout_marginEnd="15dip"
-            android:layout_marginRight="15dip">
+            android:layout_marginEnd="20dip"
+            android:layout_marginRight="20dip">
 
             <LinearLayout
                 android:layout_width="wrap_content"

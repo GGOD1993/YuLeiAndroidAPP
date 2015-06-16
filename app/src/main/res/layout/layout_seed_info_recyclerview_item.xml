@@ -61,7 +61,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="top"
                     android:text="慈善机构:"
                     android:textColor="@color/black"
                     android:textSize="7pt"/>
@@ -70,7 +70,7 @@
                     android:id="@+id/seed_info_recyclerview_textview_charity_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="top"
+                    android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="6pt"
                     />
@@ -86,7 +86,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="top"
                     android:text="合作企业:"
                     android:textColor="@color/black"
                     android:textSize="7pt"/>
@@ -95,7 +95,7 @@
                     android:id="@+id/seed_info_textview_company"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="top"
+                    android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="6pt"
                     />
@@ -111,7 +111,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="top"
                     android:text="捐款金额: "
                     android:textColor="@color/black"
                     android:textSize="7pt"/>
@@ -120,7 +120,7 @@
                     android:id="@+id/seed_info_textview_seeds"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="top"
+                    android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="6pt"
                     />

@@ -361,24 +361,24 @@ public class ParentMainActivity extends FragmentActivity implements
      */
     private void showUserInviteDialog() {
         final LayoutInflater layoutInflater = LayoutInflater.from(ParentMainActivity.this);
-        final View view = layoutInflater.inflate(R.layout.layout_parent_leftmenu_dialog_userinvite, null);
+        final View view = layoutInflater.inflate(R.layout.layout_dialog_userinvite, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(ParentMainActivity.this);
         builder.setView(view);
-        ((TextView) view.findViewById(R.id.parent_leftmenu_dialog_userinvite_textview_header)).setText("添 加 好 友");
+        ((TextView) view.findViewById(R.id.layout_dialog_userinvite_textview_header)).setText("添 加 好 友");
         final AlertDialog dialog = builder.create();
         dialog.show();
-        view.findViewById(R.id.parent_leftmenu_imagebutton_cancel)
+        view.findViewById(R.id.layout_dialog_imagebutton_cancel)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                     }
                 });
-        view.findViewById(R.id.parent_leftmenu_imagebutton_submit)
+        view.findViewById(R.id.layout_dialog_imagebutton_submit)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditText editText = (EditText) view.findViewById(R.id.parent_leftmenu_edittext_tousername);
+                        EditText editText = (EditText) view.findViewById(R.id.layout_dialog_edittext_tousername);
                         if (0 != editText.getText().length()) {
                             HashMap<String, String> map = new HashMap<>();
                             map.put(AppConstant.TO_USERID, editText.getText().toString());
@@ -396,7 +396,7 @@ public class ParentMainActivity extends FragmentActivity implements
      */
     private void showGetInviteDialog(final String parent) {
         final LayoutInflater layoutInflater = LayoutInflater.from(ParentMainActivity.this);
-        final View view = layoutInflater.inflate(R.layout.layout_parent_leftmenu_dialog_getinvite, null);
+        final View view = layoutInflater.inflate(R.layout.layout_dialog_getinvite, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(ParentMainActivity.this);
         builder.setView(view);
         ((TextView) view.findViewById(R.id.parent_leftmenu_dialog_textview_header)).setText("好 友 请 求");

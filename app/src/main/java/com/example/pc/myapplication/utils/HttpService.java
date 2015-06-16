@@ -663,4 +663,32 @@ public class HttpService {
         };
         HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.GET_DONATE_DATA_URL, map, responseListener, errorListener);
     }
+
+    /**
+     * 捐款
+     */
+    private static OnDonateRequestListener mDonateListener;
+
+    public interface OnDonateRequestListener{
+        void OnDonateRequestSuccessResponse(JSONArray jsonArray);
+
+        void OnDonateRequestFailedResponse(String errorResult);
+    }
+
+    public static void DoDonateRequest(HashMap<String, String> map, OnDonateRequestListener listener) {
+        mDonateListener= listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mDonateListener.OnDonateRequestSuccessResponse(jsonArray);
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mDonateListener.OnDonateRequestFailedResponse(volleyError.getMessage());
+            }
+        };
+        HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.DONATE_URL, map, responseListener, errorListener);
+    }
 }

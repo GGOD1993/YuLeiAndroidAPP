@@ -22,8 +22,8 @@
                 android:id="@+id/charity_recyclerview_textview_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:textSize="7pt"
                 />
 
@@ -143,26 +143,54 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@id/charity_recyclerview_taskinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/charity_recyclerview_taskinfo"
+            android:layout_marginEnd="15dip"
+            android:layout_marginRight="15dip">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:layout_width="25dip"
+                    android:layout_height="25dip"
+                    android:layout_margin="5dip"
+                    android:background="@mipmap/icn_1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="19"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:layout_width="25dip"
+                    android:layout_height="25dip"
+                    android:layout_margin="5dip"
+                    android:background="@mipmap/icn_2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="23"/>
+            </LinearLayout>
+
             <ImageButton
-                android:background="@mipmap/icn_1"
-                android:layout_width="30dip"
-                android:layout_height="30dip"
-                android:layout_margin="10dip"/>
-            <ImageButton
-                android:background="@mipmap/icn_2"
-                android:layout_width="30dip"
-                android:layout_height="30dip"
-                android:layout_margin="10dip"/>
-            <ImageButton
-                android:background="@mipmap/icn_4"
-                android:layout_width="30dip"
-                android:layout_height="30dip"
-                android:layout_margin="10dip"/>
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_margin="5dip"
+                android:background="@mipmap/icn_4"/>
+
         </LinearLayout>
 
     </RelativeLayout>

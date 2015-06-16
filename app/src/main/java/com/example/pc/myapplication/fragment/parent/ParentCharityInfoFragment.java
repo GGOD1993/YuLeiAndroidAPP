@@ -16,7 +16,7 @@ import com.example.pc.myapplication.AppConstant;
 import com.example.pc.myapplication.Infos.CharityInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
-import com.example.pc.myapplication.adapter.ProjectRecyclerViewAdapter;
+import com.example.pc.myapplication.adapter.CharityRecyclerViewAdapter;
 import com.example.pc.myapplication.utils.HttpService;
 
 import org.json.JSONArray;
@@ -34,7 +34,7 @@ public class ParentCharityInfoFragment extends Fragment implements
 
   private ArrayList<CharityInfo> projectList;
 
-  private ProjectRecyclerViewAdapter adapter;
+  private CharityRecyclerViewAdapter adapter;
 
   private SwipeRefreshLayout refreshLayout;
 
@@ -68,7 +68,7 @@ public class ParentCharityInfoFragment extends Fragment implements
     recyclerView = ((RecyclerView) v.findViewById(R.id.parent_donateinfofragment_recyclerview));
     refreshLayout = ((SwipeRefreshLayout) v.findViewById(R.id.parent_donateinfofragment_swiperefreshlayout));
 
-    adapter = new ProjectRecyclerViewAdapter(getActivity(), projectList);
+    adapter = new CharityRecyclerViewAdapter(null, projectList);
     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.addItemDecoration(new SpaceItemDecoration(40));

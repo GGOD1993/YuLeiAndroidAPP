@@ -5,9 +5,9 @@ public class DonateDataInfo {
     private String companyImg;
     private String companyContact;
     private String charityName;
-    private int seeds;
+    private String seeds;
 
-    public DonateDataInfo(String company, String companyImg, String companyContact, String charityName, int seeds) {
+    public DonateDataInfo(String company, String companyImg, String companyContact, String charityName, String seeds) {
         this.company = company;
         this.companyImg = companyImg;
         this.companyContact = companyContact;
@@ -47,11 +47,11 @@ public class DonateDataInfo {
         this.company = company;
     }
 
-    public int getSeeds() {
+    public String getSeeds() {
         return seeds;
     }
 
-    public void setSeeds(int seeds) {
+    public void setSeeds(String seeds) {
         this.seeds = seeds;
     }
 }

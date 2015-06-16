@@ -647,7 +647,7 @@ public class HttpService {
         void OnGetDonateDataFailedResponse(String errorResult);
     }
 
-    public static void DoGetDonateDataRequest(OnGetDonateDataRequestListener listener) {
+    public static void DoGetDonateDataRequest(HashMap<String, String> map, OnGetDonateDataRequestListener listener) {
         mGetDonateDataListener = listener;
         Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
             @Override
@@ -661,6 +661,6 @@ public class HttpService {
                 mGetDonateDataListener.OnGetDonateDataFailedResponse(volleyError.getMessage());
             }
         };
-        HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_DONATE_DATA_URL, null, responseListener, errorListener);
+        HttpApi.DoJsonArrayRequest(Request.Method.POST, AppConstant.GET_DONATE_DATA_URL, map, responseListener, errorListener);
     }
 }

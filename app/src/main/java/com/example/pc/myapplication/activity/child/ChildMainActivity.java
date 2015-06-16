@@ -34,6 +34,7 @@ import com.example.pc.myapplication.Infos.DonateDataInfo;
 import com.example.pc.myapplication.R;
 import com.example.pc.myapplication.ViewStyle.SeedInfoView;
 import com.example.pc.myapplication.ViewStyle.CircularImage;
+import com.example.pc.myapplication.ViewStyle.SpaceItemDecoration;
 import com.example.pc.myapplication.activity.MainActivity;
 import com.example.pc.myapplication.adapter.ChildViewpagerAdapter;
 import com.example.pc.myapplication.adapter.SeedInfoRecyclerViewAdapter;
@@ -62,6 +63,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.adapters.ScaleInAnimationAdapter;
 
 public class ChildMainActivity extends FragmentActivity
         implements ChildTaskFragment.onChildTaskFragmentInteractionListener,
@@ -295,12 +299,19 @@ public class ChildMainActivity extends FragmentActivity
             seedInfoRecyclerview = ((RecyclerView) seedInfoView.findViewById(R.id.seed_info_recyclerview));
             seedInfoRecyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             seedInfoAdapter = new SeedInfoRecyclerViewAdapter(donateDataList, getApplicationContext());
-            seedInfoRecyclerview.setAdapter(seedInfoAdapter);
+            seedInfoRecyclerview.addItemDecoration(new SpaceItemDecoration(10));
+            ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(seedInfoAdapter);
+            scaleAdapter.setFirstOnly(false);
+            AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(scaleAdapter);
+            alphaAdapter.setFirstOnly(false);
+            seedInfoRecyclerview.setAdapter(alphaAdapter);
             seedInfoRefreshLayout = ((SwipeRefreshLayout) seedInfoView.findViewById(R.id.seed_info_swiperefreshlayout));
             seedInfoRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    HttpService.DoGetDonateDataRequest(ChildMainActivity.this);
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put(AppConstant.USERNAME, preferences.getString(AppConstant.FROM_USERID, ""));
+                    HttpService.DoGetDonateDataRequest(map, ChildMainActivity.this);
                 }
             });
             isInit = false;
@@ -467,7 +478,7 @@ public class ChildMainActivity extends FragmentActivity
                         arrayTask.getString(AppConstant.COMPANY_IMG),
                         arrayTask.getString(AppConstant.COMPANY_CONTACT),
                         arrayTask.getString(AppConstant.CHARITY_NAME),
-                        arrayTask.getInt(AppConstant.SEEDS)
+                        arrayTask.getString(AppConstant.SEEDS)
                 );
                 donateDataList.add(dataInfo);
             } catch (Exception e) {
@@ -492,7 +503,9 @@ public class ChildMainActivity extends FragmentActivity
                 moneyObject = (JSONObject) jsonArray.get(0);
                 donateObject = (JSONObject) jsonArray.get(1);
                 if (null != moneyObject) {
-                    ((TextView) v.findViewById(R.id.layout_seed_info_textview_all_seed)).setText(moneyObject.getString(AppConstant.MONEY));
+                    String money = moneyObject.getString(AppConstant.MONEY);
+                    ((TextView) v.findViewById(R.id.layout_seed_info_textview_all_seed)).setText(money);
+                    preferences.edit().putString(AppConstant.MONEY, money).apply();
                 }
                 if (null != donateObject) {
                     ((TextView) v.findViewById(R.id.layout_seed_info_textview_donate_seed)).setText(donateObject.getString(AppConstant.DONATE_MONEY));

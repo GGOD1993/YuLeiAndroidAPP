@@ -4,6 +4,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     card_view:cardBackgroundColor="#ddFFDEDD">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -12,14 +13,14 @@
             android:id="@+id/seed_info_recyclerview_relativelayout_header"
             android:layout_width="match_parent"
             android:layout_height="40dip"
-            android:background="@drawable/recyclerview_item_header_style"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:background="@drawable/recyclerview_item_header_style"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dip"
             android:layout_marginLeft="20dip"
+            android:layout_marginStart="20dip"
             android:layout_marginTop="10dip"
             >
 
@@ -46,8 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/seed_info_recyclerview_relativelayout_header"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="150dip"
-            android:layout_marginLeft="150dip"
+            android:layout_marginLeft="100dip"
+            android:layout_marginStart="100dip"
             android:layout_marginTop="15dip"
             android:orientation="vertical">
 
@@ -62,14 +63,16 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="慈善机构:"
+                    android:textColor="@color/black"
                     android:textSize="7pt"/>
 
                 <TextView
                     android:id="@+id/seed_info_recyclerview_textview_charity_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="7pt"
+                    android:gravity="top"
+                    android:textColor="@color/black"
+                    android:textSize="6pt"
                     />
 
             </LinearLayout>
@@ -85,14 +88,16 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="合作企业:"
+                    android:textColor="@color/black"
                     android:textSize="7pt"/>
 
                 <TextView
                     android:id="@+id/seed_info_textview_company"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="7pt"
+                    android:gravity="top"
+                    android:textColor="@color/black"
+                    android:textSize="6pt"
                     />
 
             </LinearLayout>
@@ -108,14 +113,16 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="捐款金额: "
+                    android:textColor="@color/black"
                     android:textSize="7pt"/>
 
                 <TextView
                     android:id="@+id/seed_info_textview_seeds"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="7pt"
+                    android:gravity="top"
+                    android:textColor="@color/black"
+                    android:textSize="6pt"
                     />
 
             </LinearLayout>

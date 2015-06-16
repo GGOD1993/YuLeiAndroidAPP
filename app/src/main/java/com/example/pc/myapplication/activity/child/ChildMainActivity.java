@@ -73,6 +73,7 @@ public class ChildMainActivity extends FragmentActivity
         HttpService.OnAddFriendRequestResponseListener,
         HttpService.OnLogoutRequestResponseListener,
         HttpService.OnGetSeedInfoRequestListener,
+        HttpService.OnGetDonateDataRequestListener,
         OnMenuItemClickListener,
         OnMenuItemLongClickListener {
 
@@ -208,7 +209,7 @@ public class ChildMainActivity extends FragmentActivity
         if (KeyEvent.KEYCODE_BACK == keyCode
                 && event.getAction() == KeyEvent.ACTION_DOWN) {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
-                showToast("亲~再点一次返回桌面");
+                showToast("亲~再点一次退出");
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();
@@ -299,7 +300,7 @@ public class ChildMainActivity extends FragmentActivity
             seedInfoRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-//                HttpService.DoGetDonateDataRequest(ChildMainActivity.this);
+                    HttpService.DoGetDonateDataRequest(ChildMainActivity.this);
                 }
             });
             isInit = false;
@@ -452,6 +453,34 @@ public class ChildMainActivity extends FragmentActivity
                 });
     }
 
+    @Override
+    public void OnGetDonateDataSuccessResponse(JSONArray jsonArray) {
+        seedInfoRefreshLayout.setRefreshing(false);
+        JSONObject arrayTask;
+        DonateDataInfo dataInfo;
+        donateDataList.clear();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                arrayTask = (JSONObject) jsonArray.get(i);
+                dataInfo = new DonateDataInfo(
+                        arrayTask.getString(AppConstant.COMPANY),
+                        arrayTask.getString(AppConstant.COMPANY_IMG),
+                        arrayTask.getString(AppConstant.COMPANY_CONTACT),
+                        arrayTask.getString(AppConstant.CHARITY_NAME),
+                        arrayTask.getInt(AppConstant.SEEDS)
+                );
+                donateDataList.add(dataInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        seedInfoAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnGetDonateDataFailedResponse(String errorResult) {
+        showToast(errorResult);
+    }
 
     @Override
     public void OnGetSeedInfoSuccessResponse(JSONArray jsonArray) {

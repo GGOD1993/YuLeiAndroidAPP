@@ -3,14 +3,14 @@ package com.example.pc.myapplication.Infos;
 public class DonateDataInfo {
     private String company;
     private String companyImg;
-    private String companyUrl;
+    private String companyContact;
     private String charityName;
     private int seeds;
 
-    public DonateDataInfo(String company, String companyImg, String companyUrl, String charityName, int seeds) {
+    public DonateDataInfo(String company, String companyImg, String companyContact, String charityName, int seeds) {
         this.company = company;
         this.companyImg = companyImg;
-        this.companyUrl = companyUrl;
+        this.companyContact = companyContact;
         this.charityName = charityName;
         this.seeds = seeds;
     }
@@ -23,12 +23,20 @@ public class DonateDataInfo {
         this.companyImg = companyImg;
     }
 
-    public String getCompanyUrl() {
-        return companyUrl;
+    public String getCompanyContact() {
+        return companyContact;
     }
 
-    public void setCompanyUrl(String companyUrl) {
-        this.companyUrl = companyUrl;
+    public void setCompanyContact(String companyContact) {
+        this.companyContact = companyContact;
+    }
+
+    public String getCharityName() {
+        return charityName;
+    }
+
+    public void setCharityName(String charityName) {
+        this.charityName = charityName;
     }
 
     public String getCompany() {
@@ -37,14 +45,6 @@ public class DonateDataInfo {
 
     public void setCompany(String company) {
         this.company = company;
-    }
-
-    public String getCharity_name() {
-        return charity_name;
-    }
-
-    public void setCharity_name(String charity_name) {
-        this.charity_name = charity_name;
     }
 
     public int getSeeds() {

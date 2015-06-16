@@ -44,6 +44,10 @@ public class AppConstant {
     public static final String MEMORY_PASSWORD = "memorypassword";
     public static final String MONEY = "money";
     public static final String DONATE_MONEY = "donate_money";
+    public static final String COMPANY = "company";
+    public static final String COMPANY_IMG = "company_img";
+    public static final String COMPANY_CONTACT = "company_contact";
+    public static final String SEEDS = "seeds";
     public static final String EVERYDAY_TASK = "everytaskdonetime";
     public static final String EVERYDAY_TASK_SUCCESS = "签到成功，奖励50金币O(∩_∩)O~~~";
     public static final String EVERYDAY_TASK_FAILD = "您今天已经签到过咯~~~~(>_<)~~~~ ";
@@ -111,7 +115,8 @@ public class AppConstant {
     public static final String UPLOAD_USER_IMAGE = HOST + "/Users/UploadUserImage.php";
     public static final String GET_TASK_BY_STATUS = HOST + "/Users/GetTaskByStatus.php";
     public static final String EVERYDAY_SIGN_IN_URL = HOST + "/Users/EveryDaySignIn.php";
-    public static final String GET_SEED_INFO = HOST + "/Users/GetSeedInfo.php";
+    public static final String GET_SEED_INFO_URL = HOST + "/Users/GetSeedInfo.php";
+    public static final String GET_DONATE_DATA_URL = HOST + "/Users/GetDonateData.php";
 
     public static final int[] ParentTaskTypeImg = {
             R.mipmap.img_parent_tasktype_animal,

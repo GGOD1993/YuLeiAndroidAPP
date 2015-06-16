@@ -633,7 +633,34 @@ public class HttpService {
                 mGetSeedInfoListener.OnGetSeedInfoFailedResponse(volleyError.getMessage());
             }
         };
-        HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_SEED_INFO, null, responseListener, errorListener);
+        HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_SEED_INFO_URL, null, responseListener, errorListener);
     }
 
+    /**
+     * 获取捐款记录
+     */
+    private static OnGetDonateDataRequestListener mGetDonateDataListener;
+
+    public interface OnGetDonateDataRequestListener {
+        void OnGetDonateDataSuccessResponse(JSONArray jsonArray);
+
+        void OnGetDonateDataFailedResponse(String errorResult);
+    }
+
+    public static void DoGetDonateDataRequest(OnGetDonateDataRequestListener listener) {
+        mGetDonateDataListener = listener;
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mGetDonateDataListener.OnGetDonateDataSuccessResponse(jsonArray);
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mGetDonateDataListener.OnGetDonateDataFailedResponse(volleyError.getMessage());
+            }
+        };
+        HttpApi.DoJsonArrayRequest(Request.Method.GET, AppConstant.GET_DONATE_DATA_URL, null, responseListener, errorListener);
+    }
 }

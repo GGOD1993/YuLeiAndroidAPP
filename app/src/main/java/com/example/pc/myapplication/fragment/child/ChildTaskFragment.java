@@ -107,7 +107,6 @@ public class ChildTaskFragment extends Fragment {
     Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
   }
 
-
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);

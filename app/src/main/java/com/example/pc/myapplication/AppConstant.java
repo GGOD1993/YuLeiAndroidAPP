@@ -33,7 +33,7 @@ public class AppConstant {
   public static final int LOGOUT_FAILED = 1204;
   public static final int SET_DIY_TASK_SUCCESS = 1302;
   public static final int SUBMIT_DIY_TASK_SUCCESS = 1306;
-  public static final int FINISH_TASK_SUCCESS = 1310;
+  public static final int FINISH_TASK_SUCCESS = 1308;
   public static final int DONATE_SUCCESS = 1401;
   public static final int DONATE_FAILED = 1402;
   public static final int UPLOAD_USER_IMAGE_SUCCESS = 1501;

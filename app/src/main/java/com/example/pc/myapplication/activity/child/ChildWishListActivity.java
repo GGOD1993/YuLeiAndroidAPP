@@ -111,7 +111,7 @@ public class ChildWishListActivity extends SwipeBackActivity implements
       msgObject = (JSONObject) jsonArray.get(1);
       taskIdObject = (JSONObject) jsonArray.get(2);
       if (null != codeObject) {
-        if (AppConstant.FINISH_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
+        if (AppConstant.SUBMIT_DIY_TASK_SUCCESS == codeObject.getInt(AppConstant.RETURN_CODE)) {
           if (null != taskIdObject) {
             int taskId = taskIdObject.getInt(AppConstant.TASK_ID);
             changeStatusByTaskId(taskId);

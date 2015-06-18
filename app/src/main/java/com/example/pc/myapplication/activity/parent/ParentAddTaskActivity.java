@@ -169,7 +169,7 @@ public class ParentAddTaskActivity extends SwipeBackActivity
   }
 
   /**
-   * 从网络获取
+   * 从网络获取绑定的孩子信息
    */
   private void initChildFromNetwork() {
     String url = AppConstant.GET_CHILDREN_URL + "?" + AppConstant.USERID+ "=" +

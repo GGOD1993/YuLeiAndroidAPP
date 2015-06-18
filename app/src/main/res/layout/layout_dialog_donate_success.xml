@@ -1,51 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    xmlns:card_view="http://schemas.android.com/tools"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    card_view:cardBackgroundColor="#ddFFDEDD">
+                                    android:layout_margin="10dp"
+                                    android:orientation="vertical"
+                                    card_view:cardBackgroundColor="#ddFFDEDD"
+                                    card_view:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/seed_info_recyclerview_relativelayout_header"
+            android:id="@+id/layout_dialog_donate_success_relativelayout_header"
             android:layout_width="match_parent"
-            android:layout_height="40dip"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/recyclerview_item_header_style"/>
+            android:layout_height="40dp"
+            android:background="@color/skyblue">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            android:layout_marginStart="20dip"
-            android:layout_marginTop="10dip"
-            >
-
-            <ImageView
-                android:id="@+id/seed_info_recyclerview_userimage"
-                android:layout_width="55dip"
-                android:layout_height="55dip"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/circle_mask_style"
-                />
-
-            <com.example.pc.myapplication.ViewStyle.CircularImage
-                android:id="@+id/seed_info_recyclerview_circularimage_userimage"
-                android:layout_width="50dip"
-                android:layout_height="50dip"
-                android:layout_centerInParent="true"
-                />
+                android:text="@string/donate_success"
+                android:textSize="9pt"/>
 
         </RelativeLayout>
 
-
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/seed_info_recyclerview_relativelayout_header"
+            android:layout_below="@id/layout_dialog_donate_success_relativelayout_header"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="100dip"
             android:layout_marginStart="100dip"
@@ -66,7 +52,7 @@
                     android:textSize="7pt"/>
 
                 <TextView
-                    android:id="@+id/seed_info_recyclerview_textview_charity_name"
+                    android:id="@+id/layout_dialog_donate_success_textview_charity_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -90,7 +76,7 @@
                     android:textSize="7pt"/>
 
                 <TextView
-                    android:id="@+id/seed_info_textview_company"
+                    android:id="@+id/layout_dialog_donate_success_textview_company"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -114,7 +100,7 @@
                     android:textSize="7pt"/>
 
                 <TextView
-                    android:id="@+id/seed_info_textview_seeds"
+                    android:id="@+id/layout_dialog_donate_success_textview_seeds"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -127,5 +113,4 @@
         </LinearLayout>
 
     </RelativeLayout>
-
 </android.support.v7.widget.CardView>

@@ -2,6 +2,7 @@ package com.example.pc.myapplication.fragment.child;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +54,8 @@ public class ChildCharityInfoFragment extends Fragment implements
 
   //捐赠项目的列表
   private ArrayList<CharityInfo> charityList;
+  //捐赠成功对话框
+  private Dialog dialog;
 
   private SharedPreferences preferences;
 
@@ -116,7 +121,7 @@ public class ChildCharityInfoFragment extends Fragment implements
     final EditText editText = (EditText) view.findViewById(R.id.layout_dialog_edittext_tousername);
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     builder.setView(view);
-    final AlertDialog dialog = builder.create();
+    dialog = builder.create();
     dialog.show();
     ((TextView) view.findViewById(R.id.layout_dialog_userinvite_textview_header)).setText(R.string.donate);
     editText.setHint(R.string.hint_input_number);
@@ -148,17 +153,31 @@ public class ChildCharityInfoFragment extends Fragment implements
   public void OnDonateRequestSuccessResponse(JSONArray jsonArray) {
     JSONObject codeObject;
     JSONObject msgObject;
+    JSONObject donate;
     try {
       codeObject = (JSONObject) jsonArray.get(0);
       msgObject = (JSONObject) jsonArray.get(1);
       if (null != codeObject) {
         switch (codeObject.getInt(AppConstant.RETURN_CODE)) {
           case AppConstant.DONATE_SUCCESS:
-
+            donate = (JSONObject) jsonArray.get(2);
+            final Context context = getActivity();
+            dialog.dismiss();
+            View view = View.inflate(context, R.layout.layout_dialog_donate_success, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setView(view);
+            dialog = builder.create();
+            String contact = donate.getString(AppConstant.COMPANY_CONTACT);
+            String html = "<a href='" + contact + "'>" + donate.getString(AppConstant.COMPANY) + "</a>";
+            TextView textView = ((TextView) view.findViewById(R.id.layout_dialog_donate_success_textview_company));
+            textView.setText(Html.fromHtml(html));
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+            ((TextView) view.findViewById(R.id.layout_dialog_donate_success_textview_charity_name)).setText(donate.getString(AppConstant.CHARITY_NAME));
+            ((TextView) view.findViewById(R.id.layout_dialog_donate_success_textview_seeds)).setText(donate.getString(AppConstant.SEEDS));
+            dialog.show();
             break;
         }
       }
-      if (null != msgObject) showToast(msgObject.getString(AppConstant.RETURN_MSG));
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -166,6 +185,7 @@ public class ChildCharityInfoFragment extends Fragment implements
 
   @Override
   public void OnDonateRequestFailedResponse(String errorResult) {
+    dialog.dismiss();
     showToast(errorResult);
   }
 

@@ -21,6 +21,7 @@
     <string name="add_friend">添 加 好 友</string>
     <string name="hint_input_username">请输入用户名</string>
     <string name="hint_input_number">请输入捐赠的种子数</string>
+    <string name="donate_success">捐 赠 成 功</string>
     <string name="leftmoney">剩余金币：</string>
 
     <string name="shot">马 上 拍 照</string>
